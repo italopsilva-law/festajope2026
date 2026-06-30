@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Plan: Festa 1 & 3 Anos</title>
+    <title>Master Plan: Festa 1 & 3 Anos (v2 Completa)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,94 +23,203 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .timeline-item {
+            padding: 1rem;
+            border-left: 4px solid #e2e8f0;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+        }
+
+        .timeline-item.active {
+            border-left-color: #4f46e5;
+            background: #eef2ff;
+        }
+
+        .allergen-tag {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .status-confirm { background: #dcfce7; color: #166534; }
+        .status-pending { background: #fef3c7; color: #b45309; }
+        .status-refuse { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
 
 <div class="flex h-screen overflow-hidden">
     <!-- Sidebar Desktop -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden md:flex transition-all duration-300 z-20 shadow-sm">
-        <div class="p-6 border-b border-slate-100 bg-slate-50/50">
+    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex transition-all duration-300 z-20 shadow-sm overflow-y-auto">
+        <div class="p-6 border-b border-slate-100 bg-slate-50/50 sticky top-0">
             <h1 class="text-xl font-bold tracking-tight text-indigo-600 flex items-center gap-2">
-                <i data-lucide="party-popper" class="w-6 h-6"></i> Master Plan
+                <i data-lucide="party-popper" class="w-6 h-6"></i> Master Plan v2
             </h1>
             <p class="text-xs text-slate-500 mt-1 font-medium">Aniversário Duplo: 1 e 3 Anos</p>
+            <p class="text-xs text-slate-400 mt-2">🎉 Play - Data Especial</p>
         </div>
-        <nav class="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-700 transition-all font-semibold text-sm" data-target="dashboard">
-                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Visão Geral
+        <nav class="flex-1 px-4 py-6 space-y-1">
+            <!-- Visão Geral -->
+            <div class="px-2 py-2">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Visão Geral</p>
+            </div>
+            <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg bg-indigo-50 text-indigo-700 transition-all font-medium text-sm" data-target="dashboard">
+                <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
             </button>
-            <button onclick="switchTab('convidados')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all font-medium text-sm" data-target="convidados">
-                <i data-lucide="users" class="w-5 h-5"></i> Convidados & Bebidas
+            <button onclick="switchTab('timeline')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="timeline">
+                <i data-lucide="clock" class="w-5 h-5"></i> Timeline/Cronograma
             </button>
-            <button onclick="switchTab('tarefas')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all font-medium text-sm" data-target="tarefas">
-                <i data-lucide="check-square" class="w-5 h-5"></i> To-Do List Completa
+
+            <!-- Convidados -->
+            <div class="px-2 py-3 mt-3">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Convidados</p>
+            </div>
+            <button onclick="switchTab('convidados')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="convidados">
+                <i data-lucide="users" class="w-5 h-5"></i> Lista de Convidados
             </button>
-            <button onclick="switchTab('fornecedores')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all font-medium text-sm" data-target="fornecedores">
-                <i data-lucide="briefcase" class="w-5 h-5"></i> Fornecedores (R$ 12k)
+            <button onclick="switchTab('confirmacoesRSVP')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="confirmacoesRSVP">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i> Confirmações (RSVP)
             </button>
-            <button onclick="switchTab('compras')" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-all font-medium text-sm" data-target="compras">
-                <i data-lucide="shopping-cart" class="w-5 h-5"></i> Compras de Mercado
+            <button onclick="switchTab('documentacao')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="documentacao">
+                <i data-lucide="file-text" class="w-5 h-5"></i> Documentação
+            </button>
+            <button onclick="switchTab('checkin')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="checkin">
+                <i data-lucide="clipboard-check" class="w-5 h-5"></i> Check-in (Dia)
+            </button>
+
+            <!-- Festa -->
+            <div class="px-2 py-3 mt-3">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Festa</p>
+            </div>
+            <button onclick="switchTab('cardapio')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="cardapio">
+                <i data-lucide="utensils" class="w-5 h-5"></i> Cardápio & Alérgenos
+            </button>
+            <button onclick="switchTab('atividades')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="atividades">
+                <i data-lucide="play-circle" class="w-5 h-5"></i> Atividades/Brincadeiras
+            </button>
+            <button onclick="switchTab('decoracao')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="decoracao">
+                <i data-lucide="palette" class="w-5 h-5"></i> Decoração
+            </button>
+
+            <!-- Operacional -->
+            <div class="px-2 py-3 mt-3">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Operacional</p>
+            </div>
+            <button onclick="switchTab('equipe')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="equipe">
+                <i data-lucide="users-round" class="w-5 h-5"></i> Equipe & Papéis
+            </button>
+            <button onclick="switchTab('tarefas')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="tarefas">
+                <i data-lucide="check-square" class="w-5 h-5"></i> Tarefas (To-Do)
+            </button>
+            <button onclick="switchTab('fornecedores')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="fornecedores">
+                <i data-lucide="briefcase" class="w-5 h-5"></i> Fornecedores
+            </button>
+            <button onclick="switchTab('compras')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="compras">
+                <i data-lucide="shopping-cart" class="w-5 h-5"></i> Compras
+            </button>
+
+            <!-- Segurança & Contingência -->
+            <div class="px-2 py-3 mt-3">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Segurança</p>
+            </div>
+            <button onclick="switchTab('seguranca')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="seguranca">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i> Emergência & Contatos
+            </button>
+            <button onclick="switchTab('contingencia')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="contingencia">
+                <i data-lucide="alert-triangle" class="w-5 h-5"></i> Plano B (Contingência)
+            </button>
+
+            <!-- Memórias -->
+            <div class="px-2 py-3 mt-3">
+                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Memórias</p>
+            </div>
+            <button onclick="switchTab('fotos')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="fotos">
+                <i data-lucide="image" class="w-5 h-5"></i> Fotos & Vídeos
+            </button>
+            <button onclick="switchTab('feedback')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="feedback">
+                <i data-lucide="message-circle" class="w-5 h-5"></i> Feedback Pós-Festa
             </button>
         </nav>
         <div class="p-4 border-t border-slate-100 bg-slate-50 text-xs text-slate-400 text-center">
-            Salvo automaticamente localmente
+            Sincronizando automaticamente
         </div>
     </aside>
 
     <!-- Mobile Bottom Bar -->
-    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] pb-safe">
-        <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center p-2 text-indigo-600 transition-colors" data-target="dashboard">
-            <i data-lucide="layout-dashboard" class="w-5 h-5 mb-1"></i>
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] overflow-x-auto pb-safe">
+        <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center p-2 text-indigo-600 whitespace-nowrap" data-target="dashboard">
+            <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             <span class="text-[10px] font-semibold">Geral</span>
         </button>
-        <button onclick="switchTab('convidados')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-slate-700 transition-colors" data-target="convidados">
-            <i data-lucide="users" class="w-5 h-5 mb-1"></i>
-            <span class="text-[10px] font-medium">Lista</span>
+        <button onclick="switchTab('timeline')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="timeline">
+            <i data-lucide="clock" class="w-5 h-5"></i>
+            <span class="text-[10px]">Cronograma</span>
         </button>
-        <button onclick="switchTab('tarefas')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-slate-700 transition-colors" data-target="tarefas">
-            <i data-lucide="check-square" class="w-5 h-5 mb-1"></i>
-            <span class="text-[10px] font-medium">Tarefas</span>
+        <button onclick="switchTab('convidados')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="convidados">
+            <i data-lucide="users" class="w-5 h-5"></i>
+            <span class="text-[10px]">Convidados</span>
         </button>
-        <button onclick="switchTab('fornecedores')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-slate-700 transition-colors" data-target="fornecedores">
-            <i data-lucide="briefcase" class="w-5 h-5 mb-1"></i>
-            <span class="text-[10px] font-medium">Contratos</span>
+        <button onclick="switchTab('cardapio')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="cardapio">
+            <i data-lucide="utensils" class="w-5 h-5"></i>
+            <span class="text-[10px]">Cardápio</span>
         </button>
-        <button onclick="switchTab('compras')" class="nav-btn flex flex-col items-center p-2 text-slate-400 hover:text-slate-700 transition-colors" data-target="compras">
-            <i data-lucide="shopping-cart" class="w-5 h-5 mb-1"></i>
-            <span class="text-[10px] font-medium">Mercado</span>
+        <button onclick="switchTab('tarefas')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="tarefas">
+            <i data-lucide="check-square" class="w-5 h-5"></i>
+            <span class="text-[10px]">Tarefas</span>
         </button>
     </div>
 
     <main class="flex-1 overflow-y-auto bg-slate-50/50 relative w-full">
         
         <!-- Header Mobile -->
-        <header class="md:hidden bg-white shadow-sm p-4 sticky top-0 z-40 flex justify-between items-center border-b border-slate-100">
+        <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-40 flex justify-between items-center border-b border-slate-100">
             <h1 class="text-lg font-bold text-indigo-600 flex items-center gap-2">
-                <i data-lucide="party-popper" class="w-5 h-5"></i> Master Plan
+                <i data-lucide="party-popper" class="w-5 h-5"></i> Master Plan v2
             </h1>
+            <div id="sync-status" class="text-xs text-slate-500 flex items-center gap-1">
+                <i data-lucide="loader-circle" class="w-4 h-4 animate-spin hidden" id="sync-icon-mobile"></i>
+            </div>
         </header>
 
-        <div class="p-4 md:p-8 max-w-7xl mx-auto pb-24 md:pb-8">
+        <div class="p-4 lg:p-8 max-w-7xl mx-auto pb-32 lg:pb-8">
             
+            <!-- Loading Overlay -->
+            <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center">
+                <i data-lucide="loader-circle" class="w-10 h-10 text-indigo-600 animate-spin mb-4"></i>
+                <p class="text-slate-600 font-medium">Sincronizando com a nuvem...</p>
+            </div>
+
             <!-- ================= TAB: DASHBOARD ================= -->
             <div id="dashboard" class="tab-content active">
                 <div class="mb-8">
                     <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Visão Geral da Festa</h2>
-                    <p class="text-slate-500 mt-1">Acompanhe o progresso e os indicadores principais.</p>
+                    <p class="text-slate-500 mt-1">Acompanhe tudo em um único lugar.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                    <!-- Progresso Geral -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+                    <!-- Status Geral -->
                     <div class="glass-card rounded-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600"><i data-lucide="activity" class="w-5 h-5"></i></div>
+                            <div class="p-2 bg-indigo-50 rounded-lg text-indigo-600"><i data-lucide="rocket" class="w-5 h-5"></i></div>
                         </div>
-                        <h3 class="text-slate-500 font-medium text-sm">Progresso de Tarefas</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-tasks-done">0</span><span class="text-lg text-slate-400 font-normal">/<span id="dash-tasks-total">0</span></span></p>
-                        <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-indigo-500 h-2 rounded-full transition-all duration-500" id="dash-tasks-progress" style="width: 0%"></div>
-                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Status da Festa</h3>
+                        <p class="text-2xl font-bold text-slate-800 mt-2" id="status-festa">Planejamento</p>
+                        <p class="text-xs text-slate-500 mt-2">Todas as áreas sendo organizadas</p>
                     </div>
 
                     <!-- Convidados -->
@@ -118,239 +227,912 @@
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-2 bg-emerald-50 rounded-lg text-emerald-600"><i data-lucide="users" class="w-5 h-5"></i></div>
                         </div>
-                        <h3 class="text-slate-500 font-medium text-sm">Total de Convidados</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-guests-total">0</span><span class="text-lg text-slate-400 font-normal">/160</span></p>
-                        <p class="text-xs text-slate-500 mt-2"><span id="dash-guests-adults" class="font-semibold text-slate-700">0</span> Adultos • <span id="dash-guests-kids" class="font-semibold text-slate-700">0</span> Crianças</p>
+                        <h3 class="text-slate-500 font-medium text-sm">Convidados Confirmados</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-confirmed">0</span><span class="text-lg text-slate-400 font-normal">/<span id="dash-total">0</span></span></p>
+                        <p class="text-xs text-slate-500 mt-2"><span id="dash-adults-conf">0</span> Adultos • <span id="dash-kids-conf">0</span> Crianças</p>
                     </div>
 
-                    <!-- Bebedores -->
-                    <div class="glass-card rounded-2xl p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="p-2 bg-amber-50 rounded-lg text-amber-600"><i data-lucide="beer" class="w-5 h-5"></i></div>
-                        </div>
-                        <h3 class="text-slate-500 font-medium text-sm">Adultos que Bebem Cerveja</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1" id="dash-drinkers">0</p>
-                        <p class="text-xs text-amber-600 mt-2 bg-amber-50 inline-block px-2 py-1 rounded font-medium" id="dash-beer-calc">Previsão: 0 Litros</p>
-                    </div>
-
-                    <!-- Orçamento Base -->
+                    <!-- Orçamento -->
                     <div class="glass-card rounded-2xl p-6">
                         <div class="flex items-center justify-between mb-4">
                             <div class="p-2 bg-rose-50 rounded-lg text-rose-600"><i data-lucide="wallet" class="w-5 h-5"></i></div>
-                            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded">Meta: R$ 12k</span>
+                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Orçamento Gasto</h3>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="dash-orcamento">R$ 0</p>
+                        <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
+                            <div class="bg-rose-500 h-2 rounded-full transition-all duration-500" id="dash-orcamento-progress" style="width: 0%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">de R$ 12.000</p>
+                    </div>
+
+                    <!-- Tarefas -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 bg-blue-50 rounded-lg text-blue-600"><i data-lucide="check-square" class="w-5 h-5"></i></div>
+                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Tarefas Concluídas</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-tasks-done">0</span><span class="text-lg text-slate-400 font-normal">/<span id="dash-tasks-total">0</span></span></p>
+                        <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
+                            <div class="bg-blue-500 h-2 rounded-full transition-all duration-500" id="dash-tasks-progress" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Fornecedores -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 bg-amber-50 rounded-lg text-amber-600"><i data-lucide="briefcase" class="w-5 h-5"></i></div>
                         </div>
                         <h3 class="text-slate-500 font-medium text-sm">Fornecedores Contratados</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1" id="dash-budget-spent">R$ 0</p>
+                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-vendors">0</span></p>
+                        <p class="text-xs text-slate-500 mt-2">Todos confirmados</p>
+                    </div>
+
+                    <!-- RSVP -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="p-2 bg-violet-50 rounded-lg text-violet-600"><i data-lucide="mail-check" class="w-5 h-5"></i></div>
+                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Confirmações RSVP</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-rsvp">0</span><span class="text-lg text-slate-400 font-normal">%</span></p>
+                        <p class="text-xs text-slate-500 mt-2">Respostas recebidas</p>
+                    </div>
+                </div>
+
+                <!-- Próximas Tarefas Urgentes -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="font-bold text-slate-800 text-lg mb-4 flex items-center gap-2">
+                        <i data-lucide="alert-circle" class="w-5 h-5 text-amber-600"></i> Próximas Tarefas Urgentes
+                    </h3>
+                    <ul id="urgent-tasks-container" class="space-y-2">
+                        <li class="text-sm text-slate-500 italic p-3 text-center">Carregando tarefas...</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- ================= TAB: TIMELINE ================= -->
+            <div id="timeline" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Timeline & Cronograma</h2>
+                    <p class="text-slate-500 mt-1">Horários e fluxo da festa minuto a minuto.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <form id="form-timeline" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Horário (HH:MM)</label>
+                                <input type="time" id="t-time" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Atividade</label>
+                                <input type="text" id="t-activity" placeholder="Ex: Chegada dos convidados" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Descrição/Observações</label>
+                            <textarea id="t-description" placeholder="Detalhes da atividade" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Responsável</label>
+                                <input type="text" id="t-responsible" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Público-alvo</label>
+                                <select id="t-audience" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Todos</option>
+                                    <option>Crianças 1-2 anos</option>
+                                    <option>Crianças 3+ anos</option>
+                                    <option>Adultos</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Status</label>
+                                <select id="t-status" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Confirmado</option>
+                                    <option>Pendente</option>
+                                    <option>Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Atividade
+                        </button>
+                    </form>
+                </div>
+
+                <div id="timeline-container" class="space-y-3">
+                    <div class="text-center text-slate-500 py-8">Nenhuma atividade adicionada ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CONVIDADOS ================= -->
+            <div id="convidados" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Lista de Convidados</h2>
+                    <p class="text-slate-500 mt-1">Registre todos os convidados com detalhes importantes.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Convidado
+                    </h3>
+                    <form id="form-guest" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Nome</label>
+                                <input type="text" id="g-name" placeholder="Nome completo" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Relação</label>
+                                <select id="g-relation" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Família</option>
+                                    <option>Amigo(a)</option>
+                                    <option>Colega</option>
+                                    <option>Vizinho(a)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Crianças (idade)</label>
+                                <input type="text" id="g-kids" placeholder="Ex: 2, 4 anos" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Contato (WhatsApp)</label>
+                                <input type="tel" id="g-phone" placeholder="(21) 99999-9999" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                                <input type="email" id="g-email" placeholder="email@example.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Alérgenos/Restrições</label>
+                            <input type="text" id="g-allergies" placeholder="Ex: Amendoim, Glúten, Lactose" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Convidado
+                        </button>
+                    </form>
+                </div>
+
+                <div id="guests-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-center text-slate-500 py-8 col-span-full">Nenhum convidado registrado ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CONFIRMAÇÕES RSVP ================= -->
+            <div id="confirmacoesRSVP" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Confirmações RSVP</h2>
+                    <p class="text-slate-500 mt-1">Acompanhe quem confirmou presença.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Confirmados</h3>
+                        <p class="text-3xl font-bold text-emerald-600 mt-2" id="rsvp-confirmed">0</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Pendentes</h3>
+                        <p class="text-3xl font-bold text-amber-600 mt-2" id="rsvp-pending">0</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Recusados</h3>
+                        <p class="text-3xl font-bold text-red-600 mt-2" id="rsvp-refused">0</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Status RSVP</h3>
+                    <div id="rsvp-list" class="space-y-3">
+                        <div class="text-center text-slate-500 py-8">Carregando...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: DOCUMENTAÇÃO ================= -->
+            <div id="documentacao" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Documentação de Convidados</h2>
+                    <p class="text-slate-500 mt-1">Cópias de documentos, autorizações e notas importantes.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="file-plus" class="w-5 h-5 text-indigo-600"></i> Registrar Documentação
+                    </h3>
+                    <form id="form-doc" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Convidado</label>
+                            <input type="text" id="d-guest" placeholder="Nome do convidado" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tipo de Documento</label>
+                                <select id="d-type" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>RG da criança</option>
+                                    <option>Certidão de nascimento</option>
+                                    <option>Autorização dos pais</option>
+                                    <option>Histórico médico</option>
+                                    <option>Termo de responsabilidade</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Status</label>
+                                <select id="d-status" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Recebido</option>
+                                    <option>Pendente</option>
+                                    <option>Não necessário</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Notas</label>
+                            <textarea id="d-notes" placeholder="Observações..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Documentação
+                        </button>
+                    </form>
+                </div>
+
+                <div id="docs-container" class="space-y-3">
+                    <div class="text-center text-slate-500 py-8">Nenhuma documentação registrada ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CHECK-IN ================= -->
+            <div id="checkin" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Check-in do Dia</h2>
+                    <p class="text-slate-500 mt-1">Registro de quem chegou (usar no dia da festa).</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                        <div>
+                            <h3 class="text-slate-500 font-medium text-sm">Chegaram</h3>
+                            <p class="text-3xl font-bold text-emerald-600 mt-2" id="checkin-arrived">0</p>
+                        </div>
+                        <div>
+                            <h3 class="text-slate-500 font-medium text-sm">Ausentes</h3>
+                            <p class="text-3xl font-bold text-red-600 mt-2" id="checkin-absent">0</p>
+                        </div>
+                        <div>
+                            <h3 class="text-slate-500 font-medium text-sm">Percentual</h3>
+                            <p class="text-3xl font-bold text-indigo-600 mt-2" id="checkin-percent">0%</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500">Confirmados no RSVP: <span id="checkin-total">0</span></p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Marcar Chegada</h3>
+                    <div id="checkin-list" class="space-y-2">
+                        <div class="text-center text-slate-500 py-8">Carregando convidados confirmados...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CARDÁPIO ================= -->
+            <div id="cardapio" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Cardápio & Alérgenos</h2>
+                    <p class="text-slate-500 mt-1">Menu detalhado com informações de alérgenos.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Item ao Menu
+                    </h3>
+                    <form id="form-cardapio" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Item/Prato</label>
+                                <input type="text" id="c-item" placeholder="Ex: Bolo de chocolate" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Categoria</label>
+                                <select id="c-category" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Entrada</option>
+                                    <option>Prato Principal</option>
+                                    <option>Acompanhamento</option>
+                                    <option>Sobremesa</option>
+                                    <option>Bebida</option>
+                                    <option>Lanches</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Alérgenos (separados por vírgula)</label>
+                            <input type="text" id="c-allergens" placeholder="Ex: Amendoim, Leite, Glúten" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Apropriado para</label>
+                                <select id="c-suitable" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Todos</option>
+                                    <option>Apenas adultos</option>
+                                    <option>Crianças 1+</option>
+                                    <option>Crianças 3+</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Quantidade</label>
+                                <input type="text" id="c-qty" placeholder="Ex: 2kg, 30 unidades" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Observações</label>
+                            <textarea id="c-notes" placeholder="Ex: Feito sem glúten, vegan, etc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar ao Cardápio
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Cardápio por Categoria -->
+                <div id="cardapio-container" class="space-y-6">
+                    <div class="text-center text-slate-500 py-8">Nenhum item adicionado ao cardápio ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: ATIVIDADES ================= -->
+            <div id="atividades" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Atividades & Brincadeiras</h2>
+                    <p class="text-slate-500 mt-1">Planeje as brincadeiras e atividades para todas as idades.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Atividade
+                    </h3>
+                    <form id="form-atividade" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Nome da Atividade</label>
+                                <input type="text" id="a-name" placeholder="Ex: Circuito de obstáculos" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Público-alvo</label>
+                                <select id="a-agegroup" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Crianças 1-2 anos</option>
+                                    <option>Crianças 3+ anos</option>
+                                    <option>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Descrição/Instruções</label>
+                            <textarea id="a-description" placeholder="Como funciona a atividade?" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2" required></textarea>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Duração (min)</label>
+                                <input type="number" id="a-duration" placeholder="30" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Local</label>
+                                <input type="text" id="a-location" placeholder="Ex: Área de jogos" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Responsável</label>
+                                <input type="text" id="a-responsible" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Atividade
+                        </button>
+                    </form>
+                </div>
+
+                <div id="atividades-container" class="space-y-4">
+                    <div class="text-center text-slate-500 py-8">Nenhuma atividade planejada ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: DECORAÇÃO ================= -->
+            <div id="decoracao" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Decoração & Ambiente</h2>
+                    <p class="text-slate-500 mt-1">Planeje a decoração temática.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4">Informações Gerais de Decoração</h3>
+                    <form id="form-decoration" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tema Principal</label>
+                                <input type="text" id="dec-theme" placeholder="Ex: Mundo Animal, Flores, Balões" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Cores Principais</label>
+                                <input type="text" id="dec-colors" placeholder="Ex: Rosa, Amarelo, Verde" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Elementos de Decoração</label>
+                            <textarea id="dec-elements" placeholder="Balões, fitas, flores, painéis, etc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Responsável pela Decoração</label>
+                            <input type="text" id="dec-responsible" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Observações Importantes</label>
+                            <textarea id="dec-notes" placeholder="Restrições, ideias especiais, etc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4"></i> Salvar Decoração
+                        </button>
+                    </form>
+                </div>
+
+                <div id="decoration-display" class="glass-card rounded-2xl p-6">
+                    <p class="text-slate-500 text-center py-8">Nenhuma decoração definida ainda</p>
+                </div>
+            </div>
+
+            <!-- ================= TAB: EQUIPE ================= -->
+            <div id="equipe" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Equipe & Papéis</h2>
+                    <p class="text-slate-500 mt-1">Defina quem faz o quê durante a festa.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Membro da Equipe
+                    </h3>
+                    <form id="form-equipe" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Nome</label>
+                                <input type="text" id="e-name" placeholder="Nome completo" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Papel/Função</label>
+                                <select id="e-role" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Coordenador Geral</option>
+                                    <option>Responsável Comida</option>
+                                    <option>Responsável Bebidas</option>
+                                    <option>Animador/Entretenimento</option>
+                                    <option>Fotografo</option>
+                                    <option>Segurança/Supervisão</option>
+                                    <option>Limpeza</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Contato</label>
+                                <input type="tel" id="e-phone" placeholder="(21) 99999-9999" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Status</label>
+                                <select id="e-status" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Confirmado</option>
+                                    <option>Pendente</option>
+                                    <option>Desistiu</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Responsabilidades Detalhadas</label>
+                            <textarea id="e-responsibilities" placeholder="O que essa pessoa fará exatamente?" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Membro
+                        </button>
+                    </form>
+                </div>
+
+                <div id="equipe-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-center text-slate-500 py-8 col-span-full">Nenhum membro da equipe adicionado ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: TAREFAS ================= -->
+            <div id="tarefas" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">To-Do List Completa</h2>
+                    <p class="text-slate-500 mt-1">Todas as tarefas organizadas por fase.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <form id="form-task" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tarefa</label>
+                                <input type="text" id="task-text" placeholder="Descrição da tarefa" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Fase</label>
+                                <select id="task-phase" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Antes da festa (1 mês)</option>
+                                    <option>2-3 semanas antes</option>
+                                    <option>1 semana antes</option>
+                                    <option>Dia anterior</option>
+                                    <option>Dia da festa</option>
+                                    <option>Depois da festa</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Prioridade</label>
+                                <select id="task-priority" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Normal</option>
+                                    <option>Alta</option>
+                                    <option>Crítica</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Responsável</label>
+                                <input type="text" id="task-responsible" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Tarefa
+                        </button>
+                    </form>
+                </div>
+
+                <div id="tasks-container" class="space-y-3">
+                    <div class="text-center text-slate-500 py-8">Nenhuma tarefa adicionada ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: FORNECEDORES ================= -->
+            <div id="fornecedores" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Fornecedores & Serviços</h2>
+                    <p class="text-slate-500 mt-1">Gerencia de prestadores de serviço e orçamentos.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Fornecedor
+                    </h3>
+                    <form id="form-vendor" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Serviço</label>
+                                <select id="v-service" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                                    <option>Buffet/Catering</option>
+                                    <option>Bolo</option>
+                                    <option>Decoração</option>
+                                    <option>Fotografo</option>
+                                    <option>Animador</option>
+                                    <option>DJ/Música</option>
+                                    <option>Local/Play</option>
+                                    <option>Convites</option>
+                                    <option>Favores</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Nome do Fornecedor</label>
+                                <input type="text" id="v-name" placeholder="Ex: Buffet ABC" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Contato</label>
+                                <input type="tel" id="v-phone" placeholder="(21) 99999-9999" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                                <input type="email" id="v-email" placeholder="email@example.com" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Valor (R$)</label>
+                                <input type="number" id="v-cost" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Notas/Detalhes do Serviço</label>
+                            <textarea id="v-notes" placeholder="Descrição do serviço, datas, etc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar Fornecedor
+                        </button>
+                    </form>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Total Gasto</h3>
+                        <p class="text-2xl font-bold text-slate-800 mt-2" id="total-vendors-cost">R$ 0</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Orçamento Disponível</h3>
+                        <p class="text-2xl font-bold text-slate-800 mt-2" id="total-vendors-available">R$ 12.000</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Percentual Usado</h3>
                         <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
                             <div class="bg-rose-500 h-2 rounded-full transition-all duration-500" id="dash-budget-progress" style="width: 0%"></div>
                         </div>
+                        <p class="text-xs text-slate-500 mt-2"><span id="dash-budget-percent">0</span>% de R$ 12.000</p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- Resumo de Bebidas -->
-                    <div class="glass-card rounded-2xl p-6 border border-slate-200">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                            <i data-lucide="droplet" class="w-5 h-5 text-blue-500"></i> Calculadora Inteligente de Bebidas
-                        </h3>
-                        <p class="text-sm text-slate-500 mb-6">Cálculo automático baseado na sua lista de convidados (considera 1L de cerveja/adulto, 600ml refri/pessoa, etc).</p>
-                        
-                        <div class="space-y-4" id="beverage-summary">
-                            <!-- Gerado via JS -->
-                        </div>
-                    </div>
-
-                    <!-- Próximas Tarefas -->
-                    <div class="glass-card rounded-2xl p-6 border border-slate-200">
-                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
-                            <i data-lucide="alert-circle" class="w-5 h-5 text-amber-500"></i> Foco Atual (Pendências)
-                        </h3>
-                        <ul class="space-y-3" id="dash-urgent-tasks">
-                            <!-- Gerado via JS -->
-                        </ul>
-                        <button onclick="switchTab('tarefas')" class="mt-6 w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold transition-colors">
-                            Ver todas as tarefas
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= TAB: CONVIDADOS E BEBIDAS ================= -->
-            <div id="convidados" class="tab-content">
-                <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div>
-                        <h2 class="text-2xl font-bold text-slate-800">Lista de Convidados</h2>
-                        <p class="text-slate-500 text-sm mt-1">O cálculo de bebidas é atualizado instantaneamente a cada adição.</p>
-                    </div>
-                    <div class="flex items-center gap-4 bg-white p-3 rounded-xl shadow-sm border border-slate-200">
-                        <div class="text-center px-3 border-r border-slate-200">
-                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Adultos</p>
-                            <p class="text-xl font-black text-slate-700" id="list-total-adults">0</p>
-                        </div>
-                        <div class="text-center px-3 border-r border-slate-200">
-                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Crianças</p>
-                            <p class="text-xl font-black text-indigo-600" id="list-total-kids">0</p>
-                        </div>
-                         <div class="text-center px-3">
-                            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Bebem (Alc.)</p>
-                            <p class="text-xl font-black text-amber-500" id="list-total-drinkers">0</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Formulário Adicionar -->
-                <div class="glass-card rounded-2xl p-6 mb-6">
-                    <form id="form-guest" class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-                        <div class="md:col-span-4">
-                            <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Nome da Família / Convidado</label>
-                            <input type="text" id="g-name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" placeholder="Ex: Tio João e Família" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Qtd Adultos</label>
-                            <input type="number" id="g-adults" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" min="1" value="1" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Qtd Crianças</label>
-                            <input type="number" id="g-kids" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" min="0" value="0" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 mb-1 uppercase tracking-wide">Bebem Cerveja?</label>
-                            <select id="g-drinkers" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-                                <option value="0">Nenhum</option>
-                                <option value="1">1 Pessoa</option>
-                                <option value="2">2 Pessoas</option>
-                                <option value="3">3 Pessoas</option>
-                                <option value="4">4+ Pessoas</option>
-                            </select>
-                        </div>
-                        <div class="md:col-span-2">
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg px-4 py-2.5 transition-colors shadow-sm flex items-center justify-center gap-2">
-                                <i data-lucide="plus" class="w-4 h-4"></i> Adicionar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Lista -->
-                <div class="glass-card rounded-2xl overflow-hidden">
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr class="bg-slate-50/80 border-b border-slate-200 text-xs uppercase tracking-wider text-slate-500 font-bold">
-                                    <th class="p-4">Nome</th>
-                                    <th class="p-4 text-center">Adultos</th>
-                                    <th class="p-4 text-center">Crianças</th>
-                                    <th class="p-4 text-center">Bebem Álcool</th>
-                                    <th class="p-4 text-right">Ação</th>
-                                </tr>
-                            </thead>
-                            <tbody id="guests-tbody" class="divide-y divide-slate-100">
-                                <!-- Renderizado via JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= TAB: TO-DO LIST ================= -->
-            <div id="tarefas" class="tab-content">
-                <div class="mb-6 flex justify-between items-end">
-                    <div>
-                        <h2 class="text-2xl font-bold text-slate-800">To-Do List Completa</h2>
-                        <p class="text-slate-500 text-sm mt-1">Checklist logístico dividido por fases da festa.</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                    <div class="md:col-span-8">
-                        <div class="glass-card rounded-2xl p-1 shadow-sm">
-                            <div class="p-4 border-b border-slate-100 flex justify-between items-center bg-white rounded-t-xl">
-                                <h3 class="font-bold text-slate-700">Todas as Ações</h3>
-                                <div class="flex gap-2">
-                                    <button onclick="filterTasks('all')" class="text-xs px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold" id="filter-all">Todas</button>
-                                    <button onclick="filterTasks('pending')" class="text-xs px-3 py-1 rounded-full text-slate-500 hover:bg-slate-100 font-medium" id="filter-pending">Pendentes</button>
-                                </div>
-                            </div>
-                            <div class="p-2" id="tasks-container">
-                                <!-- Renderizado via JS -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="md:col-span-4">
-                        <div class="glass-card rounded-2xl p-5 border-l-4 border-l-amber-400 sticky top-24">
-                            <h3 class="font-bold text-amber-700 flex items-center gap-2 mb-3">
-                                <i data-lucide="lightbulb" class="w-5 h-5"></i> Dicas de Ouro
-                            </h3>
-                            <ul class="text-sm text-slate-600 space-y-3">
-                                <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i> A fritadeira puxa muita energia. Confirme se as tomadas do play aguentam antes de fechar o contrato.</li>
-                                <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i> Nunca pague 100% de nenhum fornecedor antecipado. Segure 30-50% pro dia.</li>
-                                <li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i> Posicione as mesas de bolo na mesma parede para um painel visual único.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= TAB: FORNECEDORES & ORÇAMENTO ================= -->
-            <div id="fornecedores" class="tab-content">
-                <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-                    <div>
-                        <h2 class="text-2xl font-bold text-slate-800">Contratos & Fornecedores</h2>
-                        <p class="text-slate-500 text-sm mt-1">Controle quem foi contratado, horários e pagamentos pendentes.</p>
-                    </div>
-                    <div class="bg-rose-50 text-rose-700 px-4 py-2 rounded-xl border border-rose-100 flex flex-col items-end">
-                        <span class="text-xs font-bold uppercase tracking-wider">Total Contratado</span>
-                        <span class="text-xl font-black" id="total-vendors-cost">R$ 0,00</span>
-                    </div>
-                </div>
-
-                <!-- Adicionar Fornecedor -->
-                <div class="glass-card rounded-2xl p-6 mb-6 border border-indigo-100">
-                    <h3 class="font-bold text-indigo-900 mb-4 text-sm uppercase tracking-wide">Novo Contrato</h3>
-                    <form id="form-vendor" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-4 items-end">
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 mb-1">Serviço (Ex: Decoração)</label>
-                            <input type="text" id="v-service" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" required>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 mb-1">Empresa / Contato</label>
-                            <input type="text" id="v-name" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" required>
-                        </div>
-                        <div class="md:col-span-1">
-                            <label class="block text-xs font-bold text-slate-500 mb-1">Valor (R$)</label>
-                            <input type="number" id="v-cost" class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 outline-none" min="0" step="0.01" required>
-                        </div>
-                        <div class="md:col-span-1">
-                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg px-3 py-2 text-sm transition-colors h-[38px]">
-                                Salvar
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Lista de Fornecedores -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="vendors-container">
-                    <!-- Renderizado via JS -->
+                <div id="vendors-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-center text-slate-500 py-8 col-span-full">Nenhum fornecedor adicionado ainda</div>
                 </div>
             </div>
 
             <!-- ================= TAB: COMPRAS ================= -->
             <div id="compras" class="tab-content">
-                <div class="mb-6">
-                    <h2 class="text-2xl font-bold text-slate-800">Lista de Mercado / Atacadão</h2>
-                    <p class="text-slate-500 text-sm mt-1">Itens que vocês mesmos precisarão comprar para a infraestrutura da festa.</p>
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Lista de Compras</h2>
+                    <p class="text-slate-500 mt-1">Itens a comprar para a festa.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <form id="form-shopping" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Item a Comprar</label>
+                                <input type="text" id="s-item" placeholder="Ex: Bebidas (Refrigerante 2L)" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Categoria</label>
+                                <select id="s-category" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Alimentos</option>
+                                    <option>Bebidas</option>
+                                    <option>Decoração</option>
+                                    <option>Festas/Louça</option>
+                                    <option>Utensílios</option>
+                                    <option>Outro</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Responsável</label>
+                                <input type="text" id="s-responsible" placeholder="Quem vai comprar?" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Loja</label>
+                                <input type="text" id="s-shop" placeholder="Ex: Supermercado XYZ" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Estimado (R$)</label>
+                                <input type="number" id="s-price" placeholder="0.00" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Adicionar à Lista
+                        </button>
+                    </form>
+                </div>
+
+                <div id="shopping-list" class="space-y-3">
+                    <div class="text-center text-slate-500 py-8">Nada para comprar ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: SEGURANÇA ================= -->
+            <div id="seguranca" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Segurança & Emergências</h2>
+                    <p class="text-slate-500 mt-1">Contatos de emergência e procedimentos.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="phone" class="w-5 h-5 text-red-600"></i> Contatos de Emergência
+                    </h3>
+                    <form id="form-emergency" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">SAMU</label>
+                                <input type="tel" id="emg-samu" placeholder="192" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" value="192" readonly>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Bombeiros</label>
+                                <input type="tel" id="emg-bombeiros" placeholder="193" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" value="193" readonly>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Contato do Play</label>
+                                <input type="tel" id="emg-play" placeholder="Contato do play" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Hospital Mais Próximo</label>
+                                <input type="text" id="emg-hospital" placeholder="Nome e contato" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Contato Pessoal de Emergência</label>
+                            <input type="tel" id="emg-personal" placeholder="Seu telefone" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <button type="submit" class="w-full bg-red-600 text-white font-semibold py-2 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="check" class="w-4 h-4"></i> Salvar Contatos
+                        </button>
+                    </form>
                 </div>
 
                 <div class="glass-card rounded-2xl p-6">
-                    <form id="form-shopping" class="flex gap-3 mb-6">
-                        <input type="text" id="s-item" class="flex-1 bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Adicionar item na lista (Ex: Saco de lixo 100L)" required>
-                        <button type="submit" class="bg-indigo-600 text-white px-6 rounded-lg font-medium hover:bg-indigo-700 transition-colors">Add</button>
-                    </form>
-
-                    <ul class="space-y-2" id="shopping-list">
-                        <!-- Renderizado via JS -->
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-amber-600"></i> Procedimentos de Segurança
+                    </h3>
+                    <ul class="space-y-3 text-sm text-slate-700">
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check1" class="w-4 h-4">
+                            <label for="seg-check1">Identificar saídas de emergência do play</label>
+                        </li>
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check2" class="w-4 h-4">
+                            <label for="seg-check2">Ter kit de primeiros socorros preparado</label>
+                        </li>
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check3" class="w-4 h-4">
+                            <label for="seg-check3">Orientar equipe sobre alergias alimentares</label>
+                        </li>
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check4" class="w-4 h-4">
+                            <label for="seg-check4">Ter lista de contatos de pais sempre à mão</label>
+                        </li>
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check5" class="w-4 h-4">
+                            <label for="seg-check5">Designar supervisores por área</label>
+                        </li>
+                        <li class="flex gap-3">
+                            <input type="checkbox" id="seg-check6" class="w-4 h-4">
+                            <label for="seg-check6">Manter contato aberto com administração do play</label>
+                        </li>
                     </ul>
+                </div>
+            </div>
+
+            <!-- ================= TAB: CONTINGÊNCIA ================= -->
+            <div id="contingencia" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Plano B - Contingência</h2>
+                    <p class="text-slate-500 mt-1">Cenários de emergência e planos alternativos.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Chuva -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="cloud-rain" class="w-5 h-5 text-blue-600"></i> Se Chover
+                        </h3>
+                        <textarea id="plan-rain" placeholder="Plano B para chuva. Ex: traçar para dentro do play, atividades internas, etc." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="3"></textarea>
+                        <button onclick="savePlan('rain')" class="mt-4 w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700 transition-colors">Salvar Plano Chuva</button>
+                    </div>
+
+                    <!-- Ausência de Fornecedor -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="alert-circle" class="w-5 h-5 text-orange-600"></i> Se Fornecedor Não Aparecer
+                        </h3>
+                        <textarea id="plan-vendor" placeholder="Fornecedores backup, contatos alternativos, etc." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="3"></textarea>
+                        <button onclick="savePlan('vendor')" class="mt-4 w-full bg-orange-600 text-white font-semibold py-2 rounded-lg hover:bg-orange-700 transition-colors">Salvar Plano Fornecedor</button>
+                    </div>
+
+                    <!-- Atraso -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="clock-alert" class="w-5 h-5 text-yellow-600"></i> Se Houver Atraso
+                        </h3>
+                        <textarea id="plan-delay" placeholder="Como ocupar crianças enquanto aguarda? Atividades, brincadeiras, etc." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="3"></textarea>
+                        <button onclick="savePlan('delay')" class="mt-4 w-full bg-yellow-600 text-white font-semibold py-2 rounded-lg hover:bg-yellow-700 transition-colors">Salvar Plano Atraso</button>
+                    </div>
+
+                    <!-- Emergência Médica -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <i data-lucide="cross-circle" class="w-5 h-5 text-red-600"></i> Em Caso de Emergência Médica
+                        </h3>
+                        <textarea id="plan-medical" placeholder="Protocolo: avisar pais, contatar SAMU, manter calma, etc." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="3"></textarea>
+                        <button onclick="savePlan('medical')" class="mt-4 w-full bg-red-600 text-white font-semibold py-2 rounded-lg hover:bg-red-700 transition-colors">Salvar Protocolo Médico</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: FOTOS ================= -->
+            <div id="fotos" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Fotos & Vídeos</h2>
+                    <p class="text-slate-500 mt-1">Registre os melhores momentos.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Registrar Foto/Vídeo
+                    </h3>
+                    <form id="form-foto" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Descrição</label>
+                            <input type="text" id="foto-desc" placeholder="Ex: Aniversariante sopando vela" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Tipo</label>
+                                <select id="foto-type" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>Foto</option>
+                                    <option>Vídeo</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Responsável</label>
+                                <input type="text" id="foto-photographer" placeholder="Quem tirou?" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">URL ou Local de Armazenamento</label>
+                            <input type="url" id="foto-url" placeholder="Link para Google Drive, OneDrive, etc" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Registrar Memória
+                        </button>
+                    </form>
+                </div>
+
+                <div id="fotos-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="text-center text-slate-500 py-8 col-span-full">Nenhuma foto registrada ainda</div>
+                </div>
+            </div>
+
+            <!-- ================= TAB: FEEDBACK ================= -->
+            <div id="feedback" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Feedback Pós-Festa</h2>
+                    <p class="text-slate-500 mt-1">Colha impressões de convidados e reflita sobre o evento.</p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-indigo-600"></i> Adicionar Feedback
+                    </h3>
+                    <form id="form-feedback" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">De Quem?</label>
+                            <input type="text" id="fb-from" placeholder="Nome da pessoa" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" required>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Nota Geral (1-5)</label>
+                                <select id="fb-rating" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                                    <option>⭐ 5 - Excelente</option>
+                                    <option>⭐⭐ 4 - Muito bom</option>
+                                    <option>⭐⭐⭐ 3 - Bom</option>
+                                    <option>⭐⭐⭐⭐ 2 - Pode melhorar</option>
+                                    <option>⭐⭐⭐⭐⭐ 1 - Necessita melhorias</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Melhor Momento</label>
+                                <input type="text" id="fb-best" placeholder="Ex: Hora do bolo" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Pontos a Melhorar</label>
+                                <input type="text" id="fb-improve" placeholder="Ex: Organização de filas" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Comentário Geral</label>
+                            <textarea id="fb-comment" placeholder="Diga o que achou da festa" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500" rows="2"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Registrar Feedback
+                        </button>
+                    </form>
+                </div>
+
+                <div id="feedback-container" class="space-y-4">
+                    <div class="text-center text-slate-500 py-8">Nenhum feedback registrado ainda</div>
                 </div>
             </div>
 
@@ -359,387 +1141,926 @@
 </div>
 
 <script>
-    // Inicializar ícones
-    lucide.createIcons();
-
-    // ==========================================
-    // ESTADO DA APLICAÇÃO (Local Storage)
-    // ==========================================
+    const API_URL = 'https://script.google.com/macros/s/AKfycbylRxMoiMzk9mfDjnUuyuNRxBlN54wExQSG3hc5jAhT0nUvsQAh-lSvQe8G5JLACnnuDg/exec'; // ✅ Link de Ítalo - já configurado!
     
-    // Dados Padrão (Carregados na primeira vez)
-    const defaultData = {
-        guests: [
-            { id: 1, name: "Nós (Anfitriões)", adults: 2, kids: 2, drinkers: 2 }
-        ],
-        tasks: [
-            { id: 101, phase: '1. Planejamento (Imediato)', text: 'Reservar data no play e pagar taxa', done: false },
-            { id: 102, phase: '1. Planejamento (Imediato)', text: 'Checar regras do play: horário de som, lixo e tomadas (energia)', done: false },
-            { id: 103, phase: '1. Planejamento (Imediato)', text: 'Definir temas complementares para as 2 mesas', done: false },
-            { id: 201, phase: '2. Contratações Principais', text: 'Fechar Decoração (Painel e Mesas)', done: false },
-            { id: 202, phase: '2. Contratações Principais', text: 'Fechar Salgados e Barraquinhas (Cachorro-quente/Hambúrguer)', done: false },
-            { id: 203, phase: '2. Contratações Principais', text: 'Fechar Equipe (5 Garçons, 1 Copeira, 1 Fritadeira)', done: false },
-            { id: 204, phase: '2. Contratações Principais', text: 'Contratar Brinquedos (Pula-pula) e Área Baby', done: false },
-            { id: 205, phase: '2. Contratações Principais', text: 'Encomendar os dois bolos e docinhos', done: false },
-            { id: 301, phase: '3. Um Mês Antes', text: 'Enviar Convites / Save the Date', done: false },
-            { id: 302, phase: '3. Um Mês Antes', text: 'Comprar bebidas não perecíveis (Refri, Suco, Água)', done: false },
-            { id: 401, phase: '4. Véspera e Dia', text: 'Confirmar horários com todos os fornecedores via WhatsApp', done: false },
-            { id: 402, phase: '4. Véspera e Dia', text: 'Descer bebidas para gelar (24h antes)', done: false },
-            { id: 403, phase: '4. Véspera e Dia', text: 'Comprar gelo e separar o pagamento da equipe', done: false }
-        ],
-        vendors: [
-            { id: 1, service: "Decoração", name: "Pendente", cost: 0, status: "A Contratar" }
-        ],
-        shopping: [
-            { id: 1, text: "Copos Acrílicos (Refri/Cerveja) - 300 un", done: false },
-            { id: 2, text: "Copos com tampa p/ Crianças - 50 un", done: false },
-            { id: 3, text: "Guardanapos (3 pacotes grandes)", done: false },
-            { id: 4, text: "Sacos de Lixo Preto (100L) reforçado", done: false },
-            { id: 5, text: "Papel Higiênico extra pros banheiros do play", done: false },
-            { id: 6, text: "Gelo (Comprar no dia)", done: false }
-        ],
-        filterTask: 'all'
+    let appData = {
+        convidados: [],
+        confirmacoesRSVP: [],
+        documentacao: [],
+        timeline: [],
+        cardapio: [],
+        atividades: [],
+        tarefas: [],
+        fornecedores: [],
+        compras: [],
+        equipe: [],
+        decoracao: {},
+        seguranca: {},
+        contingencia: {},
+        fotos: [],
+        feedback: []
     };
 
-    // Função de carregar ou inicializar dados
-    let appData = JSON.parse(localStorage.getItem('festaData'));
-    if (!appData) {
-        appData = defaultData;
-        saveData();
-    }
-
-    function saveData() {
-        localStorage.setItem('festaData', JSON.stringify(appData));
-        renderAll();
-    }
-
     // ==========================================
-    // NAVEGAÇÃO
+    // NAVEGAÇÃO E SINCRONIZAÇÃO
     // ==========================================
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        
+    function switchTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
         document.querySelectorAll('.nav-btn').forEach(btn => {
-            if(btn.dataset.target === tabId) {
-                if(window.innerWidth > 768) {
-                    btn.classList.add('bg-indigo-50', 'text-indigo-700'); btn.classList.remove('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
-                } else {
-                    btn.classList.add('text-indigo-600'); btn.classList.remove('text-slate-400', 'hover:text-slate-700');
-                }
-            } else {
-                if(window.innerWidth > 768) {
-                    btn.classList.remove('bg-indigo-50', 'text-indigo-700'); btn.classList.add('text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900');
-                } else {
-                    btn.classList.remove('text-indigo-600'); btn.classList.add('text-slate-400', 'hover:text-slate-700');
-                }
-            }
+            btn.classList.remove('bg-indigo-50', 'text-indigo-700');
+            btn.classList.add('text-slate-600', 'hover:bg-slate-50');
         });
+        document.querySelector(`[data-target="${tabName}"]`).classList.remove('text-slate-600', 'hover:bg-slate-50');
+        document.querySelector(`[data-target="${tabName}"]`).classList.add('bg-indigo-50', 'text-indigo-700');
+    }
+
+    async function loadDataFromCloud() {
+        try {
+            const response = await fetch(API_URL);
+            const data = await response.json();
+            Object.assign(appData, data);
+            renderAllTabs();
+            document.getElementById('loading-overlay').style.display = 'none';
+        } catch (error) {
+            console.error('Erro ao carregar dados:', error);
+            document.getElementById('loading-overlay').style.display = 'none';
+        }
+    }
+
+    async function sendToCloud(action, payload) {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action, payload })
+            });
+            const result = await response.json();
+            return result.success;
+        } catch (error) {
+            console.error('Erro ao enviar dados:', error);
+            return false;
+        }
+    }
+
+    function renderAllTabs() {
+        renderTimeline();
+        renderGuests();
+        renderRSVP();
+        renderDocs();
+        renderCardapio();
+        renderAtividades();
+        renderTasks();
+        renderVendors();
+        renderShopping();
+        renderEquipe();
+        renderUrgentTasks();
+        updateDashboard();
     }
 
     // ==========================================
-    // RENDERIZAÇÃO E LÓGICA (CONVIDADOS & BEBIDAS)
+    // DASHBOARD
     // ==========================================
-    document.getElementById('form-guest').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const gName = document.getElementById('g-name').value;
-        const gAdults = parseInt(document.getElementById('g-adults').value) || 0;
-        const gKids = parseInt(document.getElementById('g-kids').value) || 0;
-        const gDrinkers = parseInt(document.getElementById('g-drinkers').value) || 0;
-
-        // Validação: não pode haver mais bebedores que adultos
-        const finalDrinkers = Math.min(gDrinkers, gAdults);
-
-        appData.guests.push({
-            id: Date.now(), name: gName, adults: gAdults, kids: gKids, drinkers: finalDrinkers
-        });
+    function updateDashboard() {
+        const confirmedGuests = appData.confirmacoesRSVP.filter(r => r.status === 'confirmado').length;
+        const totalGuests = appData.convidados.length;
+        const adults = appData.convidados.reduce((sum, g) => sum + (parseInt(g.adults) || 0), 0);
+        const kids = appData.convidados.reduce((sum, g) => sum + (parseInt(g.kids) || 0), 0);
         
-        e.target.reset();
-        document.getElementById('g-adults').value = 1;
-        document.getElementById('g-kids').value = 0;
-        saveData();
-    });
-
-    function deleteGuest(id) {
-        appData.guests = appData.guests.filter(g => g.id !== id);
-        saveData();
+        document.getElementById('dash-confirmed').textContent = confirmedGuests;
+        document.getElementById('dash-total').textContent = totalGuests;
+        document.getElementById('dash-adults-conf').textContent = adults;
+        document.getElementById('dash-kids-conf').textContent = kids;
+        
+        const totalCost = appData.fornecedores.reduce((sum, v) => sum + (parseFloat(v.cost) || 0), 0);
+        document.getElementById('dash-orcamento').textContent = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(totalCost);
+        
+        const tasksTotal = appData.tarefas.length;
+        const tasksDone = appData.tarefas.filter(t => t.done === true || t.done === "TRUE").length;
+        document.getElementById('dash-tasks-done').textContent = tasksDone;
+        document.getElementById('dash-tasks-total').textContent = tasksTotal;
+        const taskProgress = tasksTotal === 0 ? 0 : (tasksDone / tasksTotal) * 100;
+        document.getElementById('dash-tasks-progress').style.width = `${taskProgress}%`;
+        
+        document.getElementById('dash-vendors').textContent = appData.fornecedores.length;
+        
+        const rsvpPercent = totalGuests === 0 ? 0 : Math.round((confirmedGuests / totalGuests) * 100);
+        document.getElementById('dash-rsvp').textContent = rsvpPercent;
     }
 
-    function renderAll() {
-        // 1. Processar Convidados
-        const tbody = document.getElementById('guests-tbody');
-        tbody.innerHTML = '';
-        let tAdults = 0; let tKids = 0; let tDrinkers = 0;
-
-        appData.guests.forEach(g => {
-            tAdults += g.adults; tKids += g.kids; tDrinkers += g.drinkers;
-            
-            tbody.innerHTML += `
-                <tr class="hover:bg-slate-50 transition-colors group">
-                    <td class="p-4 font-medium text-slate-800">${g.name}</td>
-                    <td class="p-4 text-center text-slate-600">${g.adults}</td>
-                    <td class="p-4 text-center text-indigo-600 font-medium">${g.kids}</td>
-                    <td class="p-4 text-center text-amber-600 font-medium">${g.drinkers > 0 ? g.drinkers : '-'}</td>
-                    <td class="p-4 text-right">
-                        <button onclick="deleteGuest(${g.id})" class="text-slate-300 hover:text-red-500 transition-colors p-1 rounded">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </td>
-                </tr>
+    function renderUrgentTasks() {
+        const urgentContainer = document.getElementById('urgent-tasks-container');
+        urgentContainer.innerHTML = '';
+        
+        const urgent = appData.tarefas.filter(t => (t.priority === 'Alta' || t.priority === 'Crítica') && (t.done !== true && t.done !== "TRUE"));
+        
+        if (urgent.length === 0) {
+            urgentContainer.innerHTML = `<li class="text-sm text-slate-500 italic p-3 text-center">Tudo em dia! Excelente trabalho.</li>`;
+            return;
+        }
+        
+        urgent.slice(0, 5).forEach(task => {
+            urgentContainer.innerHTML += `
+                <li class="bg-amber-50 border border-amber-200 rounded-lg p-3 text-sm">
+                    <div class="font-semibold text-slate-800">${task.text}</div>
+                    <div class="text-xs text-slate-600 mt-1">Fase: ${task.phase}</div>
+                    <div class="text-xs ${task.priority === 'Crítica' ? 'text-red-600' : 'text-amber-600'} font-semibold mt-1">🔴 ${task.priority}</div>
+                </li>
             `;
         });
+    }
 
-        // Atualizar headers
-        const totalGuests = tAdults + tKids;
-        document.getElementById('list-total-adults').innerText = tAdults;
-        document.getElementById('list-total-kids').innerText = tKids;
-        document.getElementById('list-total-drinkers').innerText = tDrinkers;
+    // ==========================================
+    // TIMELINE
+    // ==========================================
+    document.getElementById('form-timeline').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newEvent = {
+            id: Date.now(),
+            time: document.getElementById('t-time').value,
+            activity: document.getElementById('t-activity').value,
+            description: document.getElementById('t-description').value,
+            responsible: document.getElementById('t-responsible').value,
+            audience: document.getElementById('t-audience').value,
+            status: document.getElementById('t-status').value
+        };
+        appData.timeline.push(newEvent);
+        renderTimeline();
+        e.target.reset();
+        await sendToCloud('addTimeline', newEvent);
+    });
 
-        // Atualizar Calculadora de Bebidas
-        // Regras: 1.2L Cerveja/bebedor | 600ml Refri/pessoa | 200ml Água/pessoa | 400ml Suco/criança
-        const calcBeer = Math.ceil(tDrinkers * 1.2);
-        const calcSoda = Math.ceil(totalGuests * 0.6);
-        const calcWater = Math.ceil(totalGuests * 0.2);
-        const calcJuice = Math.ceil(tKids * 0.4);
-
-        document.getElementById('beverage-summary').innerHTML = `
-            <div class="flex items-center justify-between p-3 bg-amber-50 rounded-xl border border-amber-100">
-                <div class="flex items-center gap-3">
-                    <div class="bg-amber-100 p-2 rounded-lg text-amber-600"><i data-lucide="beer" class="w-5 h-5"></i></div>
-                    <div><p class="font-bold text-amber-900">Cerveja / Chopp</p><p class="text-xs text-amber-700">Calculado p/ ${tDrinkers} pessoas</p></div>
+    function renderTimeline() {
+        const container = document.getElementById('timeline-container');
+        container.innerHTML = '';
+        
+        const sorted = [...appData.timeline].sort((a, b) => a.time.localeCompare(b.time));
+        
+        sorted.forEach(event => {
+            const isActive = false; // Você pode adicionar lógica para determinar se está acontecendo agora
+            container.innerHTML += `
+                <div class="timeline-item ${isActive ? 'active' : ''}">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="clock" class="w-4 h-4 text-indigo-600"></i>
+                            ${event.time} - ${event.activity}
+                        </div>
+                        <button onclick="deleteTimeline(${event.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <p class="text-sm text-slate-600 ml-6 mb-2">${event.description}</p>
+                    <div class="text-xs text-slate-500 ml-6 space-y-1">
+                        <div>👥 Público: ${event.audience}</div>
+                        <div>👤 Responsável: ${event.responsible || 'Não designado'}</div>
+                        <div class="status-badge ${event.status === 'Confirmado' ? 'status-confirm' : event.status === 'Pendente' ? 'status-pending' : 'status-refuse'}">${event.status}</div>
+                    </div>
                 </div>
-                <div class="text-xl font-black text-amber-600">${calcBeer} Litros</div>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100">
-                <div class="flex items-center gap-3">
-                    <div class="bg-slate-200 p-2 rounded-lg text-slate-600"><i data-lucide="cup-soda" class="w-5 h-5"></i></div>
-                    <div><p class="font-bold text-slate-700">Refrigerante</p><p class="text-xs text-slate-500">Normal e Zero</p></div>
+            `;
+        });
+        
+        if (sorted.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhuma atividade adicionada ainda</div>`;
+        }
+    }
+
+    async function deleteTimeline(id) {
+        appData.timeline = appData.timeline.filter(t => t.id !== id);
+        renderTimeline();
+        await sendToCloud('deleteTimeline', { id });
+    }
+
+    // ==========================================
+    // CONVIDADOS
+    // ==========================================
+    document.getElementById('form-guest').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newGuest = {
+            id: Date.now(),
+            name: document.getElementById('g-name').value,
+            relation: document.getElementById('g-relation').value,
+            kids: document.getElementById('g-kids').value,
+            phone: document.getElementById('g-phone').value,
+            email: document.getElementById('g-email').value,
+            allergies: document.getElementById('g-allergies').value
+        };
+        appData.convidados.push(newGuest);
+        renderGuests();
+        e.target.reset();
+        await sendToCloud('addGuest', newGuest);
+    });
+
+    function renderGuests() {
+        const container = document.getElementById('guests-container');
+        container.innerHTML = '';
+        
+        appData.convidados.forEach(guest => {
+            const allergies = guest.allergies ? guest.allergies.split(',').map(a => `<span class="allergen-tag">${a.trim()}</span>`).join('') : '';
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800">${guest.name}</h4>
+                            <p class="text-xs text-slate-500">${guest.relation}</p>
+                        </div>
+                        <button onclick="deleteGuest(${guest.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="text-xs space-y-1 text-slate-600 mb-3">
+                        <div>👶 Crianças: ${guest.kids || 'N/A'}</div>
+                        <div>📱 ${guest.phone || 'Sem contato'}</div>
+                        <div>📧 ${guest.email || 'Sem email'}</div>
+                    </div>
+                    ${allergies ? `<div class="text-xs mb-2">Alérgenos:<br>${allergies}</div>` : ''}
                 </div>
-                <div class="text-xl font-black text-slate-700">${calcSoda} Litros</div>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
-                <div class="flex items-center gap-3">
-                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600"><i data-lucide="droplets" class="w-5 h-5"></i></div>
-                    <div><p class="font-bold text-blue-900">Água</p><p class="text-xs text-blue-700">Mineral</p></div>
+            `;
+        });
+        
+        if (appData.convidados.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8 col-span-full">Nenhum convidado registrado ainda</div>`;
+        }
+    }
+
+    async function deleteGuest(id) {
+        appData.convidados = appData.convidados.filter(g => g.id !== id);
+        renderGuests();
+        await sendToCloud('deleteGuest', { id });
+    }
+
+    // ==========================================
+    // RSVP
+    // ==========================================
+    function renderRSVP() {
+        const list = document.getElementById('rsvp-list');
+        list.innerHTML = '';
+        
+        let confirmed = 0, pending = 0, refused = 0;
+        
+        appData.convidados.forEach(guest => {
+            const rsvp = appData.confirmacoesRSVP.find(r => r.guestId === guest.id);
+            const status = rsvp?.status || 'pendente';
+            
+            if (status === 'confirmado') confirmed++;
+            else if (status === 'recusado') refused++;
+            else pending++;
+            
+            const statusClass = status === 'confirmado' ? 'status-confirm' : status === 'recusado' ? 'status-refuse' : 'status-pending';
+            const statusText = status === 'confirmado' ? '✅ Confirmado' : status === 'recusado' ? '❌ Recusado' : '⏳ Pendente';
+            
+            list.innerHTML += `
+                <div class="border border-slate-200 rounded-lg p-4 flex justify-between items-center">
+                    <div>
+                        <h4 class="font-semibold text-slate-800">${guest.name}</h4>
+                        <p class="text-sm text-slate-600">${rsvp?.guestCount || 0} pessoa(s)</p>
+                    </div>
+                    <div class="flex gap-2 items-center">
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                        <button onclick="updateRSVP(${guest.id}, 'confirmado')" class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded text-xs font-semibold hover:bg-emerald-200">✓</button>
+                        <button onclick="updateRSVP(${guest.id}, 'recusado')" class="px-3 py-1 bg-red-100 text-red-700 rounded text-xs font-semibold hover:bg-red-200">✗</button>
+                    </div>
                 </div>
-                <div class="text-xl font-black text-blue-600">${calcWater} Litros</div>
-            </div>
-            <div class="flex items-center justify-between p-3 bg-orange-50 rounded-xl border border-orange-100">
-                <div class="flex items-center gap-3">
-                    <div class="bg-orange-100 p-2 rounded-lg text-orange-600"><i data-lucide="grape" class="w-5 h-5"></i></div>
-                    <div><p class="font-bold text-orange-900">Suco</p><p class="text-xs text-orange-700">Focado nas crianças</p></div>
+            `;
+        });
+        
+        document.getElementById('rsvp-confirmed').textContent = confirmed;
+        document.getElementById('rsvp-pending').textContent = pending;
+        document.getElementById('rsvp-refused').textContent = refused;
+    }
+
+    async function updateRSVP(guestId, status) {
+        const existing = appData.confirmacoesRSVP.find(r => r.guestId === guestId);
+        if (existing) {
+            existing.status = status;
+        } else {
+            appData.confirmacoesRSVP.push({ id: Date.now(), guestId, status, guestCount: 1 });
+        }
+        renderRSVP();
+        await sendToCloud('updateRSVP', { guestId, status });
+    }
+
+    // ==========================================
+    // DOCUMENTAÇÃO
+    // ==========================================
+    document.getElementById('form-doc').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newDoc = {
+            id: Date.now(),
+            guest: document.getElementById('d-guest').value,
+            type: document.getElementById('d-type').value,
+            status: document.getElementById('d-status').value,
+            notes: document.getElementById('d-notes').value
+        };
+        appData.documentacao.push(newDoc);
+        renderDocs();
+        e.target.reset();
+        await sendToCloud('addDoc', newDoc);
+    });
+
+    function renderDocs() {
+        const container = document.getElementById('docs-container');
+        container.innerHTML = '';
+        
+        appData.documentacao.forEach(doc => {
+            const statusClass = doc.status === 'Recebido' ? 'status-confirm' : doc.status === 'Pendente' ? 'status-pending' : 'status-refuse';
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="font-semibold text-slate-800">${doc.guest}</h4>
+                            <p class="text-sm text-slate-600 mt-1">${doc.type}</p>
+                            ${doc.notes ? `<p class="text-xs text-slate-500 mt-2">${doc.notes}</p>` : ''}
+                        </div>
+                        <span class="status-badge ${statusClass}">${doc.status}</span>
+                    </div>
                 </div>
-                <div class="text-xl font-black text-orange-600">${calcJuice} Litros</div>
-            </div>
-        `;
+            `;
+        });
+        
+        if (appData.documentacao.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhuma documentação registrada ainda</div>`;
+        }
+    }
 
-        // 2. Processar Dashboard
-        document.getElementById('dash-guests-total').innerText = totalGuests;
-        document.getElementById('dash-guests-adults').innerText = tAdults;
-        document.getElementById('dash-guests-kids').innerText = tKids;
-        document.getElementById('dash-drinkers').innerText = tDrinkers;
-        document.getElementById('dash-beer-calc').innerText = `Previsão: ${calcBeer} Litros`;
+    // ==========================================
+    // CHECK-IN
+    // ==========================================
+    function renderCheckin() {
+        const list = document.getElementById('checkin-list');
+        list.innerHTML = '';
+        
+        const confirmedGuests = appData.convidados.filter(g => {
+            const rsvp = appData.confirmacoesRSVP.find(r => r.guestId === g.id);
+            return rsvp?.status === 'confirmado';
+        });
+        
+        let arrived = 0;
+        
+        confirmedGuests.forEach(guest => {
+            const checkin = appData.checkin?.find(c => c.guestId === guest.id);
+            const isArrived = checkin?.arrived || false;
+            if (isArrived) arrived++;
+            
+            list.innerHTML += `
+                <div class="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:bg-slate-50">
+                    <span class="font-medium text-slate-800">${guest.name}</span>
+                    <button onclick="markArrived(${guest.id})" class="px-4 py-2 ${isArrived ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'} rounded font-semibold text-sm hover:opacity-80">
+                        ${isArrived ? '✅ Chegou' : '⏳ Ausente'}
+                    </button>
+                </div>
+            `;
+        });
+        
+        const total = confirmedGuests.length;
+        const percent = total === 0 ? 0 : Math.round((arrived / total) * 100);
+        
+        document.getElementById('checkin-arrived').textContent = arrived;
+        document.getElementById('checkin-absent').textContent = total - arrived;
+        document.getElementById('checkin-percent').textContent = percent + '%';
+        document.getElementById('checkin-total').textContent = total;
+    }
 
-        // 3. Processar Tarefas
-        renderTasks();
+    function markArrived(guestId) {
+        if (!appData.checkin) appData.checkin = [];
+        const existing = appData.checkin.find(c => c.guestId === guestId);
+        if (existing) {
+            existing.arrived = !existing.arrived;
+        } else {
+            appData.checkin.push({ guestId, arrived: true });
+        }
+        renderCheckin();
+    }
 
-        // 4. Processar Fornecedores
-        renderVendors();
+    // ==========================================
+    // CARDÁPIO
+    // ==========================================
+    document.getElementById('form-cardapio').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newItem = {
+            id: Date.now(),
+            item: document.getElementById('c-item').value,
+            category: document.getElementById('c-category').value,
+            allergens: document.getElementById('c-allergens').value,
+            suitable: document.getElementById('c-suitable').value,
+            quantity: document.getElementById('c-qty').value,
+            notes: document.getElementById('c-notes').value
+        };
+        appData.cardapio.push(newItem);
+        renderCardapio();
+        e.target.reset();
+        await sendToCloud('addCardapio', newItem);
+    });
 
-        // 5. Processar Compras
-        renderShopping();
+    function renderCardapio() {
+        const container = document.getElementById('cardapio-container');
+        container.innerHTML = '';
+        
+        const categories = ['Entrada', 'Prato Principal', 'Acompanhamento', 'Sobremesa', 'Bebida', 'Lanches'];
+        
+        categories.forEach(cat => {
+            const items = appData.cardapio.filter(c => c.category === cat);
+            if (items.length === 0) return;
+            
+            let html = `<div class="glass-card rounded-2xl p-6">
+                <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="utensils" class="w-5 h-5 text-indigo-600"></i> ${cat}
+                </h4>
+                <div class="space-y-3">`;
+            
+            items.forEach(item => {
+                const allergens = item.allergens ? item.allergens.split(',').map(a => `<span class="allergen-tag">${a.trim()}</span>`).join('') : '';
+                html += `<div class="border-l-4 border-indigo-300 pl-4 py-2">
+                    <div class="flex justify-between items-start mb-2">
+                        <h5 class="font-semibold text-slate-800">${item.item}</h5>
+                        <button onclick="deleteCardapio(${item.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    ${allergens ? `<div class="mb-2">${allergens}</div>` : ''}
+                    <div class="text-xs text-slate-600 space-y-1">
+                        <div>Qty: ${item.quantity || 'N/A'}</div>
+                        <div>Para: ${item.suitable}</div>
+                        ${item.notes ? `<div>Obs: ${item.notes}</div>` : ''}
+                    </div>
+                </div>`;
+            });
+            
+            html += `</div></div>`;
+            container.innerHTML += html;
+        });
+        
+        if (appData.cardapio.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhum item adicionado ao cardápio ainda</div>`;
+        }
+    }
 
-        lucide.createIcons();
+    async function deleteCardapio(id) {
+        appData.cardapio = appData.cardapio.filter(c => c.id !== id);
+        renderCardapio();
+        await sendToCloud('deleteCardapio', { id });
+    }
+
+    // ==========================================
+    // ATIVIDADES
+    // ==========================================
+    document.getElementById('form-atividade').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newActivity = {
+            id: Date.now(),
+            name: document.getElementById('a-name').value,
+            agegroup: document.getElementById('a-agegroup').value,
+            description: document.getElementById('a-description').value,
+            duration: document.getElementById('a-duration').value,
+            location: document.getElementById('a-location').value,
+            responsible: document.getElementById('a-responsible').value
+        };
+        appData.atividades.push(newActivity);
+        renderAtividades();
+        e.target.reset();
+        await sendToCloud('addActivity', newActivity);
+    });
+
+    function renderAtividades() {
+        const container = document.getElementById('atividades-container');
+        container.innerHTML = '';
+        
+        appData.atividades.forEach(activity => {
+            container.innerHTML += `
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800 flex items-center gap-2">
+                                <i data-lucide="play-circle" class="w-5 h-5 text-indigo-600"></i> ${activity.name}
+                            </h4>
+                            <p class="text-sm text-slate-600 mt-1">${activity.description}</p>
+                        </div>
+                        <button onclick="deleteActivity(${activity.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="x" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="text-xs text-slate-500 space-y-1">
+                        <div>👥 ${activity.agegroup}</div>
+                        <div>⏱️ ${activity.duration || 'N/A'} minutos</div>
+                        <div>📍 ${activity.location || 'N/A'}</div>
+                        <div>👤 ${activity.responsible || 'Sem responsável'}</div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        if (appData.atividades.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhuma atividade planejada ainda</div>`;
+        }
+    }
+
+    async function deleteActivity(id) {
+        appData.atividades = appData.atividades.filter(a => a.id !== id);
+        renderAtividades();
+        await sendToCloud('deleteActivity', { id });
     }
 
     // ==========================================
     // TAREFAS
     // ==========================================
-    function toggleTask(id) {
-        const task = appData.tasks.find(t => t.id === id);
-        if(task) {
-            task.done = !task.done;
-            saveData();
-        }
-    }
-
-    function filterTasks(type) {
-        appData.filterTask = type;
-        document.getElementById('filter-all').className = type === 'all' ? 'text-xs px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold transition-colors' : 'text-xs px-3 py-1 rounded-full text-slate-500 hover:bg-slate-100 font-medium transition-colors';
-        document.getElementById('filter-pending').className = type === 'pending' ? 'text-xs px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-semibold transition-colors' : 'text-xs px-3 py-1 rounded-full text-slate-500 hover:bg-slate-100 font-medium transition-colors';
-        saveData(); // Salva estado do filtro e re-renderiza
-    }
+    document.getElementById('form-task').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newTask = {
+            id: Date.now(),
+            text: document.getElementById('task-text').value,
+            phase: document.getElementById('task-phase').value,
+            priority: document.getElementById('task-priority').value,
+            responsible: document.getElementById('task-responsible').value,
+            done: false
+        };
+        appData.tarefas.push(newTask);
+        renderTasks();
+        updateDashboard();
+        e.target.reset();
+        await sendToCloud('addTask', newTask);
+    });
 
     function renderTasks() {
         const container = document.getElementById('tasks-container');
-        const urgentContainer = document.getElementById('dash-urgent-tasks');
-        container.innerHTML = ''; urgentContainer.innerHTML = '';
+        container.innerHTML = '';
         
-        let doneCount = 0;
-        let urgentAdded = 0;
-
-        // Agrupar por fase
-        const phases = [...new Set(appData.tasks.map(t => t.phase))];
+        const phases = ['Antes da festa (1 mês)', '2-3 semanas antes', '1 semana antes', 'Dia anterior', 'Dia da festa', 'Depois da festa'];
         
         phases.forEach(phase => {
-            let phaseTasks = appData.tasks.filter(t => t.phase === phase);
-            if (appData.filterTask === 'pending') {
-                phaseTasks = phaseTasks.filter(t => !t.done);
-            }
-
-            if (phaseTasks.length === 0) return; // Pula se fase estiver vazia no filtro
-
-            let html = `<div class="mb-5"><h4 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3 ml-2">${phase}</h4><div class="space-y-1">`;
+            const tasks = appData.tarefas.filter(t => t.phase === phase);
+            if (tasks.length === 0) return;
             
-            phaseTasks.forEach(t => {
-                if(t.done) doneCount++;
-                const checked = t.done ? 'checked' : '';
-                const lineThrough = t.done ? 'line-through text-slate-400' : 'text-slate-700 font-medium';
-                const bg = t.done ? 'bg-slate-50' : 'bg-white hover:bg-slate-50';
+            let html = `<div>
+                <h4 class="font-bold text-slate-800 mb-3 text-sm uppercase tracking-wide text-slate-600">${phase}</h4>
+                <div class="space-y-2 mb-6">`;
+            
+            tasks.forEach(task => {
+                const isDone = task.done === true || task.done === "TRUE";
+                const priorityColor = task.priority === 'Crítica' ? 'text-red-600 bg-red-50' : task.priority === 'Alta' ? 'text-amber-600 bg-amber-50' : 'text-slate-600 bg-slate-50';
                 
-                html += `
-                    <label class="flex items-start gap-3 p-3 rounded-xl ${bg} cursor-pointer transition-colors border border-transparent hover:border-slate-100">
-                        <input type="checkbox" ${checked} onchange="toggleTask(${t.id})" class="mt-0.5 w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 transition-all">
-                        <span class="${lineThrough} leading-snug flex-1">${t.text}</span>
-                    </label>
-                `;
-
-                // Preencher pendências no dashboard (max 4)
-                if (!t.done && urgentAdded < 4) {
-                    urgentContainer.innerHTML += `
-                        <li class="flex items-start gap-2 p-3 bg-white rounded-xl border border-slate-100 shadow-sm">
-                            <i data-lucide="circle-alert" class="w-4 h-4 text-amber-500 mt-0.5 shrink-0"></i>
-                            <span class="text-sm text-slate-700 font-medium leading-snug">${t.text}</span>
-                        </li>
-                    `;
-                    urgentAdded++;
-                }
+                html += `<div class="flex items-center gap-3 p-3 rounded-lg border border-slate-200 ${isDone ? 'bg-slate-100 opacity-60' : 'bg-white'}">
+                    <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleTask(${task.id})" class="w-5 h-5 text-indigo-600 rounded cursor-pointer">
+                    <div class="flex-1 ${isDone ? 'line-through text-slate-400' : 'text-slate-800'}">
+                        <div class="font-medium">${task.text}</div>
+                        ${task.responsible ? `<div class="text-xs text-slate-500">👤 ${task.responsible}</div>` : ''}
+                    </div>
+                    <span class="px-2 py-1 rounded text-xs font-semibold ${priorityColor}">${task.priority}</span>
+                    <button onclick="deleteTask(${task.id})" class="text-slate-300 hover:text-red-500">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>`;
             });
+            
             html += `</div></div>`;
             container.innerHTML += html;
         });
-
-        // Caso não haja pendentes pro dashboard
-        if (urgentAdded === 0 && appData.tasks.length > 0) {
-            urgentContainer.innerHTML = `<li class="text-sm text-slate-500 italic p-3 text-center">Tudo em dia! Excelente trabalho.</li>`;
+        
+        if (appData.tarefas.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhuma tarefa adicionada ainda</div>`;
         }
+    }
 
-        // Atualizar Dashboard Stats
-        const totalTasks = appData.tasks.length;
-        // recalculate true total regardless of filter
-        const trueDoneCount = appData.tasks.filter(t=>t.done).length; 
-        document.getElementById('dash-tasks-done').innerText = trueDoneCount;
-        document.getElementById('dash-tasks-total').innerText = totalTasks;
-        const progress = totalTasks === 0 ? 0 : (trueDoneCount / totalTasks) * 100;
-        document.getElementById('dash-tasks-progress').style.width = `${progress}%`;
+    async function toggleTask(id) {
+        const task = appData.tarefas.find(t => t.id === id);
+        if (task) {
+            task.done = !task.done;
+            renderTasks();
+            renderUrgentTasks();
+            updateDashboard();
+            await sendToCloud('toggleTask', { id });
+        }
+    }
+
+    async function deleteTask(id) {
+        appData.tarefas = appData.tarefas.filter(t => t.id !== id);
+        renderTasks();
+        updateDashboard();
+        await sendToCloud('deleteTask', { id });
     }
 
     // ==========================================
-    // FORNECEDORES E ORÇAMENTO
+    // FORNECEDORES
     // ==========================================
-    document.getElementById('form-vendor').addEventListener('submit', (e) => {
+    document.getElementById('form-vendor').addEventListener('submit', async (e) => {
         e.preventDefault();
-        appData.vendors.push({
+        const newVendor = {
             id: Date.now(),
             service: document.getElementById('v-service').value,
             name: document.getElementById('v-name').value,
+            phone: document.getElementById('v-phone').value,
+            email: document.getElementById('v-email').value,
             cost: parseFloat(document.getElementById('v-cost').value) || 0,
+            notes: document.getElementById('v-notes').value,
             status: "Contratado"
-        });
+        };
+        appData.fornecedores.push(newVendor);
+        renderVendors();
+        updateDashboard();
         e.target.reset();
-        saveData();
+        await sendToCloud('addVendor', newVendor);
     });
-
-    function deleteVendor(id) {
-        appData.vendors = appData.vendors.filter(v => v.id !== id);
-        saveData();
-    }
-
-    const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 
     function renderVendors() {
         const container = document.getElementById('vendors-container');
         container.innerHTML = '';
         let totalCost = 0;
 
-        appData.vendors.forEach(v => {
-            totalCost += v.cost;
+        appData.fornecedores.forEach(v => {
+            const cost = parseFloat(v.cost) || 0;
+            totalCost += cost;
+            const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+            
             container.innerHTML += `
-                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm relative group">
+                <div class="glass-card rounded-xl p-4 group">
                     <div class="flex justify-between items-start mb-2">
                         <span class="text-xs font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded uppercase tracking-wide">${v.service}</span>
                         <button onclick="deleteVendor(${v.id})" class="text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
                             <i data-lucide="trash-2" class="w-4 h-4"></i>
                         </button>
                     </div>
-                    <h4 class="font-bold text-slate-800 text-lg">${v.name}</h4>
+                    <h4 class="font-bold text-slate-800">${v.name}</h4>
+                    ${v.phone ? `<div class="text-xs text-slate-600 mt-2">📱 ${v.phone}</div>` : ''}
+                    ${v.email ? `<div class="text-xs text-slate-600">📧 ${v.email}</div>` : ''}
+                    ${v.notes ? `<div class="text-xs text-slate-600 mt-2">📝 ${v.notes}</div>` : ''}
                     <div class="mt-4 flex justify-between items-end border-t border-slate-100 pt-3">
                         <span class="text-xs font-medium text-emerald-600 flex items-center gap-1"><i data-lucide="check-circle" class="w-3 h-3"></i> ${v.status}</span>
-                        <span class="font-black text-slate-700">${formatBRL(v.cost)}</span>
+                        <span class="font-black text-slate-700">${formatBRL(cost)}</span>
                     </div>
                 </div>
             `;
         });
 
+        const formatBRL = (val) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
         document.getElementById('total-vendors-cost').innerText = formatBRL(totalCost);
-        document.getElementById('dash-budget-spent').innerText = formatBRL(totalCost);
+        document.getElementById('total-vendors-available').innerText = formatBRL(12000 - totalCost);
         
         const budgetPercent = Math.min((totalCost / 12000) * 100, 100);
         const progressEl = document.getElementById('dash-budget-progress');
         progressEl.style.width = `${budgetPercent}%`;
+        document.getElementById('dash-budget-percent').innerText = Math.round(budgetPercent);
         
-        if (budgetPercent > 90) { progressEl.classList.replace('bg-rose-500', 'bg-red-600'); } 
-        else if (budgetPercent < 50) { progressEl.classList.replace('bg-rose-500', 'bg-emerald-500'); }
-        else { progressEl.classList.replace('bg-emerald-500', 'bg-rose-500'); progressEl.classList.replace('bg-red-600', 'bg-rose-500'); }
+        if (budgetPercent > 90) { progressEl.classList.add('bg-red-600'); progressEl.classList.remove('bg-rose-500', 'bg-emerald-500'); } 
+        else if (budgetPercent < 50) { progressEl.classList.add('bg-emerald-500'); progressEl.classList.remove('bg-rose-500', 'bg-red-600'); }
+        else { progressEl.classList.add('bg-rose-500'); progressEl.classList.remove('bg-emerald-500', 'bg-red-600'); }
+        
+        if (appData.fornecedores.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8 col-span-full">Nenhum fornecedor adicionado ainda</div>`;
+        }
+    }
+
+    async function deleteVendor(id) {
+        appData.fornecedores = appData.fornecedores.filter(v => v.id !== id);
+        renderVendors();
+        updateDashboard();
+        await sendToCloud('deleteVendor', { id });
     }
 
     // ==========================================
-    // COMPRAS (MERCADO)
+    // COMPRAS
     // ==========================================
-    document.getElementById('form-shopping').addEventListener('submit', (e) => {
+    document.getElementById('form-shopping').addEventListener('submit', async (e) => {
         e.preventDefault();
-        appData.shopping.push({
+        const newItem = {
             id: Date.now(),
             text: document.getElementById('s-item').value,
+            category: document.getElementById('s-category').value,
+            responsible: document.getElementById('s-responsible').value,
+            shop: document.getElementById('s-shop').value,
+            price: parseFloat(document.getElementById('s-price').value) || 0,
             done: false
-        });
+        };
+        appData.compras.push(newItem);
+        renderShopping();
         e.target.reset();
-        saveData();
+        await sendToCloud('addShopping', newItem);
     });
-
-    function toggleShopping(id) {
-        const item = appData.shopping.find(i => i.id === id);
-        if(item) { item.done = !item.done; saveData(); }
-    }
-
-    function deleteShopping(id) {
-        appData.shopping = appData.shopping.filter(i => i.id !== id);
-        saveData();
-    }
 
     function renderShopping() {
         const list = document.getElementById('shopping-list');
         list.innerHTML = '';
         
-        appData.shopping.forEach(item => {
-            const checked = item.done ? 'checked' : '';
-            const lineThrough = item.done ? 'line-through text-slate-400' : 'text-slate-700 font-medium';
-            const bg = item.done ? 'bg-slate-50 opacity-70' : 'bg-white';
+        appData.compras.forEach(item => {
+            const isDone = item.done === true || item.done === "TRUE";
+            const checked = isDone ? 'checked' : '';
+            const lineThrough = isDone ? 'line-through text-slate-400' : 'text-slate-700 font-medium';
+            const bg = isDone ? 'bg-slate-50 opacity-70' : 'bg-white';
             
             list.innerHTML += `
                 <li class="flex items-center gap-3 p-3 rounded-xl border border-slate-200 ${bg} transition-all">
                     <input type="checkbox" ${checked} onchange="toggleShopping(${item.id})" class="w-5 h-5 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500 cursor-pointer">
-                    <span class="${lineThrough} flex-1">${item.text}</span>
+                    <div class="flex-1">
+                        <div class="${lineThrough}">${item.text}</div>
+                        <div class="text-xs text-slate-500">${item.shop || 'N/A'} • ${item.responsible || 'N/A'}</div>
+                    </div>
+                    ${item.price ? `<span class="text-sm font-semibold text-slate-700">R$ ${item.price.toFixed(2)}</span>` : ''}
                     <button onclick="deleteShopping(${item.id})" class="text-slate-400 hover:text-red-500 transition-colors p-2 rounded">
                         <i data-lucide="x" class="w-4 h-4"></i>
                     </button>
                 </li>
             `;
         });
+        
+        if (appData.compras.length === 0) {
+            list.innerHTML = `<div class="text-center text-slate-500 py-8">Nada para comprar ainda</div>`;
+        }
     }
 
-    // Inicialização da Aplicação
+    async function toggleShopping(id) {
+        const item = appData.compras.find(i => i.id === id);
+        if(item) {
+            const currentStatus = (item.done === true || item.done === "TRUE");
+            item.done = !currentStatus;
+            renderShopping();
+            await sendToCloud('toggleShopping', { id });
+        }
+    }
+
+    async function deleteShopping(id) {
+        appData.compras = appData.compras.filter(i => i.id !== id);
+        renderShopping();
+        await sendToCloud('deleteShopping', { id });
+    }
+
+    // ==========================================
+    // EQUIPE
+    // ==========================================
+    document.getElementById('form-equipe').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newMember = {
+            id: Date.now(),
+            name: document.getElementById('e-name').value,
+            role: document.getElementById('e-role').value,
+            phone: document.getElementById('e-phone').value,
+            status: document.getElementById('e-status').value,
+            responsibilities: document.getElementById('e-responsibilities').value
+        };
+        appData.equipe.push(newMember);
+        renderEquipe();
+        e.target.reset();
+        await sendToCloud('addTeamMember', newMember);
+    });
+
+    function renderEquipe() {
+        const container = document.getElementById('equipe-container');
+        container.innerHTML = '';
+        
+        appData.equipe.forEach(member => {
+            const statusColor = member.status === 'Confirmado' ? 'status-confirm' : member.status === 'Desistiu' ? 'status-refuse' : 'status-pending';
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800">${member.name}</h4>
+                            <p class="text-xs font-semibold text-indigo-600 mt-1">${member.role}</p>
+                        </div>
+                        <button onclick="deleteTeamMember(${member.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="text-xs text-slate-600 space-y-1 mb-3">
+                        <div>📱 ${member.phone || 'Sem contato'}</div>
+                        ${member.responsibilities ? `<div>📋 ${member.responsibilities}</div>` : ''}
+                    </div>
+                    <span class="status-badge ${statusColor}">${member.status}</span>
+                </div>
+            `;
+        });
+        
+        if (appData.equipe.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8 col-span-full">Nenhum membro da equipe adicionado ainda</div>`;
+        }
+    }
+
+    async function deleteTeamMember(id) {
+        appData.equipe = appData.equipe.filter(e => e.id !== id);
+        renderEquipe();
+        await sendToCloud('deleteTeamMember', { id });
+    }
+
+    // ==========================================
+    // FOTOS
+    // ==========================================
+    document.getElementById('form-foto').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newFoto = {
+            id: Date.now(),
+            description: document.getElementById('foto-desc').value,
+            type: document.getElementById('foto-type').value,
+            photographer: document.getElementById('foto-photographer').value,
+            url: document.getElementById('foto-url').value
+        };
+        appData.fotos.push(newFoto);
+        renderFotos();
+        e.target.reset();
+        await sendToCloud('addFoto', newFoto);
+    });
+
+    function renderFotos() {
+        const container = document.getElementById('fotos-container');
+        container.innerHTML = '';
+        
+        appData.fotos.forEach(foto => {
+            const icon = foto.type === 'Vídeo' ? 'video' : 'image';
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="${icon}" class="w-5 h-5 text-indigo-600 mt-1"></i>
+                            <div>
+                                <h4 class="font-semibold text-slate-800">${foto.description}</h4>
+                                <p class="text-xs text-slate-600">📸 ${foto.photographer || 'N/A'}</p>
+                            </div>
+                        </div>
+                        <button onclick="deleteFoto(${foto.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    ${foto.url ? `<a href="${foto.url}" target="_blank" class="text-xs text-indigo-600 hover:underline">Ver arquivo</a>` : ''}
+                </div>
+            `;
+        });
+        
+        if (appData.fotos.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8 col-span-full">Nenhuma foto registrada ainda</div>`;
+        }
+    }
+
+    async function deleteFoto(id) {
+        appData.fotos = appData.fotos.filter(f => f.id !== id);
+        renderFotos();
+        await sendToCloud('deleteFoto', { id });
+    }
+
+    // ==========================================
+    // FEEDBACK
+    // ==========================================
+    document.getElementById('form-feedback').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newFeedback = {
+            id: Date.now(),
+            from: document.getElementById('fb-from').value,
+            rating: document.getElementById('fb-rating').value,
+            best: document.getElementById('fb-best').value,
+            improve: document.getElementById('fb-improve').value,
+            comment: document.getElementById('fb-comment').value
+        };
+        appData.feedback.push(newFeedback);
+        renderFeedback();
+        e.target.reset();
+        await sendToCloud('addFeedback', newFeedback);
+    });
+
+    function renderFeedback() {
+        const container = document.getElementById('feedback-container');
+        container.innerHTML = '';
+        
+        appData.feedback.forEach(fb => {
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="font-bold text-slate-800">${fb.from}</h4>
+                            <p class="text-sm text-slate-600 mt-1">${fb.rating}</p>
+                        </div>
+                        <button onclick="deleteFeedback(${fb.id})" class="text-slate-300 hover:text-red-500">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="text-sm text-slate-700 space-y-2">
+                        ${fb.best ? `<div>✅ <strong>Melhor:</strong> ${fb.best}</div>` : ''}
+                        ${fb.improve ? `<div>💡 <strong>Melhorar:</strong> ${fb.improve}</div>` : ''}
+                        ${fb.comment ? `<div><strong>Comentário:</strong><br>${fb.comment}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+        
+        if (appData.feedback.length === 0) {
+            container.innerHTML = `<div class="text-center text-slate-500 py-8">Nenhum feedback registrado ainda</div>`;
+        }
+    }
+
+    async function deleteFeedback(id) {
+        appData.feedback = appData.feedback.filter(f => f.id !== id);
+        renderFeedback();
+        await sendToCloud('deleteFeedback', { id });
+    }
+
+    // ==========================================
+    // CONTINGÊNCIA
+    // ==========================================
+    function savePlan(type) {
+        const content = document.getElementById(`plan-${type}`).value;
+        if (!appData.contingencia) appData.contingencia = {};
+        appData.contingencia[type] = content;
+        sendToCloud('savePlan', { type, content });
+        alert('Plano salvo com sucesso!');
+    }
+
+    // ==========================================
+    // INICIALIZAÇÃO
+    // ==========================================
     window.onload = () => {
-        renderAll();
+        loadDataFromCloud();
+        lucide.createIcons();
     };
 </script>
 </body>
