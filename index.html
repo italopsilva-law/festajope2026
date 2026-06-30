@@ -3,142 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Plan v3: Festa 1 & 3 Anos - Pronto para Usar</title>
+    <title>Festa do João e Pedro</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
         .tab-content { display: none; animation: fadeIn 0.3s ease-in-out; }
         .tab-content.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-        
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        }
-
-        .task-done {
-            opacity: 0.5;
-            text-decoration: line-through;
-        }
-
-        .calc-result {
-            background: #eef2ff;
-            border-left: 4px solid #4f46e5;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .section-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin: 1rem 0 0.5rem 0;
-            font-weight: bold;
-        }
-
-        .area-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin: 0.25rem;
-        }
-
-        .area-baby { background: #fce7f3; color: #831843; }
-        .area-kids { background: #dbeafe; color: #1e3a8a; }
-        .area-both { background: #dcfce7; color: #166534; }
-
-        .priority-critical { background: #fee2e2; color: #991b1b; border-left: 4px solid #dc2626; }
-        .priority-high { background: #fef3c7; color: #b45309; border-left: 4px solid #f59e0b; }
-        .priority-normal { background: #f3f4f6; color: #374151; border-left: 4px solid #9ca3af; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .glass-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .mode-day .text-2xl { font-size: 2rem !important; } .mode-day button { padding: 1rem !important; font-size: 1.1rem !important; }
+        .alert-critical { background: #fee2e2; border-left: 4px solid #dc2626; color: #991b1b; }
+        .alert-warning { background: #fef3c7; border-left: 4px solid #f59e0b; color: #b45309; }
+        .inner-tabs button { padding: 0.5rem 1rem; border-bottom: 2px solid transparent; cursor: pointer; font-weight: 500; }
+        .inner-tabs button.active { border-bottom-color: #4f46e5; color: #4f46e5; }
     </style>
 </head>
-<body class="text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+<body class="text-slate-800 antialiased">
 
 <div class="flex h-screen overflow-hidden">
-    <!-- Sidebar Desktop -->
-    <aside class="w-72 bg-white border-r border-slate-200 flex flex-col hidden lg:flex transition-all duration-300 z-20 shadow-sm overflow-y-auto">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col hidden lg:flex z-20 overflow-y-auto">
         <div class="p-6 border-b border-slate-100 bg-slate-50/50 sticky top-0">
-            <h1 class="text-xl font-bold tracking-tight text-indigo-600 flex items-center gap-2">
-                <i data-lucide="party-popper" class="w-6 h-6"></i> Master Plan v3
-            </h1>
-            <p class="text-xs text-slate-500 mt-1 font-medium">Festa 1 & 3 Anos - Play RJ</p>
+            <h1 class="text-xl font-bold tracking-tight text-indigo-600">Festa do João e Pedro</h1>
+            <p class="text-xs text-slate-500 mt-1">1 ano + 3 anos</p>
+            <button onclick="toggleDayMode()" class="mt-3 w-full text-xs px-2 py-1 bg-orange-500 text-white rounded font-bold hover:bg-orange-600">
+                Modo Dia
+            </button>
         </div>
         <nav class="flex-1 px-4 py-6 space-y-1">
-            <div class="px-2 py-2">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Início</p>
-            </div>
-            <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg bg-indigo-50 text-indigo-700 transition-all font-medium text-sm" data-target="dashboard">
+            <div class="px-2 py-2"><p class="text-xs font-semibold text-slate-400 uppercase">Principal</p></div>
+            <button onclick="switchTab('dashboard')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg bg-indigo-50 text-indigo-700 font-medium text-sm" data-target="dashboard">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i> Dashboard
             </button>
-
-            <div class="px-2 py-3 mt-3">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Essencial</p>
-            </div>
-            <button onclick="switchTab('tarefas')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="tarefas">
-                <i data-lucide="check-square" class="w-5 h-5"></i> ✅ Tarefas (Checklist)
-            </button>
-            <button onclick="switchTab('convidados')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="convidados">
-                <i data-lucide="users" class="w-5 h-5"></i> Convidados & RSVP
-            </button>
-            <button onclick="switchTab('calculadoras')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm font-bold text-amber-600" data-target="calculadoras">
-                <i data-lucide="calculator" class="w-5 h-5"></i> 🧮 Calculadoras
-            </button>
-            <button onclick="switchTab('orcamento')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="orcamento">
-                <i data-lucide="wallet" class="w-5 h-5"></i> 💰 Orçamento Honesto
+            <button onclick="switchTab('tarefas')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="tarefas">
+                <i data-lucide="check-square" class="w-5 h-5"></i> Tarefas
             </button>
 
-            <div class="px-2 py-3 mt-3">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Atividades</p>
-            </div>
-            <button onclick="switchTab('areas')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="areas">
-                <i data-lucide="map-pin" class="w-5 h-5"></i> Áreas (Baby + Kids)
+            <div class="px-2 py-3 mt-3"><p class="text-xs font-semibold text-slate-400 uppercase">Planejamento</p></div>
+            <button onclick="switchTab('convidados')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="convidados">
+                <i data-lucide="users" class="w-5 h-5"></i> Convidados
             </button>
-            <button onclick="switchTab('cardapio')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="cardapio">
-                <i data-lucide="utensils" class="w-5 h-5"></i> Cardápio Automático
+            <button onclick="switchTab('calculadoras')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm font-bold text-blue-600" data-target="calculadoras">
+                <i data-lucide="calculator" class="w-5 h-5"></i> Calculadoras
             </button>
-            <button onclick="switchTab('timeline')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="timeline">
-                <i data-lucide="clock" class="w-5 h-5"></i> Timeline
+            <button onclick="switchTab('servicos')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="servicos">
+                <i data-lucide="briefcase" class="w-5 h-5"></i> Serviços
             </button>
 
-            <div class="px-2 py-3 mt-3">
-                <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest">Operacional</p>
-            </div>
-            <button onclick="switchTab('checkin')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="checkin">
-                <i data-lucide="clipboard-check" class="w-5 h-5"></i> Check-in (Dia)
+            <div class="px-2 py-3 mt-3"><p class="text-xs font-semibold text-slate-400 uppercase">Execução</p></div>
+            <button onclick="switchTab('equipe')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="equipe">
+                <i data-lucide="users-check" class="w-5 h-5"></i> Equipe
             </button>
-            <button onclick="switchTab('seguranca')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="seguranca">
-                <i data-lucide="shield-alert" class="w-5 h-5"></i> Segurança
+            <button onclick="switchTab('planoB')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="planoB">
+                <i data-lucide="shield-alert" class="w-5 h-5"></i> Plano B
             </button>
-            <button onclick="switchTab('fotos')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-all font-medium text-sm" data-target="fotos">
-                <i data-lucide="image" class="w-5 h-5"></i> Fotos & Imãs
+
+            <div class="px-2 py-3 mt-3"><p class="text-xs font-semibold text-slate-400 uppercase">Referência</p></div>
+            <button onclick="switchTab('guia')" class="nav-btn w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 font-medium text-sm" data-target="guia">
+                <i data-lucide="book-open" class="w-5 h-5"></i> Guia da Festa
             </button>
         </nav>
         <div class="p-4 border-t border-slate-100 bg-slate-50 text-xs text-slate-400 text-center">
-            Sincroniza automaticamente
+            Salvando automaticamente...
         </div>
     </aside>
 
-    <!-- Mobile Bottom Bar -->
-    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 z-50 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] overflow-x-auto pb-safe">
+    <!-- Mobile -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-around p-2 z-50 overflow-x-auto pb-safe">
         <button onclick="switchTab('dashboard')" class="nav-btn flex flex-col items-center p-2 text-indigo-600 whitespace-nowrap" data-target="dashboard">
             <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-            <span class="text-[10px] font-semibold">Geral</span>
-        </button>
-        <button onclick="switchTab('tarefas')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="tarefas">
-            <i data-lucide="check-square" class="w-5 h-5"></i>
-            <span class="text-[10px]">Tarefas</span>
+            <span class="text-[10px]">Geral</span>
         </button>
         <button onclick="switchTab('convidados')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="convidados">
             <i data-lucide="users" class="w-5 h-5"></i>
@@ -146,92 +83,92 @@
         </button>
         <button onclick="switchTab('calculadoras')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="calculadoras">
             <i data-lucide="calculator" class="w-5 h-5"></i>
-            <span class="text-[10px]">Calc.</span>
-        </button>
-        <button onclick="switchTab('orcamento')" class="nav-btn flex flex-col items-center p-2 text-slate-400 whitespace-nowrap" data-target="orcamento">
-            <i data-lucide="wallet" class="w-5 h-5"></i>
-            <span class="text-[10px]">Orçamento</span>
+            <span class="text-[10px]">Calc</span>
         </button>
     </div>
 
     <main class="flex-1 overflow-y-auto bg-slate-50/50 relative w-full">
-        
-        <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-40 flex justify-between items-center border-b border-slate-100">
-            <h1 class="text-lg font-bold text-indigo-600 flex items-center gap-2">
-                <i data-lucide="party-popper" class="w-5 h-5"></i> Master Plan v3
-            </h1>
+        <header class="lg:hidden bg-white shadow-sm p-4 sticky top-0 z-40 border-b border-slate-100 flex justify-between items-center">
+            <h1 class="text-lg font-bold text-indigo-600">Festa do João e Pedro</h1>
+            <button onclick="toggleDayMode()" class="text-xs px-2 py-1 bg-orange-500 text-white rounded font-bold">Modo Dia</button>
         </header>
-
-        <div id="loading-overlay" class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex flex-col items-center justify-center hidden">
-            <i data-lucide="loader-circle" class="w-10 h-10 text-indigo-600 animate-spin mb-4"></i>
-            <p class="text-slate-600 font-medium">Sincronizando com a nuvem...</p>
-        </div>
 
         <div class="p-4 lg:p-8 max-w-7xl mx-auto pb-32 lg:pb-8">
 
             <!-- ================= DASHBOARD ================= -->
             <div id="dashboard" class="tab-content active">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Visão Geral da Festa</h2>
-                    <p class="text-slate-500 mt-1">Festa Dupla: 1 ano + 3 anos no Play</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Dashboard</h2>
+                    <p class="text-slate-500 mt-1">Visão geral e alertas da festa.</p>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="text-slate-500 font-medium text-sm">Tarefas Completadas</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-tasks-done">0</span><span class="text-lg text-slate-400 font-normal">/<span id="dash-tasks-total">0</span></span></p>
-                        <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-indigo-500 h-2 rounded-full transition-all duration-500" id="dash-tasks-progress" style="width: 0%"></div>
-                        </div>
-                    </div>
+                <!-- ALERTAS CRÍTICOS -->
+                <div id="alerts-container" class="mb-8 space-y-3">
+                    <!-- Preenchido com JS -->
+                </div>
 
+                <!-- CARDS PRINCIPAIS -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-8">
                     <div class="glass-card rounded-2xl p-6">
-                        <h3 class="text-slate-500 font-medium text-sm">Convidados Confirmados</h3>
-                        <p class="text-3xl font-bold text-slate-800 mt-1"><span id="dash-guests-confirmed">0</span></p>
-                        <p class="text-xs text-slate-500 mt-2">Adultos: <span id="dash-adults">0</span> | Crianças: <span id="dash-kids">0</span></p>
+                        <h3 class="text-slate-500 font-medium text-sm">Total Convidados</h3>
+                        <p class="text-3xl font-bold text-slate-800 mt-1" id="dash-total">0</p>
                     </div>
-
                     <div class="glass-card rounded-2xl p-6">
-                        <h3 class="text-slate-500 font-medium text-sm">Orçamento Estimado</h3>
-                        <p class="text-2xl font-bold text-slate-800 mt-1" id="dash-budget">R$ 0</p>
-                        <div class="mt-4 w-full bg-slate-100 rounded-full h-2">
-                            <div class="bg-rose-500 h-2 rounded-full transition-all" id="dash-budget-bar" style="width: 45%"></div>
-                        </div>
-                        <p class="text-xs text-slate-500 mt-2">de R$ 12.000</p>
+                        <h3 class="text-slate-500 font-medium text-sm">Tarefas Concluídas</h3>
+                        <p class="text-2xl font-bold text-indigo-600 mt-1"><span id="dash-tasks-done">0</span>/<span id="dash-tasks-total">0</span></p>
+                        <div class="mt-3 w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-500 h-2 rounded-full" id="dash-tasks-bar" style="width:0%"></div></div>
                     </div>
-
                     <div class="glass-card rounded-2xl p-6">
-                        <h3 class="text-slate-500 font-medium text-sm">Status</h3>
-                        <p class="text-2xl font-bold text-indigo-600 mt-1">Organizando 🎉</p>
-                        <p class="text-xs text-slate-500 mt-2">Festa confirmada no play</p>
+                        <h3 class="text-slate-500 font-medium text-sm">Orçado vs Real</h3>
+                        <p class="text-xl font-bold text-slate-800 mt-1" id="dash-budget">R$ 0 | R$ 0</p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-slate-500 font-medium text-sm">Alérgenos</h3>
+                        <p class="text-2xl font-bold text-red-600 mt-1" id="dash-allergens">0</p>
+                        <p class="text-xs text-slate-500 mt-1">convidados</p>
                     </div>
                 </div>
 
+                <!-- GRÁFICOS -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4">Status RSVP</h3>
+                        <div style="height: 250px;">
+                            <canvas id="chart-rsvp"></canvas>
+                        </div>
+                    </div>
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="font-bold text-slate-800 mb-4">Orçamento</h3>
+                        <div style="height: 250px;">
+                            <canvas id="chart-budget"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROGRESSO DE TAREFAS -->
                 <div class="glass-card rounded-2xl p-6">
-                    <h3 class="font-bold text-slate-800 text-lg mb-4">⚠️ Próximas Ações Críticas</h3>
-                    <ul id="critical-tasks" class="space-y-2">
-                        <li class="text-sm text-slate-500 italic">Carregando tarefas...</li>
-                    </ul>
+                    <h3 class="font-bold text-slate-800 mb-4">Progresso por Fase</h3>
+                    <div id="tasks-progress" class="space-y-3">
+                        <!-- Preenchido com JS -->
+                    </div>
                 </div>
             </div>
 
-            <!-- ================= TAREFAS (CHECKLIST PRONTO) ================= -->
+            <!-- ================= TAREFAS ================= -->
             <div id="tarefas" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">✅ Checklist de Tarefas</h2>
-                    <p class="text-slate-500 mt-1">Tudo que precisa ser feito. Marque conforme avança.</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Tarefas</h2>
                 </div>
-
                 <div id="tasks-container" class="space-y-6">
-                    <!-- Será preenchido com JavaScript -->
+                    <!-- Preenchido com JS -->
                 </div>
             </div>
 
-            <!-- ================= CONVIDADOS ================= -->
+            <!-- ================= CONVIDADOS (INTEGRADO RSVP) ================= -->
             <div id="convidados" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">Convidados & RSVP</h2>
-                    <p class="text-slate-500 mt-1">Registro de quem vai, bebidas e alérgenos.</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Convidados & RSVP</h2>
+                    <p class="text-slate-500 mt-1">Adicione e confirme presença.</p>
                 </div>
 
                 <div class="glass-card rounded-2xl p-6 mb-6">
@@ -239,752 +176,237 @@
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-2">Nome</label>
-                                <input type="text" id="g-name" placeholder="Nome completo" class="w-full px-3 py-2 border border-slate-300 rounded-lg" required>
+                                <input type="text" id="g-name" placeholder="Nome" class="w-full px-3 py-2 border border-slate-300 rounded-lg" required>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Relação</label>
-                                <select id="g-relation" class="w-full px-3 py-2 border border-slate-300 rounded-lg" required>
-                                    <option>Família</option>
-                                    <option>Amigo(a)</option>
-                                    <option>Colega</option>
-                                </select>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Crianças</label>
+                                <input type="number" id="g-kids-count" value="0" min="0" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                             </div>
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Crianças com ele?</label>
-                                <select id="g-kids-count" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
-                                    <option value="0">Nenhuma</option>
-                                    <option value="1">1 criança</option>
-                                    <option value="2">2 crianças</option>
-                                    <option value="3">3+ crianças</option>
-                                </select>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-2">
+                                <input type="checkbox" id="g-alcohol" class="w-4 h-4">
+                                <label for="g-alcohol" class="text-sm font-medium text-slate-700">Bebe álcool</label>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Bebe álcool?</label>
-                                <select id="g-alcohol" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
-                                    <option value="nao">Não bebe</option>
-                                    <option value="chopp">Chopp/Cerveja</option>
-                                    <option value="vinho">Vinho/Espumante</option>
-                                    <option value="destilado">Destilado</option>
-                                    <option value="sim">Sim (qualquer)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">Status RSVP</label>
-                                <select id="g-rsvp" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
-                                    <option value="confirmado">✅ Confirmado</option>
-                                    <option value="pendente">⏳ Pendente</option>
-                                    <option value="recusado">❌ Recusado</option>
-                                </select>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">Alérgenos</label>
+                                <input type="text" id="g-allergies" placeholder="Se houver" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
                             </div>
                         </div>
-
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-2">Alérgenos/Restrições</label>
-                            <input type="text" id="g-allergies" placeholder="Ex: Amendoim, Glúten, Lactose" class="w-full px-3 py-2 border border-slate-300 rounded-lg">
-                        </div>
-
-                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-                            <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i> Adicionar Convidado
-                        </button>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg">Adicionar</button>
                     </form>
                 </div>
 
-                <div class="mb-6">
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div class="glass-card rounded-xl p-4">
-                            <h4 class="text-sm text-slate-600">Total de Convidados</h4>
-                            <p class="text-2xl font-bold text-slate-800 mt-1" id="total-guests">0</p>
+                <!-- RESUMO -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="glass-card rounded-xl p-4">
+                        <h4 class="text-sm text-slate-600">Total</h4>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="total-guests">0</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4">
+                        <h4 class="text-sm text-slate-600">Confirmados</h4>
+                        <p class="text-2xl font-bold text-emerald-600 mt-1" id="confirmed-count">0</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4">
+                        <h4 class="text-sm text-slate-600">Bebem Álcool</h4>
+                        <p class="text-2xl font-bold text-amber-600 mt-1" id="alcohol-count">0</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4">
+                        <h4 class="text-sm text-slate-600">Com Alérgenos</h4>
+                        <p class="text-2xl font-bold text-red-600 mt-1" id="allergy-count">0</p>
+                    </div>
+                </div>
+
+                <!-- ALÉRGENOS EM DESTAQUE -->
+                <div id="allergens-highlight" class="mb-6 glass-card rounded-2xl p-6 bg-red-50 border border-red-200">
+                    <h3 class="font-bold text-red-900 mb-3">Alérgenos Críticos (Confirmados)</h3>
+                    <div id="allergens-list" class="text-sm text-red-800 space-y-1">
+                        <p class="text-slate-500">Nenhum convidado confirmado com alérgenos</p>
+                    </div>
+                </div>
+
+                <!-- LISTA DE CONVIDADOS -->
+                <div id="guests-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Preenchido com JS -->
+                </div>
+            </div>
+
+            <!-- ================= CALCULADORAS (LADO A LADO) ================= -->
+            <div id="calculadoras" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800">Calculadoras</h2>
+                    <p class="text-slate-500 mt-1">Comparação: Planejamento (Todos) vs Execução (Confirmados)</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- PLANEJAMENTO -->
+                    <div>
+                        <h3 class="text-lg font-bold text-blue-700 mb-4 p-3 bg-blue-50 rounded">Planejamento (Todos os Convidados)</h3>
+                        <div class="space-y-4">
+                            <div class="glass-card rounded-xl p-4 bg-blue-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Comida</h4>
+                                <p id="calc-plan-food" class="text-sm text-slate-700">Calculando...</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-blue-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Bebidas (Não-Alcoólicas)</h4>
+                                <p id="calc-plan-soft" class="text-sm text-slate-700">Calculando...</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-blue-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Bebidas Alcoólicas</h4>
+                                <label class="text-sm mb-2 block">Horas de festa: <input type="number" id="calc-plan-hours" value="3" class="w-16 px-2 py-1 border border-slate-300 rounded" onchange="updateCalcs()"></label>
+                                <p id="calc-plan-alcohol" class="text-sm text-slate-700">Calculando...</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-blue-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Gelo</h4>
+                                <p id="calc-plan-ice" class="text-sm text-slate-700">Calculando...</p>
+                            </div>
                         </div>
-                        <div class="glass-card rounded-xl p-4">
-                            <h4 class="text-sm text-slate-600">Confirmados</h4>
-                            <p class="text-2xl font-bold text-emerald-600 mt-1" id="confirmed-guests">0</p>
-                        </div>
-                        <div class="glass-card rounded-xl p-4">
-                            <h4 class="text-sm text-slate-600">Bebem Álcool</h4>
-                            <p class="text-2xl font-bold text-amber-600 mt-1" id="alcohol-guests">0</p>
-                        </div>
-                        <div class="glass-card rounded-xl p-4">
-                            <h4 class="text-sm text-slate-600">Com Alérgenos</h4>
-                            <p class="text-2xl font-bold text-red-600 mt-1" id="allergy-guests">0</p>
+                    </div>
+
+                    <!-- EXECUÇÃO -->
+                    <div>
+                        <h3 class="text-lg font-bold text-green-700 mb-4 p-3 bg-green-50 rounded">Execução (Confirmados)</h3>
+                        <div class="space-y-4">
+                            <div class="glass-card rounded-xl p-4 bg-green-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Comida</h4>
+                                <p id="calc-exec-food" class="text-sm text-slate-700">Nenhum confirmado</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-green-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Bebidas (Não-Alcoólicas)</h4>
+                                <p id="calc-exec-soft" class="text-sm text-slate-700">Nenhum confirmado</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-green-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Bebidas Alcoólicas</h4>
+                                <label class="text-sm mb-2 block">Horas de festa: <input type="number" id="calc-exec-hours" value="3" class="w-16 px-2 py-1 border border-slate-300 rounded" onchange="updateCalcs()"></label>
+                                <p id="calc-exec-alcohol" class="text-sm text-slate-700">Nenhum confirmado</p>
+                            </div>
+                            <div class="glass-card rounded-xl p-4 bg-green-50">
+                                <h4 class="font-semibold text-slate-800 mb-2">Gelo</h4>
+                                <p id="calc-exec-ice" class="text-sm text-slate-700">Nenhum confirmado</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="guests-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="text-center text-slate-500 py-8 col-span-full">Nenhum convidado adicionado</div>
+                <!-- DIFERENÇAS -->
+                <div class="glass-card rounded-2xl p-6 bg-amber-50 border border-amber-200">
+                    <h3 class="font-bold text-amber-900 mb-4">Diferença (Planejamento - Execução)</h3>
+                    <div id="calc-diff" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
+                        <div><strong>Comida:</strong> <span id="diff-food">--</span></div>
+                        <div><strong>Bebidas:</strong> <span id="diff-soft">--</span></div>
+                        <div><strong>Álcool:</strong> <span id="diff-alcohol">--</span></div>
+                        <div><strong>Gelo:</strong> <span id="diff-ice">--</span></div>
+                    </div>
                 </div>
             </div>
 
-            <!-- ================= CALCULADORAS ================= -->
-            <div id="calculadoras" class="tab-content">
+            <!-- ================= SERVIÇOS ================= -->
+            <div id="servicos" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">🧮 Calculadoras de Consumo</h2>
-                    <p class="text-slate-500 mt-1">Quanto comprar de comida e bebida (cálculos automáticos)</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Serviços Contratados</h2>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 mb-6">
+                    <form id="form-servico" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="s-service" placeholder="Ex: Buffet, Bolo" class="px-3 py-2 border border-slate-300 rounded-lg" required>
+                            <input type="text" id="s-provider" placeholder="Fornecedor" class="px-3 py-2 border border-slate-300 rounded-lg" required>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <input type="number" id="s-budget" placeholder="Orçado" class="px-3 py-2 border border-slate-300 rounded-lg" step="0.01">
+                            <input type="number" id="s-real" placeholder="Real" class="px-3 py-2 border border-slate-300 rounded-lg" step="0.01">
+                            <select id="s-status" class="px-3 py-2 border border-slate-300 rounded-lg">
+                                <option>Orçado</option>
+                                <option>Contratado</option>
+                                <option>Pago</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg">Adicionar</button>
+                    </form>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <!-- COMIDA -->
                     <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">🍕 Comida</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-600 mb-1">Número de convidados confirmados</label>
-                                <input type="number" id="calc-guests-food" value="30" class="w-full px-3 py-2 border border-slate-300 rounded-lg" onchange="updateFoodCalc()">
-                            </div>
-                            <div class="text-xs text-slate-500 space-y-1">
-                                <p>📊 <strong>Cálculo padrão:</strong> 400-500g por pessoa (salgado + doce)</p>
-                            </div>
-                        </div>
-
-                        <div id="food-calc-result" class="calc-result">
-                            <div class="font-bold text-slate-800 mb-2">📋 Recomendação:</div>
-                            <div id="food-result-text" class="text-sm text-slate-700 space-y-1">
-                                <p>Atualize o número de convidados acima</p>
-                            </div>
-                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Total Orçado</h3>
+                        <p class="text-2xl font-bold text-slate-800 mt-1" id="total-budget">R$ 0</p>
                     </div>
-
-                    <!-- BEBIDAS NÃO-ALCOÓLICAS -->
                     <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">🥤 Bebidas (Não-alcoólicas)</h3>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-600 mb-1">Crianças + Adultos não-bebedores</label>
-                                <input type="number" id="calc-soft-drinkers" value="40" class="w-full px-3 py-2 border border-slate-300 rounded-lg" onchange="updateBeverageCalc()">
-                            </div>
-                            <div class="text-xs text-slate-500 space-y-1">
-                                <p>📊 <strong>Cálculo:</strong> 400ml por pessoa</p>
-                                <p>Divide em: Refrigerante comum, Zero, Suco e Matte</p>
-                            </div>
-                        </div>
-
-                        <div id="soft-calc-result" class="calc-result">
-                            <div class="font-bold text-slate-800 mb-2">📋 Recomendação:</div>
-                            <div id="soft-result-text" class="text-sm text-slate-700 space-y-1">
-                                <p>Atualize o número acima</p>
-                            </div>
-                        </div>
+                        <h3 class="text-slate-500 font-medium text-sm">Total Real</h3>
+                        <p class="text-2xl font-bold text-rose-600 mt-1" id="total-real">R$ 0</p>
                     </div>
                 </div>
 
-                <!-- BEBIDAS ALCOÓLICAS -->
+                <div id="servicos-container" class="space-y-3">
+                    <!-- Preenchido com JS -->
+                </div>
+            </div>
+
+            <!-- ================= EQUIPE ================= -->
+            <div id="equipe" class="tab-content">
+                <div class="mb-8">
+                    <h2 class="text-3xl font-bold text-slate-800">Equipe & Responsabilidades</h2>
+                    <p class="text-slate-500 mt-1">Quem faz o quê no dia da festa.</p>
+                </div>
+
                 <div class="glass-card rounded-2xl p-6 mb-6">
-                    <h3 class="font-bold text-slate-800 text-lg mb-4">🍺 Bebidas Alcoólicas (Chopp/Cerveja)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">Adultos que bebem</label>
-                            <input type="number" id="calc-alcohol-drinkers" value="20" class="w-full px-3 py-2 border border-slate-300 rounded-lg" onchange="updateAlcoholCalc()">
+                    <form id="form-equipe" class="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="text" id="e-name" placeholder="Nome" class="px-3 py-2 border border-slate-300 rounded-lg" required>
+                            <input type="text" id="e-role" placeholder="Papel (Ex: Coordenador, Buffet)" class="px-3 py-2 border border-slate-300 rounded-lg" required>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">Tempo da festa (horas)</label>
-                            <input type="number" id="calc-time" value="3" class="w-full px-3 py-2 border border-slate-300 rounded-lg" onchange="updateAlcoholCalc()">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <input type="tel" id="e-contact" placeholder="Telefone/WhatsApp" class="px-3 py-2 border border-slate-300 rounded-lg">
+                            <input type="time" id="e-arrival" placeholder="Horário chegada" class="px-3 py-2 border border-slate-300 rounded-lg">
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-600 mb-1">Tipo preferido</label>
-                            <select id="calc-alcohol-type" class="w-full px-3 py-2 border border-slate-300 rounded-lg" onchange="updateAlcoholCalc()">
-                                <option value="chopp">Chopp</option>
-                                <option value="cerveja">Cerveja</option>
-                                <option value="misto">Misto (50/50)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="text-xs text-slate-500 space-y-1 mb-4">
-                        <p>📊 <strong>Cálculo:</strong> 1-2 litros por pessoa (dependendo da duração)</p>
-                        <p>Considera que nem todo mundo bebe o tempo todo</p>
-                    </div>
-
-                    <div id="alcohol-calc-result" class="calc-result">
-                        <div class="font-bold text-slate-800 mb-2">📋 Recomendação:</div>
-                        <div id="alcohol-result-text" class="text-sm text-slate-700 space-y-1">
-                            <p>Atualize os valores acima</p>
-                        </div>
-                    </div>
+                        <textarea id="e-responsibilities" placeholder="Responsabilidades" class="w-full px-3 py-2 border border-slate-300 rounded-lg" rows="2"></textarea>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-lg">Adicionar Membro</button>
+                    </form>
                 </div>
 
-                <div class="glass-card rounded-2xl p-6 bg-blue-50 border border-blue-200">
-                    <h4 class="font-bold text-blue-900 mb-2">💡 Dica:</h4>
-                    <p class="text-sm text-blue-800">Sempre compre 10% a mais do que recomendado. É melhor sobrar do que faltar! Refrigerante/suco dura, chopp não.</p>
+                <div id="equipe-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Preenchido com JS -->
                 </div>
             </div>
 
-            <!-- ================= ORÇAMENTO HONESTO ================= -->
-            <div id="orcamento" class="tab-content">
+            <!-- ================= PLANO B ================= -->
+            <div id="planoB" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">💰 Orçamento Honesto (Mercado RJ 2026)</h2>
-                    <p class="text-slate-500 mt-1">Previsões realistas com preços atualizados. Para ~40-50 convidados.</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Plano B - Contingência</h2>
+                    <p class="text-slate-500 mt-1">Cenários de risco e procedimentos.</p>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">1️⃣ Locação do Play (Lugar)</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span>Play RJ (2-3 horas, sem buffet próprio)</span>
-                                <strong>R$ 1.500 - R$ 2.500</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">Inclui: espaço, brinquedos, banheiros, água, café</div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">2️⃣ Buffet/Catering</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Buffet completo (salgado + doce + acompanhamentos)</span>
-                                <strong>R$ 1.800 - R$ 2.500</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">• R$ 45-60 por pessoa<br>• Inclui garfo, prato, guardanapo<br>• NÃO inclui bebida (você fornece)</div>
-
-                            <div class="border-t pt-3 mt-3">
-                                <p class="font-semibold text-slate-700">✨ Alternativa Econômica:</p>
-                                <div class="flex justify-between mt-1">
-                                    <span>Buffet simples (menos itens)</span>
-                                    <strong>R$ 900 - R$ 1.200</strong>
-                                </div>
-                                <div class="text-xs text-slate-500">• R$ 25-30 por pessoa</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">3️⃣ Bolo</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Bolo personalizado (1 & 3 anos) - 40-50 fatias</span>
-                                <strong>R$ 350 - R$ 600</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">Confeitaria especializada, com tema</div>
-
-                            <div class="border-t pt-3 mt-3">
-                                <p class="font-semibold text-slate-700">✨ Alternativa:</p>
-                                <div class="flex justify-between mt-1">
-                                    <span>Bolo simples (padaria/supermercado)</span>
-                                    <strong>R$ 100 - R$ 200</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">4️⃣ Fotografia + Imãs</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Fotógrafo profissional (2-3 horas) + Imãs</span>
-                                <strong>R$ 800 - R$ 1.500</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">• Fotógrafo incluso<br>• 50-100 fotos digitais<br>• 40-50 imãs (lembrancinha com fotos dos convidados)<br>• Entrega em 3-7 dias</div>
-
-                            <div class="border-t pt-3 mt-3">
-                                <p class="font-semibold text-slate-700">✨ Alternativa DIY:</p>
-                                <div class="flex justify-between mt-1">
-                                    <span>Imãs + edição (online, fotos suas)</span>
-                                    <strong>R$ 200 - R$ 400</strong>
-                                </div>
-                                <div class="text-xs text-slate-500">Você tira as fotos, empresa faz o imã</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">5️⃣ Decoração</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Decorador profissional (tema customizado)</span>
-                                <strong>R$ 600 - R$ 1.200</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">Inclui: montagem, desmontagem, material</div>
-
-                            <div class="border-t pt-3 mt-3">
-                                <p class="font-semibold text-slate-700">✨ Alternativa DIY:</p>
-                                <div class="flex justify-between mt-1">
-                                    <span>Decoração feita por você (balões, fitas, flores)</span>
-                                    <strong>R$ 150 - R$ 300</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">6️⃣ Animador/Entretenimento</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Animador profissional (2-3 horas)</span>
-                                <strong>R$ 400 - R$ 800</strong>
-                            </div>
-                            <div class="text-xs text-slate-500">Atividades, jogos, supervisão para crianças</div>
-
-                            <div class="border-t pt-3 mt-3">
-                                <p class="font-semibold text-slate-700">✨ Alternativa:</p>
-                                <div class="flex justify-between mt-1">
-                                    <span>Play fornece atividades (sem animador extra)</span>
-                                    <strong>Incluído no play</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">7️⃣ Bebidas (Você Fornece)</h3>
-                        <div class="space-y-3 text-sm">
-                            <div class="flex justify-between">
-                                <span>Refrigerante (comum + zero) - 30L</span>
-                                <strong>R$ 120 - R$ 180</strong>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Suco natural/caixinha - 20L</span>
-                                <strong>R$ 80 - R$ 120</strong>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Água + Matte - 30L</span>
-                                <strong>R$ 60 - R$ 100</strong>
-                            </div>
-                            <div class="border-t pt-3 mt-3 flex justify-between">
-                                <strong>Chopp/Cerveja (se houver) - 50-100L</strong>
-                                <strong>R$ 200 - R$ 400</strong>
-                            </div>
-                            <div class="text-xs text-slate-500 mt-2">Total bebidas: R$ 460 - R$ 800</div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">8️⃣ Compras Variadas</h3>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span>Papel (pratos, copos, guardanapos), gelo, etc</span>
-                                <strong>R$ 200 - R$ 300</strong>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>Lembrancinhas (além dos imãs)</span>
-                                <strong>R$ 150 - R$ 300</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RESUMO FINAL -->
-                <div class="glass-card rounded-2xl p-6 mt-8 bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4">📊 RESUMO ORÇAMENTO TOTAL</h3>
-                    
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
-                            <span>Play</span>
-                            <strong>R$ 1.500 - 2.500</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Buffet</span>
-                            <strong>R$ 1.800 - 2.500</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Bolo</span>
-                            <strong>R$ 350 - 600</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Foto + Imãs ⭐</span>
-                            <strong>R$ 800 - 1.500</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Decoração</span>
-                            <strong>R$ 600 - 1.200</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Animador</span>
-                            <strong>R$ 400 - 800</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Bebidas</span>
-                            <strong>R$ 460 - 800</strong>
-                        </div>
-                        <div class="flex justify-between text-sm">
-                            <span>Outros</span>
-                            <strong>R$ 350 - 600</strong>
-                        </div>
-
-                        <div class="border-t pt-3 mt-3 flex justify-between font-bold text-lg">
-                            <span>TOTAL ESTIMADO</span>
-                            <span class="text-indigo-600">R$ 6.260 - 10.900</span>
-                        </div>
-                        <div class="text-xs text-slate-600 mt-2">💡 Com sua categoria de R$ 12.000, você tem margem de R$ 1-6 mil para extras ou contingências</div>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-2xl p-6 mt-6 bg-amber-50 border border-amber-200">
-                    <h4 class="font-bold text-amber-900 mb-2">⚠️ Dicas de Negociação:</h4>
-                    <ul class="text-sm text-amber-800 space-y-1">
-                        <li>✓ Buffet: Tente negociar. Muitas vezes abaixam 10-15% se você pagar adiantado</li>
-                        <li>✓ Fotógrafo: Ofereça menos horas (1.5h ao invés de 2-3h) para economizar</li>
-                        <li>✓ Decoração: Use decorador do próprio play (geralmente mais barato)</li>
-                        <li>✓ Bebidas: Compre em place atacadista ou supermercado, não no play</li>
-                        <li>✓ Play: Pergunte sobre pacotes (lugar + animador + café) às vezes tem desconto</li>
-                    </ul>
+                <div id="planoB-container" class="space-y-6">
+                    <!-- Preenchido com JS -->
                 </div>
             </div>
 
-            <!-- ================= ÁREAS (BABY + KIDS) ================= -->
-            <div id="areas" class="tab-content">
+            <!-- ================= GUIA DA FESTA ================= -->
+            <div id="guia" class="tab-content">
                 <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">🎯 Áreas da Festa: Baby (1 ano) vs Kids (3 anos)</h2>
-                    <p class="text-slate-500 mt-1">Espaços e atividades separadas para cada faixa etária.</p>
+                    <h2 class="text-3xl font-bold text-slate-800">Guia da Festa</h2>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <!-- ÁREA BABY -->
-                    <div class="glass-card rounded-2xl p-6 border-l-4 border-pink-500">
-                        <h3 class="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
-                            <span class="area-badge area-baby">👶 BABY (1 ano)</span>
-                        </h3>
-
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">📍 Localização Recomendada</h4>
-                                <p class="text-sm text-slate-600">Canto tranquilo do play, afastado do pula-pula, com piso macio e colchonetes.</p>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">👥 Supervisão</h4>
-                                <p class="text-sm text-slate-600"><strong>CRÍTICO:</strong> 1 adulto dedicado APENAS para a criança de 1 ano + 1 responsável backup.</p>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">🎮 Atividades (15-20 min cada)</h4>
-                                <ul class="text-sm text-slate-600 space-y-1">
-                                    <li>✓ Piscina de bolinhas moles (30 min)</li>
-                                    <li>✓ Brinquedos sensoriais (chocalhos, maracás)</li>
-                                    <li>✓ Músicas infantis (sentar e ouvir)</li>
-                                    <li>✓ Área de engatinhar com colchonetes</li>
-                                    <li>✓ Blocos macios para empilhar</li>
-                                    <li>✓ Bolinha de borracha para brincar</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">🍽️ Alimentação</h4>
-                                <ul class="text-sm text-slate-600 space-y-1">
-                                    <li>✓ Fruta cortada fino (maçã ralada, banana amassada)</li>
-                                    <li>✓ Pão macio em cubinhos</li>
-                                    <li>✓ Iogurte sem açúcar</li>
-                                    <li>✓ Cereal infantil</li>
-                                    <li>✓ Água morna (copinho)</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">⚠️ Não Fazer</h4>
-                                <ul class="text-sm text-red-600 space-y-1">
-                                    <li>❌ Deixar sem supervisão</li>
-                                    <li>❌ Pula-pula ou circuito</li>
-                                    <li>❌ Alimentos pequenos/redondos</li>
-                                    <li>❌ Mel (botulismo!)</li>
-                                    <li>❌ Atividades barulhentas demais</li>
-                                </ul>
-                            </div>
-
-                            <div class="bg-pink-50 p-3 rounded-lg">
-                                <p class="text-sm font-semibold text-pink-900">💡 Dica:</p>
-                                <p class="text-xs text-pink-800 mt-1">Se criança de 1 ano tiver horário de dormir, oferça espaço tranquilo (sala separada com colchão).</p>
-                            </div>
-                        </div>
+                <!-- ABAS INTERNAS -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="inner-tabs flex gap-4 mb-6 border-b border-slate-200">
+                        <button onclick="switchInnerTab('timeline')" class="active text-indigo-600 border-b-2 border-indigo-600 px-4 py-2 font-semibold">Timeline</button>
+                        <button onclick="switchInnerTab('cardapio')" class="text-slate-600 px-4 py-2 font-semibold">Cardápio</button>
+                        <button onclick="switchInnerTab('areas')" class="text-slate-600 px-4 py-2 font-semibold">Áreas</button>
                     </div>
 
-                    <!-- ÁREA KIDS -->
-                    <div class="glass-card rounded-2xl p-6 border-l-4 border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800 mb-4 flex items-center gap-2">
-                            <span class="area-badge area-kids">👧 KIDS (3 anos)</span>
-                        </h3>
-
-                        <div class="space-y-4">
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">📍 Localização Recomendada</h4>
-                                <p class="text-sm text-slate-600">Área central do play, com pula-pula, escorregador, obstáculos. Espaço para correr livre.</p>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">👥 Supervisão</h4>
-                                <p class="text-sm text-slate-600"><strong>IMPORTANTE:</strong> 2 adultos (1 coordenando, 1 evitando acidentes). Atenção para evitar brigas/choro.</p>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">🎮 Atividades (20-30 min cada)</h4>
-                                <ul class="text-sm text-slate-600 space-y-1">
-                                    <li>✓ Pula-pula livre (30 min)</li>
-                                    <li>✓ Circuito de obstáculos (almofadas, túnel)</li>
-                                    <li>✓ Escorregador</li>
-                                    <li>✓ Caça ao tesouro (procurar brinquedos escondidos)</li>
-                                    <li>✓ Danças e músicas em grupo</li>
-                                    <li>✓ Jogos simples (passa a bola, pega-pega)</li>
-                                    <li>✓ Brincadeiras livres com outros kids</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">🍽️ Alimentação</h4>
-                                <ul class="text-sm text-slate-600 space-y-1">
-                                    <li>✓ Macarrão com molho</li>
-                                    <li>✓ Frango desfiado</li>
-                                    <li>✓ Melancia picada (SEM sementes)</li>
-                                    <li>✓ Biscoito doce</li>
-                                    <li>✓ Suco ou refrigerante</li>
-                                </ul>
-                            </div>
-
-                            <div>
-                                <h4 class="font-semibold text-slate-700 mb-2">⚠️ Não Fazer</h4>
-                                <ul class="text-sm text-red-600 space-y-1">
-                                    <li>❌ Deixar sem supervisão</li>
-                                    <li>❌ Atividades muito competitivas (gera choro)</li>
-                                    <li>❌ Regras muito complexas</li>
-                                    <li>❌ Amendoim inteiro/castanha</li>
-                                    <li>❌ Deixar muito tempo esperando/em fila</li>
-                                </ul>
-                            </div>
-
-                            <div class="bg-blue-50 p-3 rounded-lg">
-                                <p class="text-sm font-semibold text-blue-900">💡 Dica:</p>
-                                <p class="text-xs text-blue-800 mt-1">Criança de 3 anos pode ficar com ciúme do irmão/irmã. Tenha adulto dedicado para brincar com ela também.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TIMELINE POR IDADE -->
-                <div class="glass-card rounded-2xl p-6 mt-8">
-                    <h3 class="font-bold text-slate-800 text-lg mb-4">📅 Timeline Sugerida (Como Funciona o Fluxo)</h3>
-                    
-                    <div class="space-y-4">
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">14:30 - Chegada e Recepção</div>
-                            <p class="text-sm text-slate-600 mt-1">Baby e Kids em espaço comum, fotos de chegada. Adaptação gradual.</p>
-                        </div>
-
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">15:00 - Atividades Separadas</div>
-                            <p class="text-sm text-slate-600 mt-1"><strong>Baby:</strong> Piscina de bolinhas | <strong>Kids:</strong> Começa pula-pula</p>
-                        </div>
-
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">15:30 - Atividades Dinâmicas</div>
-                            <p class="text-sm text-slate-600 mt-1"><strong>Baby:</strong> Brinquedos sensoriais | <strong>Kids:</strong> Circuito de obstáculos</p>
-                        </div>
-
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">16:00 - Lanche/Hidratação</div>
-                            <p class="text-sm text-slate-600 mt-1">Todos comem em paralelo (cada um seu tipo de comida). ⚠️ ATENÇÃO AOS ALÉRGENOS!</p>
-                        </div>
-
-                        <div class="border-l-4 border-green-500 pl-4">
-                            <div class="font-semibold text-slate-800">16:30 - 🎂 HORA DO BOLO (Momento Especial!)</div>
-                            <p class="text-sm text-slate-600 mt-1">Todos juntos. Parabéns. Baby com ajuda para soprar. Kids sozinho. Fotos!</p>
-                        </div>
-
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">17:00 - Brincadeiras Finais</div>
-                            <p class="text-sm text-slate-600 mt-1">Pula-pula final, brinquedos livres. Momento mais relaxado.</p>
-                        </div>
-
-                        <div class="border-l-4 border-indigo-500 pl-4">
-                            <div class="font-semibold text-slate-800">17:30 - Despedida</div>
-                            <p class="text-sm text-slate-600 mt-1">Foto de saída. Agradecimento. Lembrancinhas (imãs!).</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= CARDÁPIO AUTOMÁTICO ================= -->
-            <div id="cardapio" class="tab-content">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">🍽️ Cardápio Automático</h2>
-                    <p class="text-slate-500 mt-1">Baseado no número de convidados confirmados (atualiza automaticamente).</p>
-                </div>
-
-                <div id="cardapio-container" class="space-y-6">
-                    <!-- Será preenchido com JS -->
-                </div>
-            </div>
-
-            <!-- ================= TIMELINE ================= -->
-            <div id="timeline" class="tab-content">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">⏱️ Timeline da Festa</h2>
-                    <p class="text-slate-500 mt-1">Cronograma minuto a minuto.</p>
-                </div>
-
-                <div id="timeline-container" class="space-y-3">
-                    <!-- Será preenchido com JS -->
-                </div>
-            </div>
-
-            <!-- ================= CHECK-IN ================= -->
-            <div id="checkin" class="tab-content">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">✅ Check-in (Dia da Festa)</h2>
-                    <p class="text-slate-500 mt-1">Marque quem chegou em tempo real.</p>
-                </div>
-
-                <div id="checkin-container" class="glass-card rounded-2xl p-6">
-                    <div class="grid grid-cols-3 gap-4 mb-6">
-                        <div>
-                            <h4 class="text-sm text-slate-600">Chegaram</h4>
-                            <p class="text-3xl font-bold text-emerald-600" id="checkin-arrived">0</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm text-slate-600">Esperando</h4>
-                            <p class="text-3xl font-bold text-amber-600" id="checkin-waiting">0</p>
-                        </div>
-                        <div>
-                            <h4 class="text-sm text-slate-600">% Presença</h4>
-                            <p class="text-3xl font-bold text-indigo-600" id="checkin-percent">0%</p>
-                        </div>
+                    <!-- Timeline -->
+                    <div id="content-timeline" class="space-y-3">
+                        <!-- Preenchido com JS -->
                     </div>
 
-                    <div id="checkin-list" class="space-y-2">
-                        <p class="text-slate-500 text-center py-8">Nenhum convidado confirmado ainda</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= SEGURANÇA ================= -->
-            <div id="seguranca" class="tab-content">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">🚨 Segurança & Emergência</h2>
-                    <p class="text-slate-500 mt-1">Protocolos críticos para a festa.</p>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="glass-card rounded-2xl p-6 bg-red-50 border border-red-200">
-                        <h3 class="font-bold text-red-900 text-lg mb-4">📞 Contatos de Emergência</h3>
-                        <div class="space-y-3 text-sm">
-                            <div><strong>SAMU:</strong> 192</div>
-                            <div><strong>Bombeiros:</strong> 193</div>
-                            <div><strong>Polícia:</strong> 190</div>
-                            <div id="emergency-contacts">
-                                <input type="tel" id="emergency-play" placeholder="Contato do Play" class="w-full px-3 py-2 border border-slate-300 rounded mt-2">
-                                <input type="tel" id="emergency-hospital" placeholder="Hospital mais próximo" class="w-full px-3 py-2 border border-slate-300 rounded mt-2">
-                            </div>
-                        </div>
+                    <!-- Cardápio -->
+                    <div id="content-cardapio" class="space-y-4" style="display: none;">
+                        <!-- Preenchido com JS -->
                     </div>
 
-                    <div class="glass-card rounded-2xl p-6 bg-amber-50 border border-amber-200">
-                        <h3 class="font-bold text-amber-900 text-lg mb-4">⚠️ Protocolos Críticos</h3>
-                        <ul class="space-y-2 text-sm text-amber-900">
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-allergen" class="w-4 h-4">
-                                <label for="check-allergen"><strong>Lista de alérgenos VISÍVEL</strong> para toda equipe e buffet</label>
-                            </li>
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-areas" class="w-4 h-4">
-                                <label for="check-areas"><strong>Áreas separadas</strong> (Baby longe de pula-pula)</label>
-                            </li>
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-supervision" class="w-4 h-4">
-                                <label for="check-supervision"><strong>1 adult por criança pequena</strong> durante atividades</label>
-                            </li>
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-emergency" class="w-4 h-4">
-                                <label for="check-emergency"><strong>Kit de emergência</strong> dentro do play (fácil acesso)</label>
-                            </li>
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-contacts" class="w-4 h-4">
-                                <label for="check-contacts"><strong>Lista de contatos dos pais</strong> com responsável designado</label>
-                            </li>
-                            <li class="flex gap-2">
-                                <input type="checkbox" id="check-briefing" class="w-4 h-4">
-                                <label for="check-briefing"><strong>Briefing com equipe</strong> sobre alérgenos e procedimentos</label>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">🧳 Kit de Emergência (Trazer)</h3>
-                        <ul class="space-y-2 text-sm text-slate-700">
-                            <li>✓ Termômetro</li>
-                            <li>✓ Dipirona/Paracetamol (infantil)</li>
-                            <li>✓ Anti-histamínico</li>
-                            <li>✓ Pomada antialérgica</li>
-                            <li>✓ Atadura, gaze, álcool 70%</li>
-                            <li>✓ Tesoura sem ponta</li>
-                            <li>✓ Fraldas extras + roupas de reserva</li>
-                            <li>✓ Lenços umedecidos</li>
-                            <li>✓ Cópia do RG das crianças</li>
-                            <li>✓ Anotação de alérgenos (impressa, grande!)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ================= FOTOS & IMÃS ================= -->
-            <div id="fotos" class="tab-content">
-                <div class="mb-8">
-                    <h2 class="text-3xl font-bold text-slate-800 tracking-tight">📸 Fotos & Imãs (Lembrancinhas)</h2>
-                    <p class="text-slate-500 mt-1">Como planejar a sessão de fotos + imãs para convidados.</p>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="glass-card rounded-2xl p-6 bg-blue-50 border border-blue-200">
-                        <h3 class="font-bold text-blue-900 text-lg mb-4">📷 Serviço de Fotografia + Imãs</h3>
-                        <div class="space-y-3 text-sm text-blue-900">
-                            <div class="font-semibold">O que procurar (preço RJ 2026):</div>
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Fotógrafo profissional (2-3 horas): R$ 800-1.500</li>
-                                <li>Imãs impressos com fotos dos convidados: R$ 400-600 (para 40-50 imãs)</li>
-                                <li>Ou serviço integrado (foto + edição + imã): R$ 1.200-1.800</li>
-                            </ul>
-                            <div class="border-t pt-3 mt-3">
-                                <strong>Benefício:</strong> Cada convidado leva um imã com foto dele na festa (lembrancinha personalizada!)
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6">
-                        <h3 class="font-bold text-slate-800 text-lg mb-4">📸 Momentos ESSENCIAIS para Fotos</h3>
-                        <ul class="space-y-2 text-sm text-slate-700">
-                            <li class="flex gap-2">
-                                <span class="font-bold">1.</span>
-                                <span>Foto de chegada de cada convidado (entrada)</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">2.</span>
-                                <span>Foto oficial do aniversariante (1 ano) com padrinho/madrinha</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">3.</span>
-                                <span>Foto oficial do aniversariante (3 anos) com padrinho/madrinha</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">4.</span>
-                                <span>Foto em grupo (todos os convidados, todos os kids, todos os adults)</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">5.</span>
-                                <span>🎂 <strong>Hora do Bolo:</strong> Sopro de vela (CRÍTICO!)</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">6.</span>
-                                <span>Crianças brincando (atividades, pula-pula)</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">7.</span>
-                                <span>Momentos especiais (abraços, risos, lágrimas felizes)</span>
-                            </li>
-                            <li class="flex gap-2">
-                                <span class="font-bold">8.</span>
-                                <span>Foto de despedida (saída)</span>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="glass-card rounded-2xl p-6 bg-green-50 border border-green-200">
-                        <h3 class="font-bold text-green-900 text-lg mb-4">💡 Alternativa DIY (Se for econômico)</h3>
-                        <div class="space-y-2 text-sm text-green-900">
-                            <p><strong>Você tira as fotos (celular/câmera boa) + Terceiriza apenas o imã:</strong></p>
-                            <ul class="list-disc pl-5 space-y-1">
-                                <li>Empresas online fazem imãs com foto sua: R$ 200-400 para 40-50 imãs</li>
-                                <li>Prazo: 3-7 dias</li>
-                                <li>Você economiza o fotógrafo profissional mas precisa tirar boas fotos</li>
-                            </ul>
-                        </div>
+                    <!-- Áreas -->
+                    <div id="content-areas" class="grid grid-cols-1 lg:grid-cols-2 gap-6" style="display: none;">
+                        <!-- Preenchido com JS -->
                     </div>
                 </div>
             </div>
@@ -993,124 +415,155 @@
     </main>
 </div>
 
+<!-- MODO DIA DA FESTA -->
+<div id="day-mode" class="mode-day fixed inset-0 bg-white z-50 hidden overflow-y-auto flex flex-col">
+    <div class="bg-orange-500 text-white p-6 sticky top-0 z-40">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-3xl font-bold">FESTA COMEÇOU!</h1>
+                <p class="text-xl mt-2">Próximo: <span id="day-next-event" class="font-bold">Recepção</span> às <span id="day-next-time" class="font-bold">14:30</span></p>
+            </div>
+            <button onclick="toggleDayMode()" class="text-xl px-6 py-3 bg-white text-orange-500 font-bold rounded">Sair</button>
+        </div>
+        <div class="text-lg mt-4">Hora atual: <span id="day-current-time">14:15</span></div>
+    </div>
+
+    <div class="flex-1 p-4">
+        <!-- CHECK-IN RÁPIDO -->
+        <div class="glass-card rounded-2xl p-6 mb-6 text-center">
+            <h2 class="text-2xl font-bold text-slate-800 mb-4">Check-in</h2>
+            <div class="text-3xl font-bold text-emerald-600 mb-4" id="day-checkin-count">0</div>
+            <div id="day-quick-checkin" class="space-y-2">
+                <!-- Preenchido com JS -->
+            </div>
+        </div>
+
+        <!-- ALERTAS CRÍTICOS -->
+        <div id="day-alerts" class="mb-6 space-y-2">
+            <!-- Preenchido com JS -->
+        </div>
+
+        <!-- TIMELINE COM ATUALIZAÇÕES -->
+        <div id="day-timeline" class="space-y-3">
+            <!-- Preenchido com JS -->
+        </div>
+    </div>
+</div>
+
 <script>
     const API_URL = 'https://script.google.com/macros/s/AKfycbylRxMoiMzk9mfDjnUuyuNRxBlN54wExQSG3hc5jAhT0nUvsQAh-lSvQe8G5JLACnnuDg/exec';
     
     let appData = {
         guests: [],
+        services: [],
         tasks: [],
-        timeline: [],
-        cardapio: [],
-        checkin: []
+        equipe: [],
+        checkin: [],
+        charts: {}
     };
 
     // PRÉ-PREENCHIMENTO DE TAREFAS
     const PRE_FILLED_TASKS = [
-        // ANTES DA FESTA (1 MÊS)
-        { id: 1, text: "Confirmar data e horário no play", phase: "1-mes", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 2, text: "Enviar convites (papel/WhatsApp/email)", phase: "1-mes", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 3, text: "Definir tema e cores da festa", phase: "1-mes", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 4, text: "Pesquisar e contatar 3 buffets (orçamento)", phase: "1-mes", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 5, text: "Pesquisar e contatar fotógrafo (com imã)", phase: "1-mes", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 6, text: "Pesquisar confeiteiro/bolo", phase: "1-mes", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 7, text: "Verificar se precisa de decorador ou faz DIY", phase: "1-mes", priority: "normal", responsible: "Você", done: false, area: "both" },
-        { id: 8, text: "Abrir formulário RSVP (deadline: 2 semanas antes)", phase: "1-mes", priority: "high", responsible: "Você", done: false, area: "both" },
-
-        // 2-3 SEMANAS ANTES
-        { id: 9, text: "Confirmar com convidados que não responderam RSVP", phase: "2-3-sem", priority: "high", responsible: "Você/Esposa", done: false, area: "both" },
-        { id: 10, text: "FECHAR CONTRATO com buffet", phase: "2-3-sem", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 11, text: "FECHAR CONTRATO com fotógrafo + imãs", phase: "2-3-sem", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 12, text: "ENCOMENDA BOLO (confirmar data/tema)", phase: "2-3-sem", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 13, text: "Contatar play sobre atividades/decoração (se usar serviço deles)", phase: "2-3-sem", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 14, text: "Fazer lista de alérgenos consolidada", phase: "2-3-sem", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 15, text: "Definir equipe (quem faz o quê na festa)", phase: "2-3-sem", priority: "high", responsible: "Você", done: false, area: "both" },
-
-        // 1 SEMANA ANTES
-        { id: 16, text: "Comprar papel (pratos, copos, guardanapos)", phase: "1-sem", priority: "high", responsible: "Você/Esposa", done: false, area: "both" },
-        { id: 17, text: "Comprar bebidas (refrigerante, suco, água, matte)", phase: "1-sem", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 18, text: "Revisar alérgenos com TODO convidado confirmado", phase: "1-sem", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 19, text: "Fazer briefing com equipe (alérgenos, áreas baby/kids, horários)", phase: "1-sem", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 20, text: "Montar kit de emergência (termômetro, medicamentos, etc)", phase: "1-sem", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 21, text: "Se houver álcool: comprar chopp/cerveja/vinho", phase: "1-sem", priority: "normal", responsible: "Você", done: false, area: "both" },
-        { id: 22, text: "Preparar roupas das crianças para o dia", phase: "1-sem", priority: "normal", responsible: "Esposa", done: false, area: "both" },
-        { id: 22.5, text: "❄️ Comprar gelo (conforme calculadora) OU revisar capacidade do freezer", phase: "1-sem", priority: "high", responsible: "Você", done: false, area: "both" },
-
-        // DIA ANTERIOR
-        { id: 23, text: "🎂 Preparar duas mesas de bolo (PEDRO 1 ano & JOÃO 3 anos com topos/velas)", phase: "dia-anterior", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 23.5, text: "Colocar bebidas NO FREEZER (2-3 horas = bem geladas)", phase: "dia-anterior", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 24, text: "Reconfirmar com buffet (horário de chegada/setup)", phase: "dia-anterior", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 25, text: "Reconfirmar com fotógrafo (horário de chegada)", phase: "dia-anterior", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 26, text: "Verificar previsão do tempo (ativar plano B se chuva)", phase: "dia-anterior", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 27, text: "Fazer lista de alérgenos em GRANDE (imprimir 3 cópias)", phase: "dia-anterior", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 28, text: "Carregar celular e câmera", phase: "dia-anterior", priority: "normal", responsible: "Você/Esposa", done: false, area: "both" },
-        { id: 29, text: "Descansar bem (importante!!!)", phase: "dia-anterior", priority: "high", responsible: "Ambos", done: false, area: "both" },
-
-        // DIA DA FESTA
-        { id: 30, text: "Chegar 30 min antes (verificar espaço, testar som)", phase: "dia-festa", priority: "critical", responsible: "Você", done: false, area: "both" },
-        { id: 31, text: "Colocar lista de ALÉRGENOS visível no buffet", phase: "dia-festa", priority: "critical", responsible: "Esposa", done: false, area: "both" },
-        { id: 32, text: "Recepção: check-in dos convidados (foto de chegada)", phase: "dia-festa", priority: "high", responsible: "Equipe", done: false, area: "both" },
-        { id: 33, text: "Supervisão Baby: 1 adult dedicado na área", phase: "dia-festa", priority: "critical", responsible: "Designado", done: false, area: "baby" },
-        { id: 34, text: "Supervisão Kids: 2 adults na área de pula-pula", phase: "dia-festa", priority: "critical", responsible: "Designados", done: false, area: "kids" },
-        { id: 35, text: "Seguir timeline (atividades, lanches, bolo)", phase: "dia-festa", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 36, text: "🎂 HORA DO BOLO PEDRO (1 ano): Fotos com sopro de vela com ajuda", phase: "dia-festa", priority: "high", responsible: "Fotógrafo", done: false, area: "baby" },
-        { id: 37, text: "🎂 HORA DO BOLO JOÃO (3 anos): Fotos com sopro de vela sozinho", phase: "dia-festa", priority: "high", responsible: "Fotógrafo", done: false, area: "kids" },
-        { id: 38, text: "Limpeza básica do espaço", phase: "dia-festa", priority: "normal", responsible: "Equipe", done: false, area: "both" },
-        { id: 39, text: "Despedida: agradecimentos + entrega de imãs", phase: "dia-festa", priority: "normal", responsible: "Você/Esposa", done: false, area: "both" },
-
-        // DEPOIS DA FESTA
-        { id: 40, text: "Agradecer fotógrafo (pedir fotos digitalizadas)", phase: "depois", priority: "high", responsible: "Esposa", done: false, area: "both" },
-        { id: 41, text: "Organizar fotos (criar álbum/video)", phase: "depois", priority: "normal", responsible: "Você", done: false, area: "both" },
-        { id: 42, text: "Enviar fotos para convidados", phase: "depois", priority: "normal", responsible: "Você", done: false, area: "both" },
-        { id: 43, text: "Pagar contas pendentes (fornecedores)", phase: "depois", priority: "high", responsible: "Você", done: false, area: "both" },
-        { id: 44, text: "Receber imãs de volta (verificar qualidade)", phase: "depois", priority: "normal", responsible: "Esposa", done: false, area: "both" },
+        { id: 1, text: "Confirmar data e horário no play", phase: "meses-antes", done: false },
+        { id: 2, text: "Enviar convites", phase: "meses-antes", done: false },
+        { id: 3, text: "Definir tema e cores", phase: "meses-antes", done: false },
+        { id: 4, text: "Pesquisar buffets (3 orçamentos)", phase: "meses-antes", done: false },
+        { id: 5, text: "Pesquisar fotógrafo com imã", phase: "meses-antes", done: false },
+        { id: 6, text: "Pesquisar confeiteiro", phase: "meses-antes", done: false },
+        { id: 7, text: "Confirmar RSVP com pendentes", phase: "mes-antes", done: false },
+        { id: 8, text: "Fechar contrato buffet", phase: "mes-antes", done: false },
+        { id: 9, text: "Fechar contrato fotógrafo", phase: "mes-antes", done: false },
+        { id: 10, text: "Encomenda bolo", phase: "mes-antes", done: false },
+        { id: 11, text: "Fazer lista de alérgenos", phase: "mes-antes", done: false },
+        { id: 12, text: "Definir equipe", phase: "mes-antes", done: false },
+        { id: 13, text: "Comprar papel (pratos, copos)", phase: "1-sem", done: false },
+        { id: 14, text: "Comprar bebidas", phase: "1-sem", done: false },
+        { id: 15, text: "Revisar alérgenos com convidados", phase: "1-sem", done: false },
+        { id: 16, text: "Briefing com equipe", phase: "1-sem", done: false },
+        { id: 17, text: "Montar kit emergência", phase: "1-sem", done: false },
+        { id: 18, text: "Comprar gelo", phase: "1-sem", done: false },
+        { id: 19, text: "Preparar mesas de bolo (Pedro & João)", phase: "dia-anterior", done: false },
+        { id: 20, text: "Colocar bebidas no freezer", phase: "dia-anterior", done: false },
+        { id: 21, text: "Verificar previsão tempo", phase: "dia-anterior", done: false },
+        { id: 22, text: "Imprimir lista alérgenos (3 cópias)", phase: "dia-anterior", done: false },
+        { id: 23, text: "Carregar celular e câmera", phase: "dia-anterior", done: false },
+        { id: 24, text: "Descansar bem", phase: "dia-anterior", done: false },
+        { id: 25, text: "Chegar 30 min antes", phase: "dia-festa", done: false },
+        { id: 26, text: "Colocar lista alérgenos visível", phase: "dia-festa", done: false },
+        { id: 27, text: "Check-in convidados", phase: "dia-festa", done: false },
+        { id: 28, text: "Supervisão Baby (1 adulto)", phase: "dia-festa", done: false },
+        { id: 29, text: "Supervisão Kids (2 adultos)", phase: "dia-festa", done: false },
+        { id: 30, text: "Hora Bolo Pedro (1 ano) - com ajuda", phase: "dia-festa", done: false },
+        { id: 31, text: "Hora Bolo João (3 anos)", phase: "dia-festa", done: false },
     ];
 
     const TIMELINE_DEFAULT = [
-        { time: "14:00", activity: "Chegada da Equipe", description: "Preparação final: verificar espaço, testar som, revisar decoração", responsible: "Você", audience: "Equipe", status: "Confirmado" },
-        { time: "14:30", activity: "Abertura - Recepção", description: "Foto de entrada de cada família. Brinquedos livres para aquecimento.", responsible: "Equipe", audience: "Todos", status: "Confirmado" },
-        { time: "15:00", activity: "Foto Oficial", description: "Todos em frente ao painel com tema. Momento de bem-vindo.", responsible: "Fotógrafo", audience: "Todos", status: "Confirmado" },
-        { time: "15:15", activity: "Atividades Separadas (Baby)", description: "Piscina de bolinhas, brinquedos sensoriais, músicas", responsible: "Designado", audience: "👶 Baby (1 ano)", status: "Confirmado" },
-        { time: "15:15", activity: "Atividades Separadas (Kids)", description: "Pula-pula, circuito de obstáculos, caça ao tesouro", responsible: "Animador", audience: "👧 Kids (3 anos)", status: "Confirmado" },
-        { time: "16:00", activity: "Lanche", description: "Servir comida com ATENÇÃO MÁXIMA aos alérgenos!", responsible: "Designado", audience: "Todos", status: "Confirmado" },
-        { time: "16:25", activity: "🎂 HORA DO BOLO - PEDRO (1 ano)", description: "Mesa especial para Pedro. Canção de parabéns. Sopro de vela com ajuda. Fotos do momento especial!", responsible: "Fotógrafo", audience: "👶 Pedro + Família", status: "Confirmado" },
-        { time: "16:35", activity: "🎂 HORA DO BOLO - JOÃO (3 anos)", description: "Mesa separada para João. Canção de parabéns. Sopro de vela. Fotos e momentos especiais!", responsible: "Fotógrafo", audience: "👧 João + Família", status: "Confirmado" },
-        { time: "17:00", activity: "Brincadeiras Finais", description: "Pula-pula final, brincadeiras livres, menos estruturado", responsible: "Equipe", audience: "Todos", status: "Confirmado" },
-        { time: "17:30", activity: "Despedida", description: "Foto de saída. Agradecimentos. Entrega de imãs.", responsible: "Você/Esposa", audience: "Todos", status: "Confirmado" },
-        { time: "18:00", activity: "Limpeza", description: "Recolher lixo, organizar espaço, agradecer play", responsible: "Equipe", audience: "Equipe", status: "Confirmado" },
+        { time: "14:00", activity: "Chegada Equipe", description: "Preparação final" },
+        { time: "14:30", activity: "Recepção", description: "Foto de entrada" },
+        { time: "15:00", activity: "Foto Oficial", description: "Todos no painel" },
+        { time: "15:15", activity: "Atividades Separadas", description: "Baby | Kids" },
+        { time: "16:00", activity: "Lanche", description: "⚠️ Alérgenos!" },
+        { time: "16:25", activity: "Bolo Pedro (1 ano)", description: "Sopro com ajuda" },
+        { time: "16:35", activity: "Bolo João (3 anos)", description: "Sopro sozinho" },
+        { time: "17:00", activity: "Brincadeiras Finais", description: "Pula-pula" },
+        { time: "17:30", activity: "Despedida", description: "Imãs" },
     ];
 
-    const CARDAPIO_DEFAULT = {
-        "Entrada": [
-            { item: "Salgadinhos variados (coxinha, bolinha queijo)", allergens: "Glúten, Leite", suitable: "Todos exceto alérgicos" },
-            { item: "Frutas cortadas (melancia, abacaxi)", allergens: "Nenhum", suitable: "Todos" },
-        ],
-        "Prato Principal": [
-            { item: "Macarrão à bolonhesa", allergens: "Glúten, Leite", suitable: "Crianças 3+, Adultos" },
-            { item: "Frango desfiado com arroz", allergens: "Nenhum", suitable: "Todos" },
-        ],
-        "Acompanhamento": [
-            { item: "Legumes cozidos (cenoura, abóbora)", allergens: "Nenhum", suitable: "Todos" },
-            { item: "Batata doce amassada (para bebês)", allergens: "Nenhum", suitable: "👶 Baby (1 ano)" },
-        ],
-        "Lanches": [
-            { item: "Biscoito doce", allergens: "Glúten, Leite", suitable: "Crianças 3+, Adultos" },
-            { item: "Banana amassada (para bebês)", allergens: "Nenhum", suitable: "👶 Baby (1 ano)" },
-        ],
-        "Sobremesa": [
-            { item: "Bolo personalizado", allergens: "Glúten, Leite, Ovos", suitable: "Todos com opção alérgeno-free" },
-        ],
-        "Bebidas": [
-            { item: "Refrigerante comum (2L)", allergens: "Nenhum", suitable: "Todos" },
-            { item: "Refrigerante zero (2L)", allergens: "Nenhum", suitable: "Adultos" },
-            { item: "Suco natural (3L)", allergens: "Nenhum", suitable: "Todos" },
-            { item: "Água e Matte (3L)", allergens: "Nenhum", suitable: "Todos" },
-            { item: "Chopp/Cerveja (se houver)", allergens: "Nenhum", suitable: "Adultos" },
-        ]
-    };
+    const PLANO_B_SCENARIOS = [
+        {
+            scenario: "Chuva/Mau Tempo",
+            procedures: [
+                "Move para inside (coberto)?",
+                "Atividades alternativas (filmes, jogos de mesa)",
+                "Feedback ao buffet sobre cardápio (quente/frio)"
+            ]
+        },
+        {
+            scenario: "Fornecedor Não Chega",
+            procedures: [
+                "Ativa backup (pizza, pastel)?",
+                "Avisa convidados?",
+                "Reajusta timeline?"
+            ]
+        },
+        {
+            scenario: "Emergência Médica",
+            procedures: [
+                "Contato hospital: 21XXXX",
+                "Quem fica com as crianças?",
+                "Avisa pais?"
+            ]
+        },
+        {
+            scenario: "Criança Perdida/Desaparecida",
+            procedures: [
+                "Avisa imediatamente responsável",
+                "Reúne equipe para buscá-la",
+                "Avisa polícia se necessário"
+            ]
+        }
+    ];
 
-    // ==========================================
-    // FUNÇÕES PRINCIPAIS
-    // ==========================================
+    // ==================== LOCALSTORAGE ====================
+    function saveData() {
+        localStorage.setItem('masterplanData', JSON.stringify(appData));
+    }
+
+    function loadData() {
+        const saved = localStorage.getItem('masterplanData');
+        if (saved) {
+            try {
+                appData = JSON.parse(saved);
+            } catch (e) {
+                console.log("Erro ao carregar dados salvos");
+            }
+        }
+        if (appData.tasks.length === 0) {
+            appData.tasks = PRE_FILLED_TASKS;
+        }
+    }
+
+    // ==================== NAVEGAÇÃO ====================
     function switchTab(tabName) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.getElementById(tabName).classList.add('active');
@@ -1118,125 +571,202 @@
             btn.classList.remove('bg-indigo-50', 'text-indigo-700');
             btn.classList.add('text-slate-600', 'hover:bg-slate-50');
         });
-        document.querySelector(`[data-target="${tabName}"]`).classList.remove('text-slate-600', 'hover:bg-slate-50');
-        document.querySelector(`[data-target="${tabName}"]`).classList.add('bg-indigo-50', 'text-indigo-700');
-        window.scrollTo(0, 0);
+        const activeBtn = document.querySelector(`[data-target="${tabName}"]`);
+        if (activeBtn) {
+            activeBtn.classList.remove('text-slate-600', 'hover:bg-slate-50');
+            activeBtn.classList.add('bg-indigo-50', 'text-indigo-700');
+        }
+        saveData();
     }
 
-    async function loadData() {
-        // Carregar dados do Cloud
-        try {
-            const response = await fetch(API_URL);
-            const data = await response.json();
-            if (data.guests) appData.guests = data.guests;
-            if (data.tasks) appData.tasks = data.tasks;
-        } catch (e) {
-            console.log("Offline - usando dados locais");
-        }
-
-        // Se não houver tarefas, preencher com pré-preenchidas
-        if (appData.tasks.length === 0) {
-            appData.tasks = PRE_FILLED_TASKS;
-        }
-        if (appData.timeline.length === 0) {
-            appData.timeline = TIMELINE_DEFAULT;
-        }
-
-        renderAll();
+    function switchInnerTab(tabName) {
+        document.getElementById('content-timeline').style.display = tabName === 'timeline' ? 'block' : 'none';
+        document.getElementById('content-cardapio').style.display = tabName === 'cardapio' ? 'block' : 'none';
+        document.getElementById('content-areas').style.display = tabName === 'areas' ? 'grid' : 'none';
+        
+        document.querySelectorAll('.inner-tabs button').forEach(btn => {
+            btn.classList.remove('text-indigo-600', 'border-b-2', 'border-indigo-600');
+            btn.classList.add('text-slate-600');
+        });
+        event.target.classList.remove('text-slate-600');
+        event.target.classList.add('text-indigo-600', 'border-b-2', 'border-indigo-600');
     }
 
-    function renderAll() {
-        renderTasks();
-        renderGuests();
-        renderCardapio();
-        renderTimeline();
-        renderCheckin();
-        updateDashboard();
+    function toggleDayMode() {
+        const dayMode = document.getElementById('day-mode');
+        dayMode.classList.toggle('hidden');
+        if (!dayMode.classList.contains('hidden')) {
+            updateDayMode();
+            setInterval(updateDayMode, 60000); // Atualiza a cada minuto
+        }
     }
 
-    // ==========================================
-    // DASHBOARD
-    // ==========================================
+    // ==================== DASHBOARD ====================
     function updateDashboard() {
+        // Cards principais
+        document.getElementById('dash-total').textContent = appData.guests.length;
         const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado').length;
-        const totalGuests = appData.guests.length;
-        const adults = appData.guests.filter(g => g.rsvp === 'confirmado').reduce((sum, g) => {
-            const kidsCount = parseInt(g.kidsCount) || 0;
-            return sum + (1 + kidsCount);
-        }, 0);
-        const kids = appData.guests.filter(g => g.rsvp === 'confirmado').reduce((sum, g) => {
-            return sum + (parseInt(g.kidsCount) || 0);
-        }, 0);
-
         const tasksDone = appData.tasks.filter(t => t.done).length;
-        const tasksTotal = appData.tasks.length;
+        const allergenCount = appData.guests.filter(g => g.rsvp === 'confirmado' && g.allergies).length;
 
         document.getElementById('dash-tasks-done').textContent = tasksDone;
-        document.getElementById('dash-tasks-total').textContent = tasksTotal;
-        const progress = tasksTotal === 0 ? 0 : (tasksDone / tasksTotal) * 100;
-        document.getElementById('dash-tasks-progress').style.width = progress + '%';
+        document.getElementById('dash-tasks-total').textContent = appData.tasks.length;
+        document.getElementById('dash-tasks-bar').style.width = (appData.tasks.length === 0 ? 0 : (tasksDone / appData.tasks.length) * 100) + '%';
 
-        document.getElementById('dash-guests-confirmed').textContent = confirmed;
-        document.getElementById('dash-adults').textContent = adults;
-        document.getElementById('dash-kids').textContent = kids;
+        const totalBudget = appData.services.reduce((sum, s) => sum + (parseFloat(s.budget) || 0), 0);
+        const totalReal = appData.services.reduce((sum, s) => sum + (parseFloat(s.real) || 0), 0);
+        document.getElementById('dash-budget').textContent = `R$ ${totalBudget.toLocaleString('pt-BR')} | R$ ${totalReal.toLocaleString('pt-BR')}`;
+        document.getElementById('dash-allergens').textContent = allergenCount;
 
-        const estimatedBudget = confirmed > 0 ? (confirmed * 50 + 3000) : 3000; // Aproximação
-        document.getElementById('dash-budget').textContent = 'R$ ' + estimatedBudget.toLocaleString('pt-BR');
-        const budgetPercent = Math.min((estimatedBudget / 12000) * 100, 100);
-        document.getElementById('dash-budget-bar').style.width = budgetPercent + '%';
+        // Alertas
+        renderAlerts();
 
-        // Tarefas urgentes
-        const urgent = appData.tasks.filter(t => (t.priority === 'critical' || t.priority === 'high') && !t.done).slice(0, 3);
-        const urgentHTML = urgent.length === 0 ? 
-            '<li class="text-sm text-slate-500 italic text-center py-4">Tudo em dia! 🎉</li>' :
-            urgent.map(t => `<li class="text-sm text-slate-700 p-2 bg-amber-50 rounded border-l-4 border-amber-500"><strong>${t.text}</strong><br><span class="text-xs text-slate-500">Fase: ${t.phase} | Responsável: ${t.responsible}</span></li>`).join('');
-        document.getElementById('critical-tasks').innerHTML = urgentHTML;
+        // Gráficos
+        updateCharts();
+
+        // Progresso tarefas
+        renderTaskProgress();
     }
 
-    // ==========================================
-    // TAREFAS
-    // ==========================================
+    function renderAlerts() {
+        const container = document.getElementById('alerts-container');
+        container.innerHTML = '';
+        const alerts = [];
+
+        const pendingRSVP = appData.guests.filter(g => g.rsvp === 'pendente').length;
+        if (pendingRSVP > 0) {
+            alerts.push({
+                type: 'warning',
+                message: `${pendingRSVP} convidados com RSVP pendente. Deadline se aproximando!`
+            });
+        }
+
+        const unconfirmedServices = appData.services.filter(s => s.status === 'Orçado').length;
+        if (unconfirmedServices > 0) {
+            alerts.push({
+                type: 'warning',
+                message: `${unconfirmedServices} serviço(s) ainda não contratado(s)`
+            });
+        }
+
+        const allergenConfirmed = appData.guests.filter(g => g.rsvp === 'confirmado' && g.allergies).length;
+        if (allergenConfirmed > 0) {
+            alerts.push({
+                type: 'critical',
+                message: `${allergenConfirmed} convidado(s) confirmado(s) com alérgenos. Comunicar ao buffet!`
+            });
+        }
+
+        alerts.forEach(alert => {
+            const bgColor = alert.type === 'critical' ? 'alert-critical' : 'alert-warning';
+            container.innerHTML += `<div class="glass-card rounded-lg p-4 ${bgColor}">⚠️ ${alert.message}</div>`;
+        });
+    }
+
+    function updateCharts() {
+        // Gráfico RSVP
+        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado').length;
+        const pending = appData.guests.filter(g => g.rsvp === 'pendente').length;
+        const refused = appData.guests.filter(g => g.rsvp === 'recusado').length;
+
+        const ctxRSVP = document.getElementById('chart-rsvp');
+        if (appData.charts.rsvp) appData.charts.rsvp.destroy();
+        appData.charts.rsvp = new Chart(ctxRSVP, {
+            type: 'doughnut',
+            data: {
+                labels: ['Confirmados', 'Pendentes', 'Recusados'],
+                datasets: [{
+                    data: [confirmed, pending, refused],
+                    backgroundColor: ['#10b981', '#f59e0b', '#ef4444'],
+                    borderColor: ['#059669', '#d97706', '#dc2626'],
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false }
+        });
+
+        // Gráfico Orçamento
+        const totalBudget = appData.services.reduce((sum, s) => sum + (parseFloat(s.budget) || 0), 0);
+        const totalReal = appData.services.reduce((sum, s) => sum + (parseFloat(s.real) || 0), 0);
+
+        const ctxBudget = document.getElementById('chart-budget');
+        if (appData.charts.budget) appData.charts.budget.destroy();
+        appData.charts.budget = new Chart(ctxBudget, {
+            type: 'bar',
+            data: {
+                labels: ['Orçado', 'Real'],
+                datasets: [{
+                    label: 'R$ (mil)',
+                    data: [totalBudget / 1000, totalReal / 1000],
+                    backgroundColor: ['#4f46e5', '#ef4444'],
+                    borderRadius: 8
+                }]
+            },
+            options: { 
+                responsive: true, 
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderTaskProgress() {
+        const container = document.getElementById('tasks-progress');
+        container.innerHTML = '';
+
+        const phases = {
+            'meses-antes': 'Meses antes',
+            'mes-antes': '1 mês antes',
+            '1-sem': '1 semana',
+            'dia-anterior': 'Dia anterior',
+            'dia-festa': 'Dia da festa'
+        };
+
+        Object.entries(phases).forEach(([phaseKey, phaseLabel]) => {
+            const phaseTasks = appData.tasks.filter(t => t.phase === phaseKey);
+            const done = phaseTasks.filter(t => t.done).length;
+            const percent = phaseTasks.length === 0 ? 0 : (done / phaseTasks.length) * 100;
+
+            container.innerHTML += `
+                <div>
+                    <div class="flex justify-between text-sm mb-1">
+                        <span class="font-medium">${phaseLabel}</span>
+                        <span class="text-slate-500">${done}/${phaseTasks.length}</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2">
+                        <div class="bg-indigo-500 h-2 rounded-full transition-all" style="width: ${percent}%"></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // ==================== TAREFAS ====================
     function renderTasks() {
         const container = document.getElementById('tasks-container');
         container.innerHTML = '';
 
         const phases = {
-            '1-mes': { label: '📅 Antes da Festa (1 mês)', emoji: '🔴' },
-            '2-3-sem': { label: '📅 2-3 Semanas Antes', emoji: '🟠' },
-            '1-sem': { label: '📅 1 Semana Antes', emoji: '🟡' },
-            'dia-anterior': { label: '📅 Dia Anterior', emoji: '🟢' },
-            'dia-festa': { label: '🎉 DIA DA FESTA', emoji: '✨' },
-            'depois': { label: '✅ Depois da Festa', emoji: '💙' },
+            'meses-antes': 'Alguns meses antes',
+            'mes-antes': '1 mês antes',
+            '1-sem': '1 semana antes',
+            'dia-anterior': 'Dia anterior',
+            'dia-festa': 'Dia da festa',
+            'depois': 'Depois da festa'
         };
 
-        Object.entries(phases).forEach(([phaseKey, phaseData]) => {
+        Object.entries(phases).forEach(([phaseKey, phaseLabel]) => {
             const phaseTasks = appData.tasks.filter(t => t.phase === phaseKey);
             if (phaseTasks.length === 0) return;
 
-            let html = `<div class="mb-8">
-                <div class="section-header">${phaseData.emoji} ${phaseData.label}</div>
+            let html = `<div class="mb-6">
+                <div class="section-header">${phaseLabel}</div>
                 <div class="space-y-2">`;
 
             phaseTasks.forEach(task => {
-                const priorityClass = task.priority === 'critical' ? 'priority-critical' : 
-                                     task.priority === 'high' ? 'priority-high' : 'priority-normal';
-                
-                const areaIcon = task.area === 'baby' ? '👶' : task.area === 'kids' ? '👧' : '👨‍👩‍👧‍👦';
-                const isDone = task.done;
-                
-                html += `<div class="flex items-start gap-3 p-3 rounded-lg border ${priorityClass} ${isDone ? 'task-done' : ''}">
-                    <input type="checkbox" ${isDone ? 'checked' : ''} onchange="toggleTask(${task.id})" class="w-5 h-5 mt-0.5 cursor-pointer">
-                    <div class="flex-1 min-w-0">
-                        <div class="font-medium text-slate-800">${task.text}</div>
-                        <div class="text-xs text-slate-600 mt-1 space-y-0.5">
-                            <div>👤 ${task.responsible} | ${areaIcon}</div>
-                            <div class="flex gap-2">
-                                <span class="px-2 py-0.5 bg-slate-200 text-slate-700 rounded text-[11px] font-semibold">
-                                    ${task.priority.toUpperCase()}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                html += `<div class="flex items-center gap-3 p-3 rounded-lg border ${task.done ? 'bg-slate-50 opacity-50' : 'bg-white'} border-slate-200">
+                    <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})" class="w-5 h-5 cursor-pointer">
+                    <span class="${task.done ? 'line-through text-slate-400' : 'text-slate-800'}">${task.text}</span>
                 </div>`;
             });
 
@@ -1251,303 +781,398 @@
             task.done = !task.done;
             renderTasks();
             updateDashboard();
-            sendToCloud('updateTask', task);
+            saveData();
         }
     }
 
-    // ==========================================
-    // CONVIDADOS
-    // ==========================================
-    document.getElementById('form-guest').addEventListener('submit', async (e) => {
+    // ==================== CONVIDADOS ====================
+    document.getElementById('form-guest').addEventListener('submit', (e) => {
         e.preventDefault();
-        const newGuest = {
+        appData.guests.push({
             id: Date.now(),
             name: document.getElementById('g-name').value,
-            relation: document.getElementById('g-relation').value,
-            kidsCount: parseInt(document.getElementById('g-kids-count').value),
-            alcohol: document.getElementById('g-alcohol').value,
-            rsvp: document.getElementById('g-rsvp').value,
-            allergies: document.getElementById('g-allergies').value
-        };
-        appData.guests.push(newGuest);
+            kidsCount: parseInt(document.getElementById('g-kids-count').value) || 0,
+            alcohol: document.getElementById('g-alcohol').checked,
+            allergies: document.getElementById('g-allergies').value,
+            rsvp: 'pendente'
+        });
         renderGuests();
         updateDashboard();
-        updateBeverageCalc();
-        updateAlcoholCalc();
+        updateCalcs();
+        saveData();
         e.target.reset();
-        await sendToCloud('addGuest', newGuest);
     });
 
     function renderGuests() {
         const container = document.getElementById('guests-container');
         container.innerHTML = '';
-        let confirmedCount = 0, adultCount = 0, kidsCount = 0, alcoholCount = 0, allergyCount = 0;
 
         appData.guests.forEach(guest => {
-            const isConfirmed = guest.rsvp === 'confirmado';
-            if (isConfirmed) confirmedCount++;
-            if (isConfirmed) {
-                adultCount += 1;
-                kidsCount += guest.kidsCount || 0;
-                if (guest.alcohol !== 'nao') alcoholCount++;
-            }
-            if (guest.allergies) allergyCount++;
-
-            const rsvpColor = guest.rsvp === 'confirmado' ? 'bg-emerald-50 border-emerald-200' :
-                            guest.rsvp === 'recusado' ? 'bg-red-50 border-red-200' : 'bg-amber-50 border-amber-200';
-
             container.innerHTML += `
-                <div class="glass-card rounded-xl p-4 ${rsvpColor} border">
-                    <div class="flex justify-between items-start mb-2">
+                <div class="glass-card rounded-xl p-4 border-l-4 border-indigo-300">
+                    <div class="flex justify-between items-start mb-3">
                         <div>
-                            <h4 class="font-bold text-slate-800">${guest.name}</h4>
-                            <p class="text-xs text-slate-500">${guest.relation}</p>
+                            <h4 class="font-semibold text-slate-800">${guest.name}</h4>
+                            <p class="text-xs text-slate-600">${guest.kidsCount} criança(s)</p>
                         </div>
-                        <button onclick="deleteGuest(${guest.id})" class="text-slate-300 hover:text-red-500">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
+                        <button onclick="deleteGuest(${guest.id})" class="text-slate-300 hover:text-red-500 text-sm">✕</button>
                     </div>
-                    <div class="text-xs space-y-1 text-slate-600">
-                        <div>👨‍👩‍👧 Crianças: ${guest.kidsCount || 0}</div>
-                        <div>🍺 Bebe: ${guest.alcohol === 'nao' ? 'Não' : guest.alcohol}</div>
+                    <div class="text-xs space-y-1 mb-3">
+                        ${guest.alcohol ? '<div>🍺 Bebe álcool</div>' : ''}
                         ${guest.allergies ? `<div class="text-red-600 font-semibold">⚠️ ${guest.allergies}</div>` : ''}
                     </div>
-                    <div class="mt-2 flex gap-2 items-center">
-                        <span class="text-xs font-bold px-2 py-1 rounded ${
-                            guest.rsvp === 'confirmado' ? 'bg-emerald-200 text-emerald-800' :
-                            guest.rsvp === 'recusado' ? 'bg-red-200 text-red-800' : 'bg-amber-200 text-amber-800'
-                        }">
-                            ${guest.rsvp === 'confirmado' ? '✅ Confirmado' : guest.rsvp === 'recusado' ? '❌ Recusado' : '⏳ Pendente'}
-                        </span>
+                    <div class="flex gap-2">
+                        <button onclick="setRSVP(${guest.id}, 'confirmado')" class="text-xs px-2 py-1 rounded flex-1 ${guest.rsvp === 'confirmado' ? 'bg-emerald-200 text-emerald-800 font-bold' : 'bg-slate-100 text-slate-600'}">Confirmar</button>
+                        <button onclick="setRSVP(${guest.id}, 'pendente')" class="text-xs px-2 py-1 rounded flex-1 ${guest.rsvp === 'pendente' ? 'bg-amber-200 text-amber-800 font-bold' : 'bg-slate-100 text-slate-600'}">Pendente</button>
+                        <button onclick="setRSVP(${guest.id}, 'recusado')" class="text-xs px-2 py-1 rounded flex-1 ${guest.rsvp === 'recusado' ? 'bg-red-200 text-red-800 font-bold' : 'bg-slate-100 text-slate-600'}">Recusar</button>
                     </div>
                 </div>
             `;
         });
 
         document.getElementById('total-guests').textContent = appData.guests.length;
-        document.getElementById('confirmed-guests').textContent = confirmedCount;
-        document.getElementById('alcohol-guests').textContent = alcoholCount;
-        document.getElementById('allergy-guests').textContent = allergyCount;
+        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado').length;
+        const alcohol = appData.guests.filter(g => g.alcohol).length;
+        const allergens = appData.guests.filter(g => g.allergies).length;
 
-        if (appData.guests.length === 0) {
-            container.innerHTML = `<div class="text-center text-slate-500 py-8 col-span-full">Nenhum convidado adicionado</div>`;
+        document.getElementById('confirmed-count').textContent = confirmed;
+        document.getElementById('alcohol-count').textContent = alcohol;
+        document.getElementById('allergy-count').textContent = allergens;
+
+        // Alérgenos em destaque (apenas confirmados)
+        const allergenList = document.getElementById('allergens-list');
+        const confirmedAllergies = appData.guests.filter(g => g.rsvp === 'confirmado' && g.allergies);
+        
+        if (confirmedAllergies.length === 0) {
+            allergenList.innerHTML = '<p class="text-slate-500">Nenhum convidado confirmado com alérgenos</p>';
+        } else {
+            allergenList.innerHTML = confirmedAllergies.map(g => `
+                <div class="font-semibold">${g.name}: ${g.allergies}</div>
+            `).join('');
         }
     }
 
-    async function deleteGuest(id) {
+    function deleteGuest(id) {
         appData.guests = appData.guests.filter(g => g.id !== id);
         renderGuests();
         updateDashboard();
-        updateBeverageCalc();
-        await sendToCloud('deleteGuest', { id });
+        updateCalcs();
+        saveData();
     }
 
-    // ==========================================
-    // CALCULADORAS
-    // ==========================================
-    function updateFoodCalc() {
-        const guests = parseInt(document.getElementById('calc-guests-food').value) || 0;
-        const min = guests * 400;
-        const max = guests * 500;
-        
-        document.getElementById('food-result-text').innerHTML = `
-            <div><strong>🍕 Salgado + Doce:</strong> ${min.toLocaleString('pt-BR')}g - ${max.toLocaleString('pt-BR')}g (${guests} pessoas × 400-500g)</div>
-            <div class="text-xs text-slate-500 mt-2">Inclui: salgados variados, frutas, doces</div>
-            <div class="font-semibold mt-2 text-emerald-700">✓ Compre ${Math.round(max * 1.1)}g para margem de segurança</div>
-        `;
+    function setRSVP(id, status) {
+        const guest = appData.guests.find(g => g.id === id);
+        if (guest) {
+            guest.rsvp = status;
+            renderGuests();
+            updateDashboard();
+            updateCalcs();
+            saveData();
+        }
     }
 
-    function updateBeverageCalc() {
-        const people = parseInt(document.getElementById('calc-soft-drinkers').value) || 0;
-        const total = people * 400; // ml
-        const liters = Math.ceil(total / 1000);
-        
-        // 30% zero, 30% comum, 20% suco, 20% água/matte
-        const comum = Math.ceil(liters * 0.3);
-        const zero = Math.ceil(liters * 0.3);
-        const suco = Math.ceil(liters * 0.2);
-        const agua = Math.ceil(liters * 0.2);
-        
-        document.getElementById('soft-result-text').innerHTML = `
-            <div><strong>🥤 Total de Bebida Não-Alcoólica:</strong> ${liters} litros (${people} pessoas × 400ml)</div>
-            <div class="space-y-1 text-xs text-slate-600 mt-2">
-                <div>• Refrigerante comum: ${comum} L (30%)</div>
-                <div>• Refrigerante zero: ${zero} L (30%)</div>
-                <div>• Suco: ${suco} L (20%)</div>
-                <div>• Água + Matte: ${agua} L (20%)</div>
-            </div>
-            <div class="mt-3 text-xs text-slate-600 border-t pt-2">
-                <strong>❄️ Gelo/Congelador:</strong>
-                <div class="mt-1">• ${Math.ceil(liters * 1.5)} kg de gelo (ou encher freezer)</div>
-                <div>• Coloque garrafas no freezer 2-3 horas antes</div>
-                <div>• Gelo não congela completamente em 1 hora</div>
-            </div>
-            <div class="font-semibold mt-2 text-emerald-700">✓ Compre ${Math.ceil(liters * 1.15)} litros de bebida + gelo para margem</div>
-        `;
+    // ==================== CALCULADORAS ====================
+    function updateCalcs() {
+        const totalPeople = appData.guests.reduce((sum, g) => sum + 1 + g.kidsCount, 0);
+        const softDrinkers = appData.guests.filter(g => !g.alcohol).length + 
+                           appData.guests.reduce((sum, g) => sum + g.kidsCount, 0);
+        const alcoholDrinkers = appData.guests.filter(g => g.alcohol).length;
+
+        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado');
+        const confirmedPeople = confirmed.reduce((sum, g) => sum + 1 + g.kidsCount, 0);
+        const confirmedSoft = confirmed.filter(g => !g.alcohol).length + 
+                             confirmed.reduce((sum, g) => sum + g.kidsCount, 0);
+        const confirmedAlcohol = confirmed.filter(g => g.alcohol).length;
+
+        const hours = parseInt(document.getElementById('calc-plan-hours').value) || 3;
+        const hoursExec = parseInt(document.getElementById('calc-exec-hours').value) || 3;
+
+        // PLANEJAMENTO
+        const foodPlan = totalPeople * 450;
+        const softPlan = Math.ceil((softDrinkers * 400) / 1000);
+        const alcPlan = Math.round(alcoholDrinkers * Math.min(hours * 0.7, 2) * 10) / 10;
+        const icePlan = Math.ceil((softPlan + alcPlan) * 1.5);
+
+        document.getElementById('calc-plan-food').textContent = `${Math.ceil(foodPlan * 1.1)}g (${totalPeople}px × 450g + 10%)`;
+        document.getElementById('calc-plan-soft').textContent = `${softPlan}L (${softDrinkers}px: 30% comum, 30% zero)`;
+        document.getElementById('calc-plan-alcohol').textContent = `${alcPlan}L (${alcoholDrinkers}px × ${hours}h)`;
+        document.getElementById('calc-plan-ice').textContent = `${icePlan}kg`;
+
+        // EXECUÇÃO
+        if (confirmedPeople === 0) {
+            document.getElementById('calc-exec-food').textContent = 'Nenhum confirmado';
+            document.getElementById('calc-exec-soft').textContent = 'Nenhum confirmado';
+            document.getElementById('calc-exec-alcohol').textContent = 'Nenhum confirmado';
+            document.getElementById('calc-exec-ice').textContent = 'Nenhum confirmado';
+        } else {
+            const foodExec = confirmedPeople * 450;
+            const softExec = Math.ceil((confirmedSoft * 400) / 1000);
+            const alcExec = Math.round(confirmedAlcohol * Math.min(hoursExec * 0.7, 2) * 10) / 10;
+            const iceExec = Math.ceil((softExec + alcExec) * 1.5);
+
+            document.getElementById('calc-exec-food').textContent = `${Math.ceil(foodExec * 1.1)}g (${confirmedPeople}px)`;
+            document.getElementById('calc-exec-soft').textContent = `${softExec}L (${confirmedSoft}px)`;
+            document.getElementById('calc-exec-alcohol').textContent = `${alcExec}L (${confirmedAlcohol}px)`;
+            document.getElementById('calc-exec-ice').textContent = `${iceExec}kg`;
+
+            // DIFERENÇAS
+            document.getElementById('diff-food').textContent = `${Math.ceil((foodPlan - foodExec) * 1.1)}g`;
+            document.getElementById('diff-soft').textContent = `${softPlan - softExec}L`;
+            document.getElementById('diff-alcohol').textContent = `${alcPlan - alcExec}L`;
+            document.getElementById('diff-ice').textContent = `${icePlan - iceExec}kg`;
+        }
     }
 
-    function updateAlcoholCalc() {
-        const drinkers = parseInt(document.getElementById('calc-alcohol-drinkers').value) || 0;
-        const hours = parseInt(document.getElementById('calc-time').value) || 1;
-        const type = document.getElementById('calc-alcohol-type').value;
-        
-        // 1-2 litros por pessoa dependendo do tempo
-        const perPerson = Math.min(hours * 0.7, 2); // Máximo 2L por pessoa
-        const totalLiters = Math.round(drinkers * perPerson * 10) / 10;
-        
-        let typeText = type === 'chopp' ? '🍺 Chopp' : type === 'cerveja' ? '🍺 Cerveja' : '🍺 Misto (50% Chopp + 50% Cerveja)';
-        
-        document.getElementById('alcohol-result-text').innerHTML = `
-            <div><strong>${typeText}:</strong> ${totalLiters} litros</div>
-            <div class="text-xs text-slate-600 mt-2">Cálculo: ${drinkers} pessoas × ${perPerson}L (${hours}h de festa)</div>
-            <div class="font-semibold mt-2 text-emerald-700">✓ Compre ${Math.round(totalLiters * 1.2)} litros para margem de segurança</div>
-            <div class="text-xs text-amber-600 mt-2">⚠️ Chopp: pedir entrega na festa (não aguenta +2 dias). Cerveja: pode comprar antecipado.</div>
-        `;
-    }
+    // ==================== SERVIÇOS ====================
+    document.getElementById('form-servico').addEventListener('submit', (e) => {
+        e.preventDefault();
+        appData.services.push({
+            id: Date.now(),
+            service: document.getElementById('s-service').value,
+            provider: document.getElementById('s-provider').value,
+            budget: parseFloat(document.getElementById('s-budget').value) || 0,
+            real: parseFloat(document.getElementById('s-real').value) || 0,
+            status: document.getElementById('s-status').value
+        });
+        renderServices();
+        updateDashboard();
+        saveData();
+        e.target.reset();
+    });
 
-    // ==========================================
-    // CARDÁPIO
-    // ==========================================
-    function renderCardapio() {
-        const container = document.getElementById('cardapio-container');
+    function renderServices() {
+        const container = document.getElementById('servicos-container');
         container.innerHTML = '';
-        
-        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado').length;
-        
-        Object.entries(CARDAPIO_DEFAULT).forEach(([category, items]) => {
-            let html = `<div class="glass-card rounded-2xl p-6">
-                <h3 class="font-bold text-slate-800 text-lg mb-4">${category}</h3>
-                <div class="space-y-3">`;
-            
-            items.forEach(item => {
-                const allergenBadges = item.allergens.split(',').map(a => 
-                    `<span class="inline-block px-2 py-0.5 bg-red-100 text-red-800 rounded text-[11px] font-semibold mr-1 mb-1">${a.trim()}</span>`
-                ).join('');
-                
-                html += `<div class="border-l-4 border-indigo-300 pl-4 py-2">
-                    <div class="font-semibold text-slate-800">${item.item}</div>
-                    ${allergenBadges ? `<div class="text-xs mt-1">${allergenBadges}</div>` : ''}
-                    <div class="text-xs text-slate-600 mt-1">👥 ${item.suitable}</div>
-                </div>`;
+
+        let totalBudget = 0, totalReal = 0;
+
+        appData.services.forEach(service => {
+            totalBudget += service.budget;
+            totalReal += service.real;
+
+            const diff = service.real - service.budget;
+            const diffColor = diff > 0 ? 'text-red-600' : diff < 0 ? 'text-emerald-600' : 'text-slate-600';
+
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4 border-l-4 border-indigo-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-semibold text-slate-800">${service.service}</h4>
+                            <p class="text-xs text-slate-600">${service.provider}</p>
+                        </div>
+                        <button onclick="deleteService(${service.id})" class="text-slate-300 hover:text-red-500">✕</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs">
+                        <div><strong>Orçado:</strong> R$ ${service.budget.toFixed(2)}</div>
+                        <div><strong>Real:</strong> R$ ${service.real.toFixed(2)}</div>
+                        <div><strong>Diferença:</strong> <span class="${diffColor}">R$ ${diff.toFixed(2)}</span></div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">Status: ${service.status}</p>
+                </div>
+            `;
+        });
+
+        document.getElementById('total-budget').textContent = 'R$ ' + totalBudget.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+        document.getElementById('total-real').textContent = 'R$ ' + totalReal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+    }
+
+    function deleteService(id) {
+        appData.services = appData.services.filter(s => s.id !== id);
+        renderServices();
+        updateDashboard();
+        saveData();
+    }
+
+    // ==================== EQUIPE ====================
+    document.getElementById('form-equipe').addEventListener('submit', (e) => {
+        e.preventDefault();
+        appData.equipe.push({
+            id: Date.now(),
+            name: document.getElementById('e-name').value,
+            role: document.getElementById('e-role').value,
+            contact: document.getElementById('e-contact').value,
+            arrival: document.getElementById('e-arrival').value,
+            responsibilities: document.getElementById('e-responsibilities').value,
+            status: 'Pendente'
+        });
+        renderEquipe();
+        saveData();
+        e.target.reset();
+    });
+
+    function renderEquipe() {
+        const container = document.getElementById('equipe-container');
+        container.innerHTML = '';
+
+        appData.equipe.forEach(member => {
+            container.innerHTML += `
+                <div class="glass-card rounded-xl p-4 border-l-4 border-blue-300">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h4 class="font-semibold text-slate-800">${member.name}</h4>
+                            <p class="text-xs text-slate-600">${member.role}</p>
+                        </div>
+                        <button onclick="deleteTeamMember(${member.id})" class="text-slate-300 hover:text-red-500">✕</button>
+                    </div>
+                    <div class="text-xs space-y-1 text-slate-700 mb-2">
+                        ${member.contact ? `<div>📱 ${member.contact}</div>` : ''}
+                        ${member.arrival ? `<div>🕐 Chega às ${member.arrival}</div>` : ''}
+                    </div>
+                    ${member.responsibilities ? `<p class="text-xs text-slate-600 italic">"${member.responsibilities}"</p>` : ''}
+                </div>
+            `;
+        });
+    }
+
+    function deleteTeamMember(id) {
+        appData.equipe = appData.equipe.filter(m => m.id !== id);
+        renderEquipe();
+        saveData();
+    }
+
+    // ==================== PLANO B ====================
+    function renderPlanoB() {
+        const container = document.getElementById('planoB-container');
+        container.innerHTML = '';
+
+        PLANO_B_SCENARIOS.forEach(scenario => {
+            let html = `
+                <div class="glass-card rounded-2xl p-6 border-l-4 border-rose-500">
+                    <h3 class="font-bold text-lg text-slate-800 mb-3">🚨 ${scenario.scenario}</h3>
+                    <div class="space-y-2">
+            `;
+
+            scenario.procedures.forEach(proc => {
+                html += `<div class="flex gap-2"><input type="checkbox" class="w-4 h-4"><span class="text-sm text-slate-700">${proc}</span></div>`;
             });
-            
+
             html += `</div></div>`;
             container.innerHTML += html;
         });
-        
-        const note = `<div class="glass-card rounded-2xl p-6 bg-blue-50 border border-blue-200 mt-6">
-            <p class="text-sm text-blue-900">
-                <strong>📝 Nota:</strong> Cardápio baseado em ${confirmed} convidados confirmados. 
-                Adapte quantities e alérgenos conforme necessário. 
-                Sempre comunique ao buffet sobre alérgenos!
-            </p>
-        </div>`;
-        container.innerHTML += note;
     }
 
-    // ==========================================
-    // TIMELINE
-    // ==========================================
-    function renderTimeline() {
-        const container = document.getElementById('timeline-container');
-        container.innerHTML = '';
-
-        appData.timeline.forEach(event => {
-            container.innerHTML += `
+    // ==================== GUIA DA FESTA ====================
+    function renderGuide() {
+        // Timeline
+        let timelineHtml = '';
+        TIMELINE_DEFAULT.forEach(event => {
+            timelineHtml += `
                 <div class="glass-card rounded-lg p-4 border-l-4 border-indigo-500">
-                    <div class="flex justify-between items-start mb-2">
-                        <div class="font-bold text-indigo-600 text-lg">${event.time}</div>
-                        <span class="text-xs font-bold px-2 py-1 bg-emerald-100 text-emerald-800 rounded">✓ Confirmado</span>
-                    </div>
-                    <div class="font-semibold text-slate-800 mb-1">${event.activity}</div>
-                    <p class="text-sm text-slate-600 mb-2">${event.description}</p>
-                    <div class="text-xs text-slate-500 space-y-0.5">
-                        <div>👤 ${event.responsible}</div>
-                        <div>👥 ${event.audience}</div>
-                    </div>
+                    <div class="font-bold text-indigo-600 text-lg">${event.time}</div>
+                    <div class="font-semibold text-slate-800 mt-1">${event.activity}</div>
+                    <p class="text-sm text-slate-600 mt-1">${event.description}</p>
                 </div>
             `;
         });
-    }
+        document.getElementById('content-timeline').innerHTML = timelineHtml;
 
-    // ==========================================
-    // CHECK-IN
-    // ==========================================
-    function renderCheckin() {
-        const list = document.getElementById('checkin-list');
-        list.innerHTML = '';
+        // Cardápio
+        let cardapioHtml = '';
+        const categories = {
+            'Prato Principal': ['Macarrão à bolonhesa', 'Frango desfiado com arroz'],
+            'Acompanhamento': ['Legumes cozidos', 'Batata doce amassada'],
+            'Sobremesa': ['Bolo personalizado'],
+            'Bebidas': ['Refrigerante (comum + zero)', 'Suco natural', 'Água e Matte', 'Chopp/Cerveja']
+        };
 
-        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado');
-        
-        if (confirmed.length === 0) {
-            list.innerHTML = `<p class="text-center text-slate-500 py-8">Nenhum convidado confirmado ainda</p>`;
-            document.getElementById('checkin-arrived').textContent = '0';
-            document.getElementById('checkin-waiting').textContent = '0';
-            document.getElementById('checkin-percent').textContent = '0%';
-            return;
-        }
-
-        let arrived = 0;
-        confirmed.forEach(guest => {
-            const checkin = appData.checkin?.find(c => c.guestId === guest.id);
-            const isArrived = checkin?.arrived || false;
-            if (isArrived) arrived++;
-
-            list.innerHTML += `
-                <div class="flex items-center justify-between p-3 border border-slate-200 rounded-lg hover:bg-slate-50">
-                    <span class="font-medium text-slate-800">${guest.name}</span>
-                    <button onclick="markArrived(${guest.id})" class="px-4 py-2 ${isArrived ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'} rounded font-semibold text-sm hover:opacity-80">
-                        ${isArrived ? '✅ Chegou' : '⏳ Aguardando'}
-                    </button>
-                </div>
-            `;
-        });
-
-        const percent = Math.round((arrived / confirmed.length) * 100);
-        document.getElementById('checkin-arrived').textContent = arrived;
-        document.getElementById('checkin-waiting').textContent = confirmed.length - arrived;
-        document.getElementById('checkin-percent').textContent = percent + '%';
-    }
-
-    function markArrived(guestId) {
-        if (!appData.checkin) appData.checkin = [];
-        const existing = appData.checkin.find(c => c.guestId === guestId);
-        if (existing) {
-            existing.arrived = !existing.arrived;
-        } else {
-            appData.checkin.push({ guestId, arrived: true });
-        }
-        renderCheckin();
-    }
-
-    // ==========================================
-    // CLOUD SYNC
-    // ==========================================
-    async function sendToCloud(action, payload) {
-        try {
-            const response = await fetch(API_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action, payload })
+        Object.entries(categories).forEach(([cat, items]) => {
+            cardapioHtml += `<div class="glass-card rounded-xl p-4"><h4 class="font-bold text-slate-800 mb-2">${cat}</h4>`;
+            items.forEach(item => {
+                cardapioHtml += `<p class="text-sm text-slate-700">• ${item}</p>`;
             });
-            return (await response.json()).success;
-        } catch (e) {
-            console.log("Offline - dados salvos localmente");
-            return true;
-        }
+            cardapioHtml += `</div>`;
+        });
+        document.getElementById('content-cardapio').innerHTML = cardapioHtml;
+
+        // Áreas
+        const areasHtml = `
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-pink-500">
+                <h3 class="font-bold text-lg text-slate-800 mb-3">Baby (1 ano)</h3>
+                <div class="space-y-2 text-sm text-slate-700">
+                    <div><strong>Localização:</strong> Canto tranquilo, piso macio</div>
+                    <div><strong>Atividades:</strong> Piscina de bolinhas, brinquedos sensoriais</div>
+                    <div><strong>Comida:</strong> Fruta cortada, pão macio, iogurte</div>
+                    <div><strong>Supervisão:</strong> 1 adulto dedicado</div>
+                </div>
+            </div>
+            <div class="glass-card rounded-2xl p-6 border-l-4 border-blue-500">
+                <h3 class="font-bold text-lg text-slate-800 mb-3">Kids (3 anos)</h3>
+                <div class="space-y-2 text-sm text-slate-700">
+                    <div><strong>Localização:</strong> Área central, pula-pula livre</div>
+                    <div><strong>Atividades:</strong> Pula-pula, circuito, caça ao tesouro</div>
+                    <div><strong>Comida:</strong> Macarrão, frango, melancia</div>
+                    <div><strong>Supervisão:</strong> 2 adultos</div>
+                </div>
+            </div>
+        `;
+        document.getElementById('content-areas').innerHTML = areasHtml;
     }
 
-    // ==========================================
-    // INICIALIZAR
-    // ==========================================
+    // ==================== MODO DIA DA FESTA ====================
+    function updateDayMode() {
+        const now = new Date();
+        const currentTime = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('day-current-time').textContent = currentTime;
+
+        // Próximo evento
+        let nextEvent = TIMELINE_DEFAULT[0];
+        for (let event of TIMELINE_DEFAULT) {
+            if (event.time > currentTime) {
+                nextEvent = event;
+                break;
+            }
+        }
+        document.getElementById('day-next-event').textContent = nextEvent.activity;
+        document.getElementById('day-next-time').textContent = nextEvent.time;
+
+        // Check-in rápido
+        const confirmed = appData.guests.filter(g => g.rsvp === 'confirmado');
+        const arrived = appData.checkin.length;
+        document.getElementById('day-checkin-count').textContent = `${arrived}/${confirmed.length}`;
+
+        const checkinHtml = confirmed.map(guest => `
+            <button onclick="markArrived(${guest.id})" class="w-full text-left p-3 rounded-lg ${appData.checkin.find(c => c === guest.id) ? 'bg-emerald-200 text-emerald-800' : 'bg-slate-100 text-slate-800'} font-semibold">
+                ${guest.name} ${appData.checkin.find(c => c === guest.id) ? '✓' : ''}
+            </button>
+        `).join('');
+        document.getElementById('day-quick-checkin').innerHTML = checkinHtml;
+
+        // Timeline com destaque
+        const timelineHtml = TIMELINE_DEFAULT.map(event => {
+            const isNext = event === nextEvent;
+            return `
+                <div class="glass-card rounded-lg p-4 ${isNext ? 'bg-orange-100 border-l-4 border-orange-500 font-bold' : 'border-l-4 border-slate-300'}">
+                    <div class="text-lg font-bold ${isNext ? 'text-orange-700' : 'text-slate-600'}">${event.time}</div>
+                    <div class="font-semibold text-slate-800">${event.activity}</div>
+                </div>
+            `;
+        }).join('');
+        document.getElementById('day-timeline').innerHTML = timelineHtml;
+    }
+
+    function markArrived(id) {
+        if (!appData.checkin.includes(id)) {
+            appData.checkin.push(id);
+        } else {
+            appData.checkin = appData.checkin.filter(c => c !== id);
+        }
+        updateDayMode();
+        saveData();
+    }
+
+    // ==================== INICIALIZAÇÃO ====================
     window.onload = () => {
         loadData();
+        appData.tasks = PRE_FILLED_TASKS;
+        renderTasks();
+        renderGuests();
+        renderServices();
+        renderEquipe();
+        renderPlanoB();
+        renderGuide();
+        updateDashboard();
+        updateCalcs();
         lucide.createIcons();
-        // Calcular automaticamente
-        setTimeout(() => {
-            updateFoodCalc();
-            updateBeverageCalc();
-            updateAlcoholCalc();
-        }, 500);
     };
 </script>
 </body>
